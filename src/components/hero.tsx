@@ -101,7 +101,62 @@ export default function Component() {
             />
           </motion.div>
 
-          
+          <motion.div
+            initial={{ x: 50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="w-1/2 pl-12"
+          >
+            <AnimatePresence mode="wait">
+              <motion.h1
+                key={textIndex}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className={`text-5xl font-bold mb-4 ${
+                  isDarkMode ? "text-white" : "text-gray-800"
+                }`}
+                dangerouslySetInnerHTML={{ __html: texts[textIndex] }}
+              >
+              </motion.h1>
+            </AnimatePresence>
+            <p
+              className={`mb-2 font-bold ${
+                isDarkMode ? "text-purple-400" : "text-purple-700"
+              }`}
+            >
+              Fullstack Developer
+            </p>
+            <p
+              className={`mb-6 ${
+                isDarkMode ? "text-gray-300" : "text-gray-600"
+              }`}
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+            </p>
+            <div className="flex space-x-6">
+              {[Linkedin, Github, Instagram, Mail].map((Icon, index) => (
+                <motion.div
+                  key={index}
+                  whileHover={{ scale: 1.2, rotate: 5 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Link
+                    href="#"
+                    className={`${
+                      isDarkMode ? "text-white" : "text-gray-800"
+                    } hover:text-purple-500 transition-colors duration-300`}
+                  >
+                    <Icon size={24} />
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </div>
 
