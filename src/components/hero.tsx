@@ -81,6 +81,27 @@ export default function Component() {
             </div>
           </div>
         </nav>
+        {/* Light bulb hanging from header */}
+        <motion.div
+          className="absolute top-full left-[768px] transform -translate-x-1/2 cursor-pointer"
+          style={{ marginTop: '-8px' }} 
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={toggleTheme}
+        >
+          <div className="relative">
+            <div className="absolute bottom-0 left-[43%] transform -translate-x-1/2 -translate-y-5 bg-white rounded-full filter blur-md h-8 w-8"></div>
+            <Image
+              src={bulb}
+              alt="Light Bulb"
+              width={100}
+              height={120}
+              className={`relative z-10 transition-all duration-500 ${
+                isDarkMode ? "filter-none" : "brightness-75"
+              }`}
+            />
+          </div>
+        </motion.div>
       </motion.header>
 
       {/* Main content */}
