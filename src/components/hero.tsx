@@ -1,32 +1,41 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from "react"
-import { Linkedin, Github, Instagram, Mail } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
-import { motion, AnimatePresence } from "framer-motion"
-import logo from "@/assets/logo.png"
-import bulb from "@/assets/bulb.png"
+import { useState, useEffect, useCallback } from "react";
+import { Linkedin, Github, Instagram, Mail } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import logo from "@/assets/logo.png";
+import bulb from "@/assets/bulb.png";
+import { Particles } from "@/components/particles";
+import React from "react";
 
-type NavItem = "HOME" | "ABOUT" | "PROJECTS" | "CONTACT"
+type NavItem = "HOME" | "ABOUT" | "PROJECTS" | "CONTACT";
+
+const MemoizedParticles = React.memo(Particles);
 
 export default function Component() {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(true)
-  const [activeLink, setActiveLink] = useState<NavItem>("HOME")
-  const [textIndex, setTextIndex] = useState<number>(0)
-  const texts: string[] = ["Hey there! 👋", "I am <span className=\"text-purple-500\">GUILHERME FACCIN</span>"]
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+  const [activeLink, setActiveLink] = useState<NavItem>("HOME");
+  const [textIndex, setTextIndex] = useState<number>(0);
+  const texts = [
+    "Hey there! 👋",
+    <>
+      I am <span className={isDarkMode ? "text-purple-500" : "text-purple-700"}>GUILHERME FACCIN</span>
+    </>
+  ];
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode)
-  }
+  const toggleTheme = useCallback(() => {
+    setIsDarkMode((prev) => !prev);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTextIndex((prevIndex) => (prevIndex + 1) % texts.length)
-    }, 4000)
+      setTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
+    }, 4000);
 
-    return () => clearInterval(interval)
-  }, [])
+    return () => clearInterval(interval);
+  }, [texts.length]);
 
   return (
     <div
@@ -34,11 +43,17 @@ export default function Component() {
         isDarkMode ? "bg-zinc-900" : "bg-gray-100"
       }`}
     >
+      <div className="fixed inset-0">
+        <MemoizedParticles />
+      </div>
+
       <motion.header
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="relative py-6 px-4 bg-zinc-800 border-b-2 border-purple-500/20"
+        className={`relative py-6 px-4 border-b-2 border-purple-500/20 ${
+          isDarkMode ? "bg-zinc-800" : "bg-white"
+        }`}
       >
         <nav className="container mx-auto">
           <div className="flex justify-between items-center">
@@ -46,9 +61,11 @@ export default function Component() {
               initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="text-purple-500 font-bold text-2xl tracking-wider"
+              className={`font-bold text-2xl tracking-wider ${
+                isDarkMode ? "text-purple-500" : "text-purple-700"
+              }`}
             >
-              Portfolio.
+              FaccinDEV
             </motion.span>
             <div className="flex space-x-8">
               {(["HOME", "ABOUT", "PROJECTS", "CONTACT"] as const).map(
@@ -81,10 +98,9 @@ export default function Component() {
             </div>
           </div>
         </nav>
-        {/* Light bulb hanging from header */}
         <motion.div
           className="absolute top-full left-[768px] transform -translate-x-1/2 cursor-pointer z-50"
-          style={{ marginTop: '-8px' }} 
+          style={{ marginTop: "-8px" }}
           onClick={toggleTheme}
         >
           <div className="relative">
@@ -104,21 +120,22 @@ export default function Component() {
         </motion.div>
       </motion.header>
 
-      {/* Main content */}
       <div className="container mx-auto px-4 mt-12">
         <div className="flex items-center justify-between relative">
           <motion.div
             initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="w-2/5 relative" 
+            className="w-2/5 relative"
           >
             <Image
               src={logo}
               alt="Profile"
               width={2000}
               height={2000}
-              className="rounded-lg filter grayscale hover:grayscale-0 transition-all duration-300"
+              className={`rounded-lg filter grayscale hover:grayscale-0 transition-all duration-300 ${
+                isDarkMode ? "" : "invert"
+              }`}
             />
           </motion.div>
 
@@ -129,7 +146,7 @@ export default function Component() {
             className="w-1/2 pl-12"
           >
             <AnimatePresence mode="wait">
-              <motion.h1
+              <motion.div
                 key={textIndex}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -138,9 +155,9 @@ export default function Component() {
                 className={`text-5xl font-bold mb-4 ${
                   isDarkMode ? "text-white" : "text-gray-800"
                 }`}
-                dangerouslySetInnerHTML={{ __html: texts[textIndex] }}
               >
-              </motion.h1>
+                {texts[textIndex]}
+              </motion.div>
             </AnimatePresence>
             <p
               className={`mb-2 font-bold ${
@@ -190,31 +207,6 @@ export default function Component() {
           }`}
         ></div>
       </div>
-
-      {/* Interactive particles */}
-      <div className="fixed inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className={`absolute w-2 h-2 rounded-full ${
-              isDarkMode ? "bg-purple-500" : "bg-purple-300"
-            }`}
-            initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-            }}
-            animate={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-            }}
-            transition={{
-              duration: Math.random() * 10 + 20,
-              repeat: Infinity,
-              repeatType: "reverse",
-            }}
-          />
-        ))}
-      </div>
     </div>
-  )
+  );
 }
