@@ -7,12 +7,40 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "@/assets/logo.png";
 import bulb from "@/assets/bulb.png";
+import css from "@/assets/svgs/css.svg"
+import express from "@/assets/svgs/express.svg"
+import git from "@/assets/svgs/git.svg"
+import github from "@/assets/svgs/github.svg"
+import html from "@/assets/svgs/html.svg"
+import javascript from "@/assets/svgs/javascript.svg"
+import motiond from "@/assets/svgs/motion.svg"
+import nextjs from "@/assets/svgs/nextjs.svg"
+import nodejs from "@/assets/svgs/nodejs.svg"
+import react from "@/assets/svgs/react.svg"
+import tailwindcss from "@/assets/svgs/tailwindcss.svg"
+import typescript from "@/assets/svgs/typescript.svg"
 import { Particles } from "@/components/particles";
 import React from "react";
 
 type NavItem = "HOME" | "ABOUT" | "PROJECTS" | "CONTACT";
 
 const MemoizedParticles = React.memo(Particles);
+
+
+const skills = [
+  { name: "CSS3", icon: css },
+  { name: "Express.js", icon: express },
+  { name: "Git", icon: git },
+  { name: "GitHub", icon: github },
+  { name: "HTML5", icon: html },
+  { name: "JavaScript", icon: javascript },
+  { name: "MySQL", icon: "/placeholder.svg?height=30&width=30" },
+  { name: "Next.js", icon: nextjs },
+  { name: "Node.js", icon: nodejs },
+  { name: "React", icon: react },
+  { name: "Tailwind CSS", icon: tailwindcss },
+  { name: "TypeScript", icon: typescript },
+];
 
 export default function Component() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
@@ -21,8 +49,11 @@ export default function Component() {
   const texts = [
     "Hey there! 👋",
     <>
-      I am <span className={isDarkMode ? "text-purple-500" : "text-purple-700"}>GUILHERME FACCIN</span>
-    </>
+      I am{" "}
+      <span className={isDarkMode ? "text-purple-500" : "text-purple-700"}>
+        GUILHERME FACCIN
+      </span>
+    </>,
   ];
 
   const toggleTheme = useCallback(() => {
@@ -39,7 +70,7 @@ export default function Component() {
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-500 ${
+      className={`min-h-screen pt-24 transition-colors duration-500 ${
         isDarkMode ? "bg-zinc-900" : "bg-gray-100"
       }`}
     >
@@ -51,7 +82,7 @@ export default function Component() {
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className={`relative py-6 px-4 border-b-2 border-purple-500/20 ${
+        className={`fixed top-0 left-0 right-0 z-50 py-6 px-4 border-b-2 border-purple-500/20 ${
           isDarkMode ? "bg-zinc-800" : "bg-white"
         }`}
       >
@@ -196,6 +227,53 @@ export default function Component() {
             </div>
           </motion.div>
         </div>
+
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-16"
+        >
+          <h2
+            className={`text-3xl font-bold mb-8 ${
+              isDarkMode ? "text-white" : "text-gray-900"
+            }`}
+          >
+            My Skills
+          </h2>
+          <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-8 gap-6">
+        {skills.map((skill, index) => (
+          <motion.div
+            key={index}
+            className={`relative p-4 rounded-xl shadow-lg transform transition-all duration-300 hover:-translate-y-1 ${
+              isDarkMode 
+                ? "bg-zinc-800/50 hover:bg-zinc-700/60 shadow-zinc-900/30" 
+                : "bg-white/90 hover:bg-gray-50 shadow-gray-200/60"
+            } backdrop-blur-sm`}
+            whileHover={{ scale: 1.05 }}
+          >
+            <div className="flex flex-col items-center gap-2">
+              <div className="relative w-8 h-8">
+                <Image
+                  src={skill.icon}
+                  alt={skill.name}
+                  layout="fill"
+                  objectFit="contain"
+                  className="transition-transform duration-300 group-hover:scale-110"
+                />
+              </div>
+              <span className={`text-xs font-medium text-center transition-colors ${
+                isDarkMode ? "text-gray-300" : "text-gray-600"
+              }`}>
+                {skill.name}
+              </span>
+            </div>
+            
+            <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-white/10 group-hover:ring-white/20" />
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
       </div>
 
       <div className="fixed inset-0 pointer-events-none">
