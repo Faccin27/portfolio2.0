@@ -424,7 +424,54 @@ export default function Component() {
           </div>
         </motion.div>
 
-
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-16"
+        >
+          <h2
+            className={`text-3xl font-bold mb-8 ${
+              isDarkMode ? "text-white" : "text-gray-900"
+            }`}
+          >
+            My Skills
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 gap-4">
+            {skills.map((skill, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                whileHover={{ scale: 1.02 }}
+                className={`relative p-4 rounded-2xl backdrop-blur-md border transition-all duration-300 ${
+                  isDarkMode
+                    ? "bg-black/20 border-white/10 hover:border-white/20"
+                    : "bg-white/90 border-gray-200 hover:border-gray-300"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="relative w-7 h-7">
+                    <Image
+                      src={skill.icon}
+                      alt={skill.name}
+                      layout="fill"
+                      objectFit="contain"
+                      className="transition-transform duration-300"
+                    />
+                  </div>
+                  <span
+                    className={`text-sm font-bold ${
+                      isDarkMode ? "text-gray-300" : "text-gray-700"
+                    }`}
+                  >
+                    {skill.name}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
       </div>
 
       <div className="fixed inset-0 pointer-events-none">
