@@ -7,18 +7,19 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "@/assets/logo.png";
 import bulb from "@/assets/bulb.png";
-import css from "@/assets/svgs/css.svg"
-import express from "@/assets/svgs/express.svg"
-import git from "@/assets/svgs/git.svg"
-import github from "@/assets/svgs/github.svg"
-import html from "@/assets/svgs/html.svg"
-import javascript from "@/assets/svgs/javascript.svg"
-import motiond from "@/assets/svgs/motion.svg"
-import nextjs from "@/assets/svgs/nextjs.svg"
-import nodejs from "@/assets/svgs/nodejs.svg"
-import react from "@/assets/svgs/react.svg"
-import tailwindcss from "@/assets/svgs/tailwindcss.svg"
-import typescript from "@/assets/svgs/typescript.svg"
+import css from "@/assets/svgs/css.svg";
+import express from "@/assets/svgs/express.svg";
+import git from "@/assets/svgs/git.svg";
+import github from "@/assets/svgs/github.svg";
+import html from "@/assets/svgs/html.svg";
+import javascript from "@/assets/svgs/javascript.svg";
+import motiond from "@/assets/svgs/motion.svg";
+import nextjs from "@/assets/svgs/nextjs.svg";
+import nodejs from "@/assets/svgs/nodejs.svg";
+import react from "@/assets/svgs/react.svg";
+import tailwindcss from "@/assets/svgs/tailwindcss.svg";
+import typescript from "@/assets/svgs/typescript.svg";
+import noticeday from "@/assets/noticeday.png"
 import { Particles } from "@/components/particles";
 import React from "react";
 
@@ -26,6 +27,32 @@ type NavItem = "HOME" | "ABOUT" | "PROJECTS" | "CONTACT";
 
 const MemoizedParticles = React.memo(Particles);
 
+const projects = [
+  {
+    title: "Full stack music app",
+    image: "/placeholder.svg?height=400&width=600",
+    description:
+      "A complete music streaming application with user authentication, playlist management, and real-time playback features.",
+    skills: ["API", "MVC", "Development"],
+    technologies: ["Next.js", "Node.js", "PostgreSQL", "Express.js"],
+  },
+  {
+    title: "Notice day",
+    image: noticeday,
+    description:
+      "A complete music streaming application with user authentication, playlist management, and real-time playback features.",
+    skills: ["API", "SPA"],
+    technologies: ["React", "Express.js", "MongoDB", "Node.js"],
+  },
+  {
+    title: "Nyx RAT",
+    image: "/placeholder.svg?height=400&width=600",
+    description:
+      "A complete music streaming application with user authentication, playlist management, and real-time playback features.",
+    skills: ["Development", "API"],
+    technologies: ["Vue.js", "Node.js", "MySQL", "Express.js"],
+  },
+];
 
 const skills = [
   { name: "CSS3", icon: css },
@@ -33,6 +60,7 @@ const skills = [
   { name: "Git", icon: git },
   { name: "GitHub", icon: github },
   { name: "HTML5", icon: html },
+  { name: "PostgreeSQL", icon: "/placeholder.svg?height=30&width=30" },
   { name: "JavaScript", icon: javascript },
   { name: "MySQL", icon: "/placeholder.svg?height=30&width=30" },
   { name: "Next.js", icon: nextjs },
@@ -40,6 +68,14 @@ const skills = [
   { name: "React", icon: react },
   { name: "Tailwind CSS", icon: tailwindcss },
   { name: "TypeScript", icon: typescript },
+  { name: "Bootstrap", icon: "/placeholder.svg?height=30&width=30" },
+  { name: "Python", icon: "/placeholder.svg?height=30&width=30" },
+  { name: "Figma", icon: "/placeholder.svg?height=30&width=30" },
+  { name: "Vue", icon: "/placeholder.svg?height=30&width=30" },
+  { name: "Prisma", icon: "/placeholder.svg?height=30&width=30" },
+  { name: "Handlebars", icon: "/placeholder.svg?height=30&width=30" },
+  { name: "Postman", icon: "/placeholder.svg?height=30&width=30" },
+  { name: "Insomnia", icon: "/placeholder.svg?height=30&width=30" },
 ];
 
 export default function Component() {
@@ -239,41 +275,156 @@ export default function Component() {
               isDarkMode ? "text-white" : "text-gray-900"
             }`}
           >
-            My Skills
+            Featured Projects
           </h2>
-          <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-8 gap-6">
-        {skills.map((skill, index) => (
-          <motion.div
-            key={index}
-            className={`relative p-4 rounded-xl shadow-lg transform transition-all duration-300 hover:-translate-y-1 ${
-              isDarkMode 
-                ? "bg-zinc-800/50 hover:bg-zinc-700/60 shadow-zinc-900/30" 
-                : "bg-white/90 hover:bg-gray-50 shadow-gray-200/60"
-            } backdrop-blur-sm`}
-            whileHover={{ scale: 1.05 }}
-          >
-            <div className="flex flex-col items-center gap-2">
-              <div className="relative w-8 h-8">
-                <Image
-                  src={skill.icon}
-                  alt={skill.name}
-                  layout="fill"
-                  objectFit="contain"
-                  className="transition-transform duration-300 group-hover:scale-110"
-                />
-              </div>
-              <span className={`text-xs font-medium text-center transition-colors ${
-                isDarkMode ? "text-gray-300" : "text-gray-600"
-              }`}>
-                {skill.name}
-              </span>
-            </div>
-            
-            <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-white/10 group-hover:ring-white/20" />
-          </motion.div>
-        ))}
-      </div>
-    </motion.div>
+          <div className="space-y-16">
+            {projects.map((project, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className={`flex flex-col ${
+                  index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+                } gap-8`}
+              >
+                <div className="w-full md:w-1/2">
+                  <div
+                    className={`group rounded-xl overflow-hidden ${
+                      isDarkMode ? "bg-zinc-800/50" : "bg-white"
+                    } backdrop-blur-sm border ${
+                      isDarkMode ? "border-white/10" : "border-gray-200"
+                    }`}
+                  >
+                    <div className="relative h-64 overflow-hidden">
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        layout="fill"
+                        objectFit="cover"
+                        className="transition-transform duration-300 group-hover:scale-110"
+                      />
+                    </div>
+                    <div className="p-6">
+                      <div className="flex justify-between items-start mb-4">
+                        <h3
+                          className={`text-xl font-bold ${
+                            isDarkMode ? "text-white" : "text-gray-900"
+                          }`}
+                        >
+                          {project.title}
+                        </h3>
+                        <motion.div
+                          whileHover={{ scale: 1.1 }}
+                          className={`p-2 rounded-full ${
+                            isDarkMode ? "bg-purple-500/20" : "bg-purple-100"
+                          }`}
+                        >
+                          <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            className={
+                              isDarkMode ? "text-purple-400" : "text-purple-600"
+                            }
+                          >
+                            <path
+                              d="M5 15L15 5M15 5H8M15 5V12"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </motion.div>
+                      </div>
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {project.skills.map((skill, skillIndex) => (
+                          <span
+                            key={skillIndex}
+                            className={`text-xs px-3 py-1 rounded-full ${
+                              isDarkMode
+                                ? "bg-purple-500/20 text-purple-300"
+                                : "bg-purple-100 text-purple-700"
+                            }`}
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="w-full md:w-1/2 flex flex-col justify-center">
+                  <p
+                    className={`mb-4 ${
+                      isDarkMode ? "text-gray-300" : "text-gray-600"
+                    }`}
+                  >
+                    {project.description}
+                  </p>
+                  <div className="mb-2">
+                    <h4
+                      className={`font-semibold mb-2 ${
+                        isDarkMode ? "text-white" : "text-gray-900"
+                      }`}
+                    >
+                      Technologies Used:
+                    </h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      {project.technologies.map((tech, techIndex) => {
+                        const skillItem = skills.find(
+                          (skill) =>
+                            skill.name.toLowerCase() === tech.toLowerCase()
+                        );
+                        return (
+                          <motion.div
+                            key={techIndex}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            whileHover={{ scale: 1.02 }}
+                            className={`relative p-2 rounded-xl backdrop-blur-md border transition-all duration-300 ${
+                              isDarkMode
+                                ? "bg-black/20 border-white/10 hover:border-white/20"
+                                : "bg-white/90 border-gray-200 hover:border-gray-300"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2">
+                              <div className="relative w-5 h-5">
+                                <Image
+                                  src={
+                                    skillItem
+                                      ? skillItem.icon
+                                      : "/placeholder.svg?height=20&width=20"
+                                  }
+                                  alt={tech}
+                                  layout="fill"
+                                  objectFit="contain"
+                                  className="transition-transform duration-300"
+                                />
+                              </div>
+                              <span
+                                className={`text-xs font-bold ${
+                                  isDarkMode ? "text-gray-300" : "text-gray-700"
+                                }`}
+                              >
+                                {tech}
+                              </span>
+                            </div>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+
       </div>
 
       <div className="fixed inset-0 pointer-events-none">

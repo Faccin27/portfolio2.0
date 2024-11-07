@@ -42,7 +42,7 @@
       "detect_on": "window",
       "events": {
         "onhover": { "enable": true, "mode": "grab" },
-        "onclick": { "enable": true, "mode": "push" },
+        "onclick": { "enable": true, "mode": "grab" },
         "resize": true
       },
       "modes": {
