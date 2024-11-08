@@ -20,6 +20,20 @@ import react from "@/assets/svgs/react.svg";
 import tailwindcss from "@/assets/svgs/tailwindcss.svg";
 import typescript from "@/assets/svgs/typescript.svg";
 import noticeday from "@/assets/noticeday.png"
+import mysqls from "@/assets/svgs/mysql.svg"
+import figmas from "@/assets/svgs/figma.svg"
+import bootstrap from "@/assets/svgs/bootstrap.svg"
+import postgreesql from "@/assets/svgs/postgresql.svg"
+import postman from "@/assets/svgs/postman.svg"
+import vue from "@/assets/svgs/vue.svg"
+import python from "@/assets/svgs/python.svg"
+import handlebars from "@/assets/svgs/handlebars.svg"
+import electron from "@/assets/svgs/electron.svg"
+import fastify from "@/assets/svgs/fastify.svg"
+import insomnia from "@/assets/svgs/insomnia.svg"
+import prisma from "@/assets/svgs/prisma.svg"
+import music from "@/assets/music.png"
+import nyx from "@/assets/nyx.png"
 import { Particles } from "@/components/particles";
 import React from "react";
 
@@ -29,53 +43,57 @@ const MemoizedParticles = React.memo(Particles);
 
 const projects = [
   {
-    title: "Full stack music app",
-    image: "/placeholder.svg?height=400&width=600",
+    title: "Nyx RAT",
+    image: nyx,
     description:
       "A complete music streaming application with user authentication, playlist management, and real-time playback features.",
-    skills: ["API", "MVC", "Development"],
-    technologies: ["Next.js", "Node.js", "PostgreSQL", "Express.js"],
+    skills: ["Development", "API"],
+    technologies: ["Python","Next.js", "Node.js", "MySQL", "Fastify", "Motion"],
+  },
+  {
+    title: "Full stack music app",
+    image: music,
+    description:
+      "A complete music streaming application with user authentication, playlist management, and real-time playback features.",
+    skills: ["API", "SPA", "Development", "restFull"],
+    technologies: ["Vue", "PostgreeSQL", "TypeScript", "Electron"],
   },
   {
     title: "Notice day",
     image: noticeday,
     description:
       "A complete music streaming application with user authentication, playlist management, and real-time playback features.",
-    skills: ["API", "SPA"],
-    technologies: ["React", "Express.js", "MongoDB", "Node.js"],
+    skills: ["API", "MVC"],
+    technologies: ["Handlebars", "Express.js", "MySQL", "Node.js"],
   },
-  {
-    title: "Nyx RAT",
-    image: "/placeholder.svg?height=400&width=600",
-    description:
-      "A complete music streaming application with user authentication, playlist management, and real-time playback features.",
-    skills: ["Development", "API"],
-    technologies: ["Vue.js", "Node.js", "MySQL", "Express.js"],
-  },
+
 ];
 
 const skills = [
   { name: "CSS3", icon: css },
   { name: "Express.js", icon: express },
+  { name: "Fastify", icon: fastify },
   { name: "Git", icon: git },
+  { name: "Electron", icon: electron },
   { name: "GitHub", icon: github },
+  { name: "Motion", icon: motiond },
   { name: "HTML5", icon: html },
-  { name: "PostgreeSQL", icon: "/placeholder.svg?height=30&width=30" },
+  { name: "PostgreeSQL", icon: postgreesql },
   { name: "JavaScript", icon: javascript },
-  { name: "MySQL", icon: "/placeholder.svg?height=30&width=30" },
+  { name: "MySQL", icon: mysqls },
   { name: "Next.js", icon: nextjs },
   { name: "Node.js", icon: nodejs },
   { name: "React", icon: react },
   { name: "Tailwind CSS", icon: tailwindcss },
   { name: "TypeScript", icon: typescript },
-  { name: "Bootstrap", icon: "/placeholder.svg?height=30&width=30" },
-  { name: "Python", icon: "/placeholder.svg?height=30&width=30" },
-  { name: "Figma", icon: "/placeholder.svg?height=30&width=30" },
-  { name: "Vue", icon: "/placeholder.svg?height=30&width=30" },
-  { name: "Prisma", icon: "/placeholder.svg?height=30&width=30" },
-  { name: "Handlebars", icon: "/placeholder.svg?height=30&width=30" },
-  { name: "Postman", icon: "/placeholder.svg?height=30&width=30" },
-  { name: "Insomnia", icon: "/placeholder.svg?height=30&width=30" },
+  { name: "Bootstrap", icon: bootstrap },
+  { name: "Python", icon: python},
+  { name: "Figma", icon: figmas },
+  { name: "Vue", icon: vue },
+  { name: "Prisma", icon: prisma },
+  { name: "Handlebars", icon: handlebars },
+  { name: "Postman", icon: postman },
+  { name: "Insomnia", icon: insomnia },
 ];
 
 export default function Component() {
