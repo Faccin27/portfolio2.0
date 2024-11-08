@@ -19,21 +19,22 @@ import nodejs from "@/assets/svgs/nodejs.svg";
 import react from "@/assets/svgs/react.svg";
 import tailwindcss from "@/assets/svgs/tailwindcss.svg";
 import typescript from "@/assets/svgs/typescript.svg";
-import noticeday from "@/assets/noticeday.png"
-import mysqls from "@/assets/svgs/mysql.svg"
-import figmas from "@/assets/svgs/figma.svg"
-import bootstrap from "@/assets/svgs/bootstrap.svg"
-import postgreesql from "@/assets/svgs/postgresql.svg"
-import postman from "@/assets/svgs/postman.svg"
-import vue from "@/assets/svgs/vue.svg"
-import python from "@/assets/svgs/python.svg"
-import handlebars from "@/assets/svgs/handlebars.svg"
-import electron from "@/assets/svgs/electron.svg"
-import fastify from "@/assets/svgs/fastify.svg"
-import insomnia from "@/assets/svgs/insomnia.svg"
-import prisma from "@/assets/svgs/prisma.svg"
-import music from "@/assets/music.png"
-import nyx from "@/assets/nyx.png"
+import noticeday from "@/assets/noticeday.png";
+import mysqls from "@/assets/svgs/mysql.svg";
+import figmas from "@/assets/svgs/figma.svg";
+import bootstrap from "@/assets/svgs/bootstrap.svg";
+import postgreesql from "@/assets/svgs/postgresql.svg";
+import postman from "@/assets/svgs/postman.svg";
+import vue from "@/assets/svgs/vue.svg";
+import python from "@/assets/svgs/python.svg";
+import handlebars from "@/assets/svgs/handlebars.svg";
+import electron from "@/assets/svgs/electron.svg";
+import fastify from "@/assets/svgs/fastify.svg";
+import insomnia from "@/assets/svgs/insomnia.svg";
+import prisma from "@/assets/svgs/prisma.svg";
+import music from "@/assets/music.png";
+import nyx from "@/assets/nyx.png";
+import mep from "@/assets/photo.jpg";
 import { Particles } from "@/components/particles";
 import React from "react";
 
@@ -48,7 +49,14 @@ const projects = [
     description:
       "A complete music streaming application with user authentication, playlist management, and real-time playback features.",
     skills: ["Development", "API"],
-    technologies: ["Python","Next.js", "Node.js", "MySQL", "Fastify", "Motion"],
+    technologies: [
+      "Python",
+      "Next.js",
+      "Node.js",
+      "MySQL",
+      "Fastify",
+      "Motion",
+    ],
   },
   {
     title: "Full stack music app",
@@ -66,7 +74,6 @@ const projects = [
     skills: ["API", "MVC"],
     technologies: ["Handlebars", "Express.js", "MySQL", "Node.js"],
   },
-
 ];
 
 const skills = [
@@ -87,7 +94,7 @@ const skills = [
   { name: "Tailwind CSS", icon: tailwindcss },
   { name: "TypeScript", icon: typescript },
   { name: "Bootstrap", icon: bootstrap },
-  { name: "Python", icon: python},
+  { name: "Python", icon: python },
   { name: "Figma", icon: figmas },
   { name: "Vue", icon: vue },
   { name: "Prisma", icon: prisma },
@@ -95,8 +102,6 @@ const skills = [
   { name: "Postman", icon: postman },
   { name: "Insomnia", icon: insomnia },
 ];
-
-
 
 export default function Component() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
@@ -121,7 +126,6 @@ export default function Component() {
       y: ((e.clientY - rect.top) / rect.height) * 100,
     });
   }, []);
-
 
   const toggleTheme = useCallback(() => {
     setIsDarkMode((prev) => !prev);
@@ -295,51 +299,53 @@ export default function Component() {
           </motion.div>
         </div>
 
-     <motion.div
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="mt-16"
-      >
-        <h2 className={`text-3xl font-bold mb-8 ${
-          isDarkMode ? "text-white" : "text-gray-900"
-        }`}>
-          Featured Projects
-        </h2>
-        <div className="space-y-16">
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className={`flex flex-col ${
-                index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-              } gap-8`}
-            >
-              <div className="w-full md:w-1/2">
-                <div 
-                  className={`group rounded-xl overflow-hidden ${
-                    isDarkMode ? "bg-zinc-800/50" : "bg-white"
-                  } backdrop-blur-sm border ${
-                    isDarkMode ? "border-white/10" : "border-gray-200"
-                  }`}
-                >
-                  <div 
-                    className="relative aspect-video overflow-hidden cursor-zoom-in"
-                    onMouseMove={handleMouseMove}
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-16"
+        >
+          <h2
+            className={`text-3xl font-bold mb-8 ${
+              isDarkMode ? "text-white" : "text-gray-900"
+            }`}
+          >
+            Featured Projects
+          </h2>
+          <div className="space-y-16">
+            {projects.map((project, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className={`flex flex-col ${
+                  index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+                } gap-8`}
+              >
+                <div className="w-full md:w-1/2">
+                  <div
+                    className={`group rounded-xl overflow-hidden ${
+                      isDarkMode ? "bg-zinc-800/50" : "bg-white"
+                    } backdrop-blur-sm border ${
+                      isDarkMode ? "border-white/10" : "border-gray-200"
+                    }`}
                   >
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      layout="fill"
-                      objectFit="cover"
-                      className="transition-transform duration-300 ease-out group-hover:scale-125"
-                      style={{
-                        transformOrigin: `${mousePosition.x}% ${mousePosition.y}%`,
-                      }}
-                    />
-                  </div>
+                    <div
+                      className="relative aspect-video overflow-hidden cursor-zoom-in"
+                      onMouseMove={handleMouseMove}
+                    >
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        layout="fill"
+                        objectFit="cover"
+                        className="transition-transform duration-300 ease-out group-hover:scale-125"
+                        style={{
+                          transformOrigin: `${mousePosition.x}% ${mousePosition.y}%`,
+                        }}
+                      />
+                    </div>
                     <div className="p-6">
                       <div className="flex justify-between items-start mb-4">
                         <h3
@@ -392,6 +398,7 @@ export default function Component() {
                     </div>
                   </div>
                 </div>
+
                 <div className="w-full md:w-1/2 flex flex-col justify-center">
                   <p
                     className={`mb-4 ${
@@ -458,7 +465,91 @@ export default function Component() {
             ))}
           </div>
         </motion.div>
-
+        {/* "More about me" section */}
+        <motion.div
+          initial={{ y: 90, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-16"
+        >
+          <div className="container mx-auto px-4 py-12">
+            <div
+              className={`w-4/5 mx-auto rounded-2xl border transition-all duration-300 ${
+                isDarkMode
+                  ? "bg-zinc-800 border-white/10"
+                  : "bg-slate-300 border-gray-200"
+              }`}
+            >
+              <div className="flex flex-col md:flex-row items-stretch gap-12 p-8">
+                <div className="w-full md:w-1/2 flex items-center justify-center">
+                  <div className="relative w-full h-0 pb-[100%] rounded-full overflow-hidden border-4 border-purple-500">
+                    <Image
+                      src={mep}
+                      alt="Profile"
+                      layout="fill"
+                      objectFit="cover"
+                    />
+                  </div>
+                </div>
+                <div className="w-full md:w-1/2 flex flex-col justify-between space-y-6 py-8">
+                  <div className="space-y-8">
+                    <h2
+                      className={`text-4xl font-bold ${
+                        isDarkMode ? "text-white" : "text-gray-900"
+                      }`}
+                    >
+                      More about me
+                    </h2>
+                    <div className="space-y-6">
+                      {[
+                        { label: "Name", value: "Guilherme Faccin" },
+                        { label: "Experience", value: "3 Years" },
+                        { label: "Specialty", value: "Fullstack Developer" },
+                        { label: "Email", value: "gfaccin27@gmail.com" },
+                        { label: "Phone", value: "(49) 999215720" },
+                        { label: "Freelance", value: "Avaliable" },
+                      ].map((item, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center space-x-2"
+                        >
+                          <p
+                            className={`text-lg ${
+                              isDarkMode ? "text-gray-400" : "text-gray-600"
+                            }`}
+                          >
+                            {item.label}:
+                          </p>
+                          <p
+                            className={`text-xl font-medium ${
+                              isDarkMode ? "text-white" : "text-gray-900"
+                            }`}
+                          >
+                            {item.value}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <button
+                      className={`px-6 py-2 rounded-xl cursor-pointer ${
+                        isDarkMode
+                          ? "bg-purple-500 hover:bg-purple-600"
+                          : "bg-purple-600 hover:bg-purple-700"
+                      } text-white transition-colors duration-300`}
+                    >
+                      View All Projects
+                    </button>
+                  </motion.div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
         <motion.div
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
