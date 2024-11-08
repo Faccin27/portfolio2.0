@@ -96,6 +96,8 @@ const skills = [
   { name: "Insomnia", icon: insomnia },
 ];
 
+
+
 export default function Component() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
   const [activeLink, setActiveLink] = useState<NavItem>("HOME");
@@ -109,6 +111,17 @@ export default function Component() {
       </span>
     </>,
   ];
+
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
+    });
+  }, []);
+
 
   const toggleTheme = useCallback(() => {
     setIsDarkMode((prev) => !prev);
@@ -282,47 +295,51 @@ export default function Component() {
           </motion.div>
         </div>
 
-        <motion.div
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-16"
-        >
-          <h2
-            className={`text-3xl font-bold mb-8 ${
-              isDarkMode ? "text-white" : "text-gray-900"
-            }`}
-          >
-            Featured Projects
-          </h2>
-          <div className="space-y-16">
-            {projects.map((project, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className={`flex flex-col ${
-                  index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                } gap-8`}
-              >
-                <div className="w-full md:w-1/2">
-                  <div
-                    className={`group rounded-xl overflow-hidden ${
-                      isDarkMode ? "bg-zinc-800/50" : "bg-white"
-                    } backdrop-blur-sm border ${
-                      isDarkMode ? "border-white/10" : "border-gray-200"
-                    }`}
+     <motion.div
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="mt-16"
+      >
+        <h2 className={`text-3xl font-bold mb-8 ${
+          isDarkMode ? "text-white" : "text-gray-900"
+        }`}>
+          Featured Projects
+        </h2>
+        <div className="space-y-16">
+          {projects.map((project, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className={`flex flex-col ${
+                index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+              } gap-8`}
+            >
+              <div className="w-full md:w-1/2">
+                <div 
+                  className={`group rounded-xl overflow-hidden ${
+                    isDarkMode ? "bg-zinc-800/50" : "bg-white"
+                  } backdrop-blur-sm border ${
+                    isDarkMode ? "border-white/10" : "border-gray-200"
+                  }`}
+                >
+                  <div 
+                    className="relative aspect-video overflow-hidden cursor-zoom-in"
+                    onMouseMove={handleMouseMove}
                   >
-                    <div className="relative h-64 overflow-hidden">
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        layout="fill"
-                        objectFit="cover"
-                        className="transition-transform duration-300 group-hover:scale-110"
-                      />
-                    </div>
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      layout="fill"
+                      objectFit="cover"
+                      className="transition-transform duration-300 ease-out group-hover:scale-125"
+                      style={{
+                        transformOrigin: `${mousePosition.x}% ${mousePosition.y}%`,
+                      }}
+                    />
+                  </div>
                     <div className="p-6">
                       <div className="flex justify-between items-start mb-4">
                         <h3
