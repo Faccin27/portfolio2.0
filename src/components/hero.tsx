@@ -142,14 +142,11 @@ export default function Component() {
 
   return (
     <div
-      className={`min-h-screen pt-24 transition-colors duration-500 ${
+      className={`min-h-screen pt-24 transition-colors duration-500${
         isDarkMode ? "bg-zinc-900" : "bg-gray-100"
       }`}
     >
-      <div className="fixed inset-0">
         <MemoizedParticles />
-      </div>
-
       <motion.header
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -607,112 +604,118 @@ export default function Component() {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="mt-16 mb-16"
       >
-        <h2
-          className={`text-3xl font-bold mb-8 ${
-            isDarkMode ? "text-white" : "text-gray-900"
-          }`}
-        >
-          Get in Touch
-        </h2>
-        <div className="w-4/5 mx-auto">
+        <div className="container mx-auto px-4 py-12">
           <div
-            className={`grid gap-6 lg:grid-cols-2 ${
-              isDarkMode ? "bg-zinc-800" : "bg-white"
-            } rounded-xl overflow-hidden shadow-lg`}
+            className={`w-4/5 mx-auto rounded-2xl border transition-all duration-300 ${
+              isDarkMode
+                ? "bg-zinc-800 border-white/10"
+                : "bg-slate-300 border-gray-200"
+            }`}
           >
-            <div className="flex items-center justify-center p-6 sm:p-8">
-              <Image
-                src={contactsvg}
-                alt="Contact"
-                width={300}
-                height={300}
-              />
-            </div>
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="flex-1 flex flex-col gap-4 p-6 sm:p-8"
-            >
-              <div className="grid gap-4">
-                <div className="grid gap-2">
-                  <label
-                    htmlFor="email"
-                    className={`text-sm font-medium leading-none ${
-                      isDarkMode ? "text-white" : "text-gray-700"
-                    }`}
-                  >
-                    Email
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm ${
-                      isDarkMode
-                        ? "bg-zinc-700 border-zinc-600 text-white placeholder:text-zinc-400"
-                        : "bg-white border-gray-300 text-gray-900 placeholder:text-gray-400"
-                    }`}
-                    required
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <label
-                    htmlFor="subject"
-                    className={`text-sm font-medium leading-none ${
-                      isDarkMode ? "text-white" : "text-gray-700"
-                    }`}
-                  >
-                    Subject
-                  </label>
-                  <input
-                    id="subject"
-                    type="text"
-                    placeholder="What's this about?"
-                    className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm ${
-                      isDarkMode
-                        ? "bg-zinc-700 border-zinc-600 text-white placeholder:text-zinc-400"
-                        : "bg-white border-gray-300 text-gray-900 placeholder:text-gray-400"
-                    }`}
-                    required
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <label
-                    htmlFor="message"
-                    className={`text-sm font-medium leading-none ${
-                      isDarkMode ? "text-white" : "text-gray-700"
-                    }`}
-                  >
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    placeholder="Your message here..."
-                    className={`flex w-full rounded-md border px-3 py-2 text-sm ${
-                      isDarkMode
-                        ? "bg-zinc-700 border-zinc-600 text-white placeholder:text-zinc-400"
-                        : "bg-white border-gray-300 text-gray-900 placeholder:text-gray-400"
-                    }`}
-                    rows={4}
-                    required
-                  ></textarea>
-                </div>
+            <div className="flex flex-col md:flex-row items-stretch gap-12 p-8">
+              <div className="w-full md:w-1/2 flex items-center justify-center">
+                <Image
+                  src={contactsvg}
+                  alt="Contact"
+                  width={300}
+                  height={300}
+                />
               </div>
-              <button
-                type="submit"
-                className={`inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors ${
-                  isDarkMode
-                    ? "bg-purple-600 text-white hover:bg-purple-700"
-                    : "bg-purple-600 text-white hover:bg-purple-700"
-                }`}
-              >
-                Send Message
-              </button>
-            </form>
+              <div className="w-full md:w-1/2 flex flex-col justify-between space-y-6">
+                <h2
+                  className={`text-4xl font-bold ${
+                    isDarkMode ? "text-white" : "text-gray-900"
+                  }`}
+                >
+                  Get in Touch
+                </h2>
+                <form
+                  onSubmit={(e) => e.preventDefault()}
+                  className="flex flex-col gap-4"
+                >
+                  <div className="grid gap-4">
+                    <div className="grid gap-2">
+                      <label
+                        htmlFor="email"
+                        className={`text-sm font-medium leading-none ${
+                          isDarkMode ? "text-white" : "text-gray-700"
+                        }`}
+                      >
+                        Email
+                      </label>
+                      <input
+                        id="email"
+                        type="email"
+                        placeholder="you@example.com"
+                        className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm ${
+                          isDarkMode
+                            ? "bg-zinc-700 border-zinc-600 text-white placeholder:text-zinc-400"
+                            : "bg-white border-gray-300 text-gray-900 placeholder:text-gray-400"
+                        }`}
+                        required
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <label
+                        htmlFor="subject"
+                        className={`text-sm font-medium leading-none ${
+                          isDarkMode ? "text-white" : "text-gray-700"
+                        }`}
+                      >
+                        Subject
+                      </label>
+                      <input
+                        id="subject"
+                        type="text"
+                        placeholder="What's this about?"
+                        className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm ${
+                          isDarkMode
+                            ? "bg-zinc-700 border-zinc-600 text-white placeholder:text-zinc-400"
+                            : "bg-white border-gray-300 text-gray-900 placeholder:text-gray-400"
+                        }`}
+                        required
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <label
+                        htmlFor="message"
+                        className={`text-sm font-medium leading-none ${
+                          isDarkMode ? "text-white" : "text-gray-700"
+                        }`}
+                      >
+                        Message
+                      </label>
+                      <textarea
+                        id="message"
+                        placeholder="Your message here..."
+                        className={`flex w-full rounded-md border px-3 py-2 text-sm ${
+                          isDarkMode
+                            ? "bg-zinc-700 border-zinc-600 text-white placeholder:text-zinc-400"
+                            : "bg-white border-gray-300 text-gray-900 placeholder:text-gray-400"
+                        }`}
+                        rows={4}
+                        required
+                      ></textarea>
+                    </div>
+                  </div>
+                  <button
+                    type="submit"
+                    className={`inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors ${
+                      isDarkMode
+                        ? "bg-purple-600 text-white hover:bg-purple-700"
+                        : "bg-purple-600 text-white hover:bg-purple-700"
+                    }`}
+                  >
+                    Send Message
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </motion.div>
 
-      <div className="fixed inset-0 pointer-events-none">
+      <div className=" pointer-events-none">
         <div
           className={`absolute inset-0 opacity-75 transition-opacity duration-500 ${
             isDarkMode
