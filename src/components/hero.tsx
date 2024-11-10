@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Linkedin, Github, Instagram, Mail } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import contactsvg from "@/assets/svgs/email.svg"
+import contactsvg from "@/assets/svgs/email.svg";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "@/assets/logo.png";
 import bulb from "@/assets/bulb.png";
@@ -78,30 +78,30 @@ const projects = [
 ];
 
 const skills = [
+  { name: "HTML5", icon: html },
   { name: "CSS3", icon: css },
+  { name: "Bootstrap", icon: bootstrap },
+  { name: "Tailwind CSS", icon: tailwindcss },
+  { name: "JavaScript", icon: javascript },
+  { name: "TypeScript", icon: typescript },
+  { name: "Vue", icon: vue },
+  { name: "React", icon: react },
+  { name: "Next.js", icon: nextjs },
+  { name: "Electron", icon: electron },
+  { name: "Motion", icon: motiond },
+  { name: "Node.js", icon: nodejs },
   { name: "Express.js", icon: express },
   { name: "Fastify", icon: fastify },
-  { name: "Git", icon: git },
-  { name: "Electron", icon: electron },
-  { name: "GitHub", icon: github },
-  { name: "Motion", icon: motiond },
-  { name: "HTML5", icon: html },
-  { name: "PostgreeSQL", icon: postgreesql },
-  { name: "JavaScript", icon: javascript },
-  { name: "MySQL", icon: mysqls },
-  { name: "Next.js", icon: nextjs },
-  { name: "Node.js", icon: nodejs },
-  { name: "React", icon: react },
-  { name: "Tailwind CSS", icon: tailwindcss },
-  { name: "TypeScript", icon: typescript },
-  { name: "Bootstrap", icon: bootstrap },
-  { name: "Python", icon: python },
-  { name: "Figma", icon: figmas },
-  { name: "Vue", icon: vue },
   { name: "Prisma", icon: prisma },
   { name: "Handlebars", icon: handlebars },
+  { name: "PostgreSQL", icon: postgreesql },
+  { name: "MySQL", icon: mysqls },
+  { name: "Python", icon: python },
+  { name: "Git", icon: git },
+  { name: "GitHub", icon: github },
   { name: "Postman", icon: postman },
   { name: "Insomnia", icon: insomnia },
+  { name: "Figma", icon: figmas }
 ];
 
 export default function Component() {
@@ -141,12 +141,19 @@ export default function Component() {
   }, [texts.length]);
 
   return (
-    <div
-      className={`min-h-screen pt-24 transition-colors duration-500${
-        isDarkMode ? "bg-zinc-900" : "bg-gray-100"
-      }`}
-    >
-        <MemoizedParticles />
+    <div className={`min-h-screen ${isDarkMode ? 'bg-zinc-900' : 'bg-gray-100'}`}>
+      <div className="fixed inset-0 pointer-events-none">
+        <div
+          className={`absolute inset-0 opacity-75 transition-opacity duration-500 ${
+            isDarkMode
+              ? "bg-gradient-radial from-purple-900/20 via-transparent to-transparent"
+              : "bg-gradient-radial from-purple-100/50 via-transparent to-transparent"
+          }`}
+        ></div>
+      </div>
+
+      <MemoizedParticles />
+      
       <motion.header
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -220,7 +227,7 @@ export default function Component() {
         </motion.div>
       </motion.header>
 
-      <div className="container mx-auto px-4 mt-12">
+      <div className="container mx-auto px-4 mt-20">
         <div className="flex items-center justify-between relative">
           <motion.div
             initial={{ x: -50, opacity: 0 }}
@@ -252,7 +259,7 @@ export default function Component() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5 }}
-                className={`text-5xl font-bold mb-4 ${
+                className={`text-5xl font-bold mb-4  ${
                   isDarkMode ? "text-white" : "text-gray-800"
                 }`}
               >
@@ -472,7 +479,7 @@ export default function Component() {
         >
           <div className="container mx-auto px-4 py-12">
             <div
-              className={`w-4/5 mx-auto rounded-2xl border transition-all duration-300 ${
+              className={`w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
                 isDarkMode
                   ? "bg-zinc-800 border-white/10"
                   : "bg-slate-300 border-gray-200"
@@ -561,7 +568,7 @@ export default function Component() {
           >
             My Skills
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-8 gap-4 relative z-10">
             {skills.map((skill, index) => (
               <motion.div
                 key={index}
@@ -602,11 +609,11 @@ export default function Component() {
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="mt-16 mb-16"
+        className="mt-16"
       >
         <div className="container mx-auto px-4 py-12">
           <div
-            className={`w-4/5 mx-auto rounded-2xl border transition-all duration-300 ${
+            className={`w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
               isDarkMode
                 ? "bg-zinc-800 border-white/10"
                 : "bg-slate-300 border-gray-200"
