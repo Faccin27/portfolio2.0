@@ -1,47 +1,47 @@
-"use client";
+"use client"
 
-import { useState, useEffect, useCallback } from "react";
-import { Linkedin, Github, Instagram, Mail } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
-import contactsvg from "@/assets/svgs/email.svg";
-import { motion, AnimatePresence } from "framer-motion";
-import logo from "@/assets/logo.png";
-import bulb from "@/assets/bulb.png";
-import css from "@/assets/svgs/css.svg";
-import express from "@/assets/svgs/express.svg";
-import git from "@/assets/svgs/git.svg";
-import github from "@/assets/svgs/github.svg";
-import html from "@/assets/svgs/html.svg";
-import javascript from "@/assets/svgs/javascript.svg";
-import motiond from "@/assets/svgs/motion.svg";
-import nextjs from "@/assets/svgs/nextjs.svg";
-import nodejs from "@/assets/svgs/nodejs.svg";
-import react from "@/assets/svgs/react.svg";
-import tailwindcss from "@/assets/svgs/tailwindcss.svg";
-import typescript from "@/assets/svgs/typescript.svg";
-import noticeday from "@/assets/noticeday.png";
-import mysqls from "@/assets/svgs/mysql.svg";
-import figmas from "@/assets/svgs/figma.svg";
-import bootstrap from "@/assets/svgs/bootstrap.svg";
-import postgreesql from "@/assets/svgs/postgresql.svg";
-import postman from "@/assets/svgs/postman.svg";
-import vue from "@/assets/svgs/vue.svg";
-import python from "@/assets/svgs/python.svg";
-import handlebars from "@/assets/svgs/handlebars.svg";
-import electron from "@/assets/svgs/electron.svg";
-import fastify from "@/assets/svgs/fastify.svg";
-import insomnia from "@/assets/svgs/insomnia.svg";
-import prisma from "@/assets/svgs/prisma.svg";
-import music from "@/assets/music.png";
-import nyx from "@/assets/nyx.png";
-import mep from "@/assets/photo.jpg";
-import { Particles } from "@/components/particles";
-import React from "react";
+import { useState, useEffect, useCallback } from "react"
+import { Linkedin, Github, Instagram, Mail, Moon, Sun } from "lucide-react"
+import Link from "next/link"
+import Image from "next/image"
+import contactsvg from "@/assets/svgs/email.svg"
+import { motion, AnimatePresence } from "framer-motion"
+import logo from "@/assets/logo.png"
+import bulb from "@/assets/bulb.png"
+import css from "@/assets/svgs/css.svg"
+import express from "@/assets/svgs/express.svg"
+import git from "@/assets/svgs/git.svg"
+import github from "@/assets/svgs/github.svg"
+import html from "@/assets/svgs/html.svg"
+import javascript from "@/assets/svgs/javascript.svg"
+import motiond from "@/assets/svgs/motion.svg"
+import nextjs from "@/assets/svgs/nextjs.svg"
+import nodejs from "@/assets/svgs/nodejs.svg"
+import react from "@/assets/svgs/react.svg"
+import tailwindcss from "@/assets/svgs/tailwindcss.svg"
+import typescript from "@/assets/svgs/typescript.svg"
+import noticeday from "@/assets/noticeday.png"
+import mysqls from "@/assets/svgs/mysql.svg"
+import figmas from "@/assets/svgs/figma.svg"
+import bootstrap from "@/assets/svgs/bootstrap.svg"
+import postgreesql from "@/assets/svgs/postgresql.svg"
+import postman from "@/assets/svgs/postman.svg"
+import vue from "@/assets/svgs/vue.svg"
+import python from "@/assets/svgs/python.svg"
+import handlebars from "@/assets/svgs/handlebars.svg"
+import electron from "@/assets/svgs/electron.svg"
+import fastify from "@/assets/svgs/fastify.svg"
+import insomnia from "@/assets/svgs/insomnia.svg"
+import prisma from "@/assets/svgs/prisma.svg"
+import music from "@/assets/music.png"
+import nyx from "@/assets/nyx.png"
+import mep from "@/assets/photo.jpg"
+import { Particles } from "@/components/particles"
+import React from "react"
 
-type NavItem = "HOME" | "ABOUT" | "PROJECTS" | "CONTACT";
+type NavItem = "HOME" | "ABOUT" | "PROJECTS" | "CONTACT"
 
-const MemoizedParticles = React.memo(Particles);
+const MemoizedParticles = React.memo(Particles)
 
 const projects = [
   {
@@ -75,7 +75,7 @@ const projects = [
     skills: ["API", "MVC"],
     technologies: ["Handlebars", "Express.js", "MySQL", "Node.js"],
   },
-];
+]
 
 const skills = [
   { name: "HTML5", icon: html },
@@ -102,12 +102,14 @@ const skills = [
   { name: "Postman", icon: postman },
   { name: "Insomnia", icon: insomnia },
   { name: "Figma", icon: figmas }
-];
+]
 
 export default function Component() {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
-  const [activeLink, setActiveLink] = useState<NavItem>("HOME");
-  const [textIndex, setTextIndex] = useState<number>(0);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(true)
+  const [activeLink, setActiveLink] = useState<NavItem>("HOME")
+  const [textIndex, setTextIndex] = useState<number>(0)
+  const [showBulb, setShowBulb] = useState(true)
+  const [showThemeIcon, setShowThemeIcon] = useState(false)
   const texts = [
     "Hey there! 👋",
     <>
@@ -116,29 +118,49 @@ export default function Component() {
         GUILHERME FACCIN
       </span>
     </>,
-  ];
+  ]
 
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
+    const rect = e.currentTarget.getBoundingClientRect()
     setMousePosition({
       x: ((e.clientX - rect.left) / rect.width) * 100,
       y: ((e.clientY - rect.top) / rect.height) * 100,
-    });
-  }, []);
+    })
+  }, [])
 
   const toggleTheme = useCallback(() => {
-    setIsDarkMode((prev) => !prev);
-  }, []);
+    setIsDarkMode((prev) => !prev)
+  }, [])
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
-    }, 4000);
+      setTextIndex((prevIndex) => (prevIndex + 1) % texts.length)
+    }, 4000)
 
-    return () => clearInterval(interval);
-  }, [texts.length]);
+    return () => clearInterval(interval)
+  }, [texts.length])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+      if (scrollPercentage >= 10) {
+        setShowBulb(false)
+        setShowThemeIcon(true)
+      } else {
+        setShowBulb(true)
+        setShowThemeIcon(false)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-zinc-900' : 'bg-gray-100'}`}>
@@ -203,28 +225,51 @@ export default function Component() {
                 )
               )}
             </div>
+            <AnimatePresence>
+              {showThemeIcon && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  className="cursor-pointer"
+                  onClick={toggleTheme}
+                >
+                  {isDarkMode ? (
+                    <Sun className="text-yellow-400" size={24} />
+                  ) : (
+                    <Moon className="text-gray-600" size={24} />
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </nav>
-        <motion.div
-          className="absolute top-full left-[768px] transform -translate-x-1/2 cursor-pointer z-50"
-          style={{ marginTop: "-8px" }}
-          onClick={toggleTheme}
-        >
-          <div className="relative">
-            <div className="absolute bottom-0 left-[43%] transform -translate-x-1/2 -translate-y-5 bg-white rounded-full filter blur-md h-8 w-8"></div>
-            <div className="relative z-10">
-              <Image
-                src={bulb}
-                alt="Light Bulb"
-                width={100}
-                height={120}
-                className={`transition-all duration-500 ${
-                  isDarkMode ? "filter-none" : "brightness-75"
-                }`}
-              />
-            </div>
-          </div>
-        </motion.div>
+        <AnimatePresence>
+          {showBulb && (
+            <motion.div
+              initial={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              className="absolute top-full left-[768px] transform -translate-x-1/2 cursor-pointer z-50"
+              style={{ marginTop: "-8px" }}
+              onClick={toggleTheme}
+            >
+              <div className="relative">
+                <div className="absolute bottom-0 left-[43%] transform -translate-x-1/2 -translate-y-5 bg-white rounded-full filter blur-md h-8 w-8"></div>
+                <div className="relative z-10">
+                  <Image
+                    src={bulb}
+                    alt="Light Bulb"
+                    width={100}
+                    height={120}
+                    className={`transition-all duration-500 ${
+                      isDarkMode ? "filter-none" : "brightness-75"
+                    }`}
+                  />
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.header>
 
       <div className="container mx-auto px-4 mt-20">
@@ -425,7 +470,7 @@ export default function Component() {
                         const skillItem = skills.find(
                           (skill) =>
                             skill.name.toLowerCase() === tech.toLowerCase()
-                        );
+                        )
                         return (
                           <motion.div
                             key={techIndex}
@@ -461,7 +506,7 @@ export default function Component() {
                               </span>
                             </div>
                           </motion.div>
-                        );
+                        )
                       })}
                     </div>
                   </div>
