@@ -1,8 +1,7 @@
-// SIM, ESSE É O CODIGO DE PORTFOLIO MAIS PORCO QUE VOCE VERA EM TODO O GITHUB, NÃO VOU COMPONENTIZAR E ORGANIZAR, SÓ SE ME PAGAR. SE FUNCIONA É MERITO.
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Linkedin, Github, Instagram, Mail, Moon, Sun } from "lucide-react";
+import { Linkedin, Github, Instagram, Mail, Moon, Sun } from 'lucide-react';
 import Link from "next/link";
 import Image from "next/image";
 import contactsvg from "@/assets/svgs/email.svg";
@@ -39,6 +38,7 @@ import nyx from "@/assets/nyx.png";
 import mep from "@/assets/photo.jpg";
 import { Particles } from "@/components/particles";
 import React from "react";
+import AnimatedSection from "@/components/animatedsection";
 
 const MemoizedParticles = React.memo(Particles);
 
@@ -247,88 +247,85 @@ export default function Component() {
       </motion.header>
 
       <div className="container mx-auto px-4 mt-20 pt-16">
-        <div className="flex flex-col md:flex-row items-center justify-between relative">
-          <motion.div
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="w-full md:w-2/5 mb-8 md:mb-0"
-          >
-            <Image
-              src={logo}
-              alt="Profile"
-              width={2000}
-              height={2000}
-              className={`rounded-lg filter grayscale hover:grayscale-0 transition-all duration-300 ${
-                isDarkMode ? "" : "invert"
-              }`}
-            />
-          </motion.div>
+        <AnimatedSection animation="fadeDown">
+          <div className="flex flex-col md:flex-row items-center justify-between relative">
+            <motion.div
+              initial={{ x: -50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="w-full md:w-2/5 mb-8 md:mb-0"
+            >
+              <Image
+                src={logo}
+                alt="Profile"
+                width={2000}
+                height={2000}
+                className={`rounded-lg filter grayscale hover:grayscale-0 transition-all duration-300 ${
+                  isDarkMode ? "" : "invert"
+                }`}
+              />
+            </motion.div>
 
-          <motion.div
-            initial={{ x: 50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="w-full md:w-1/2 md:pl-12"
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={textIndex}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className={`text-3xl md:text-5xl font-bold mb-4 ${
-                  isDarkMode ? "text-white" : "text-gray-800"
+            <motion.div
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="w-full md:w-1/2 md:pl-12"
+            >
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={textIndex}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                  className={`text-3xl md:text-5xl font-bold mb-4 ${
+                    isDarkMode ? "text-white" : "text-gray-800"
+                  }`}
+                >
+                  {texts[textIndex]}
+                </motion.div>
+              </AnimatePresence>
+              <p
+                className={`mb-2 font-bold ${
+                  isDarkMode ? "text-purple-400" : "text-purple-700"
                 }`}
               >
-                {texts[textIndex]}
-              </motion.div>
-            </AnimatePresence>
-            <p
-              className={`mb-2 font-bold ${
-                isDarkMode ? "text-purple-400" : "text-purple-700"
-              }`}
-            >
-              Fullstack Developer
-            </p>
-            <p
-              className={`mb-6 ${
-                isDarkMode ? "text-gray-300" : "text-gray-600"
-              }`}
-            >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </p>
-            <div className="flex space-x-6">
-              {[Linkedin, Github, Instagram, Mail].map((Icon, index) => (
-                <motion.div
-                  key={index}
-                  whileHover={{ scale: 1.2, rotate: 5 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <Link
-                    href="#"
-                    className={`${
-                      isDarkMode ? "text-white" : "text-gray-800"
-                    } hover:text-purple-500 transition-colors duration-300`}
+                Fullstack Developer
+              </p>
+              <p
+                className={`mb-6 ${
+                  isDarkMode ? "text-gray-300" : "text-gray-600"
+                }`}
+              >
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
+              </p>
+              <div className="flex space-x-6">
+                {[Linkedin, Github, Instagram, Mail].map((Icon, index) => (
+                  <motion.div
+                    key={index}
+                    whileHover={{ scale: 1.2, rotate: 5 }}
+                    whileTap={{ scale: 0.9 }}
                   >
-                    <Icon size={24} />
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
+                    <Link
+                      href="#"
+                      className={`${
+                        isDarkMode ? "text-white" : "text-gray-800"
+                      } hover:text-purple-500 transition-colors duration-300`}
+                    >
+                      <Icon size={24} />
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </AnimatedSection>
 
-        <motion.div
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-16"
-        >
+        <AnimatedSection className="mt-16" animation="fadeLeft">
           <h2
             className={`text-3xl font-bold mb-8 ${
               isDarkMode ? "text-white" : "text-gray-900"
@@ -338,164 +335,160 @@ export default function Component() {
           </h2>
           <div className="space-y-16">
             {projects.map((project, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className={`flex flex-col ${
-                  index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                } gap-8`}
-              >
-                <div className="w-full md:w-1/2">
-                  <div
-                    className={`group rounded-xl overflow-hidden ${
-                      isDarkMode ? "bg-zinc-800/50" : "bg-slate-300/70"
-                    } backdrop-blur-sm border ${
-                      isDarkMode ? "border-white/10" : "border-gray-200"
-                    }`}
-                  >
+              <AnimatedSection key={index} animation={index % 2 === 0 ? "fadeRight" : "fadeLeft"}>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className={`flex flex-col ${
+                    index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+                  } gap-8`}
+                >
+                  <div className="w-full md:w-1/2">
                     <div
-                      className="relative aspect-video overflow-hidden cursor-zoom-in"
-                      onMouseMove={handleMouseMove}
-                    >
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        layout="fill"
-                        objectFit="cover"
-                        className="transition-transform duration-300 ease-out group-hover:scale-125"
-                        style={{
-                          transformOrigin: `${mousePosition.x}% ${mousePosition.y}%`,
-                        }}
-                      />
-                    </div>
-                    <div className="p-6">
-                      <div className="flex justify-between items-start mb-4">
-                        <h3
-                          className={`text-xl font-bold ${
-                            isDarkMode ? "text-white" : "text-gray-900"
-                          }`}
-                        >
-                          {project.title}
-                        </h3>
-                        <motion.div
-                          whileHover={{ scale: 1.1 }}
-                          className={`p-2 rounded-full ${
-                            isDarkMode ? "bg-purple-500/20" : "bg-purple-100"
-                          }`}
-                        >
-                          <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            className={
-                              isDarkMode ? "text-purple-400" : "text-purple-600"
-                            }
-                          >
-                            <path
-                              d="M5 15L15 5M15 5H8M15 5V12"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        </motion.div>
-                      </div>
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {project.skills.map((skill, skillIndex) => (
-                          <span
-                            key={skillIndex}
-                            className={`text-xs px-3 py-1 rounded-full ${
-                              isDarkMode
-                                ? "bg-purple-500/20 text-purple-300"
-                                : "bg-purple-100 text-purple-700"
-                            }`}
-                          >
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="w-full md:w-1/2 flex flex-col justify-center">
-                  <p
-                    className={`mb-4 ${
-                      isDarkMode ? "text-gray-300" : "text-gray-600"
-                    }`}
-                  >
-                    {project.description}
-                  </p>
-                  <div className="mb-2">
-                    <h4
-                      className={`font-semibold mb-2 ${
-                        isDarkMode ? "text-white" : "text-gray-900"
+                      className={`group rounded-xl overflow-hidden ${
+                        isDarkMode ? "bg-zinc-800/50" : "bg-slate-300/70"
+                      } backdrop-blur-sm border ${
+                        isDarkMode ? "border-white/10" : "border-gray-200"
                       }`}
                     >
-                      Technologies Used:
-                    </h4>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                      {project.technologies.map((tech, techIndex) => {
-                        const skillItem = skills.find(
-                          (skill) =>
-                            skill.name.toLowerCase() === tech.toLowerCase()
-                        );
-                        return (
-                          <motion.div
-                            key={techIndex}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            whileHover={{ scale: 1.02 }}
-                            className={`relative p-2 rounded-xl border transition-all duration-300 ${
-                              isDarkMode
-                                ? "bg-black/20 border-white/10 hover:border-white/20"
-                                : "bg-slate-300/70 border-gray-200 hover:border-gray-300"
+                      <div
+                        className="relative aspect-video overflow-hidden cursor-zoom-in"
+                        onMouseMove={handleMouseMove}
+                      >
+                        <Image
+                          src={project.image}
+                          alt={project.title}
+                          layout="fill"
+                          objectFit="cover"
+                          className="transition-transform duration-300 ease-out group-hover:scale-125"
+                          style={{
+                            transformOrigin: `${mousePosition.x}% ${mousePosition.y}%`,
+                          }}
+                        />
+                      </div>
+                      <div className="p-6">
+                        <div className="flex justify-between items-start mb-4">
+                          <h3
+                            className={`text-xl font-bold ${
+                              isDarkMode ? "text-white" : "text-gray-900"
                             }`}
                           >
-                            <div className="flex items-center gap-2">
-                              <div className="relative w-5 h-5">
-                                <Image
-                                  src={
-                                    skillItem
-                                      ? skillItem.icon
-                                      : "/placeholder.svg?height=20&width=20"
-                                  }
-                                  alt={tech}
-                                  layout="fill"
-                                  objectFit="contain"
-                                  className="transition-transform duration-300"
-                                />
-                              </div>
-                              <span
-                                className={`text-xs font-bold ${
-                                  isDarkMode ? "text-gray-300" : "text-gray-700"
-                                }`}
-                              >
-                                {tech}
-                              </span>
-                            </div>
+                            {project.title}
+                          </h3>
+                          <motion.div
+                            whileHover={{ scale: 1.1 }}
+                            className={`p-2 rounded-full ${
+                              isDarkMode ? "bg-purple-500/20" : "bg-purple-100"
+                            }`}
+                          >
+                            <svg
+                              width="20"
+                              height="20"
+                              viewBox="0 0 20 20"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              className={
+                                isDarkMode ? "text-purple-400" : "text-purple-600"
+                              }
+                            >
+                              <path
+                                d="M5 15L15 5M15 5H8M15 5V12"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
                           </motion.div>
-                        );
-                      })}
+                        </div>
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {project.skills.map((skill, skillIndex) => (
+                            <span
+                              key={skillIndex}
+                              className={`text-xs px-3 py-1 rounded-full ${
+                                isDarkMode
+                                  ? "bg-purple-500/20 text-purple-300"
+                                  : "bg-purple-100 text-purple-700"
+                              }`}
+                            >
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
+
+                  <div className="w-full md:w-1/2 flex flex-col justify-center">
+                    <p
+                      className={`mb-4 ${
+                        isDarkMode ? "text-gray-300" : "text-gray-600"
+                      }`}
+                    >
+                      {project.description}
+                    </p>
+                    <div className="mb-2">
+                      <h4
+                        className={`font-semibold mb-2 ${
+                          isDarkMode ? "text-white" : "text-gray-900"
+                        }`}
+                      >
+                        Technologies Used:
+                      </h4>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                        {project.technologies.map((tech, techIndex) => {
+                          const skillItem = skills.find(
+                            (skill) =>
+                              skill.name.toLowerCase() === tech.toLowerCase()
+                          );
+                          return (
+                            <motion.div
+                              key={techIndex}
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              whileHover={{ scale: 1.02 }}
+                              className={`relative p-2 rounded-xl border transition-all duration-300 ${
+                                isDarkMode
+                                  ? "bg-black/20 border-white/10 hover:border-white/20"
+                                  : "bg-slate-300/70 border-gray-200 hover:border-gray-300"
+                              }`}
+                            >
+                              <div className="flex items-center gap-2">
+                                <div className="relative w-5 h-5">
+                                  <Image
+                                    src={
+                                      skillItem
+                                        ? skillItem.icon
+                                        : "/placeholder.svg?height=20&width=20"
+                                    }
+                                    alt={tech}
+                                    layout="fill"
+                                    objectFit="contain"
+                                    className="transition-transform duration-300"
+                                  />
+                                </div>
+                                <span
+                                  className={`text-xs font-bold ${
+                                    isDarkMode ? "text-gray-300" : "text-gray-700"
+                                  }`}
+                                >
+                                  {tech}
+                                </span>
+                              </div>
+                            </motion.div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatedSection>
             ))}
           </div>
-        </motion.div>
-        {/* "More about me" section */}
-        <motion.div
-          initial={{ y: 90, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-16"
-        >
+        </AnimatedSection>
+
+        <AnimatedSection className="mt-16" animation="fadeRight">
           <div className="container mx-auto px-4 py-12">
             <div
               className={`w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
@@ -573,13 +566,9 @@ export default function Component() {
               </div>
             </div>
           </div>
-        </motion.div>
-        <motion.div
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-16"
-        >
+        </AnimatedSection>
+
+        <AnimatedSection className="mt-16" animation="fadeUp">
           <h2
             className={`text-3xl font-bold mb-8 ${
               isDarkMode ? "text-white" : "text-gray-900"
@@ -589,47 +578,43 @@ export default function Component() {
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-8 gap-4 relative z-10">
             {skills.map((skill, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                whileHover={{ scale: 1.02 }}
-                className={`relative p-4 rounded-2xl border transition-all duration-300 ${
-                  isDarkMode
-                    ? "bg-black/20 border-white/10 hover:border-white/20"
-                    : "bg-slate-300/80 border-gray-200 hover:border-gray-300"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="relative w-7 h-7">
-                    <Image
-                      src={skill.icon}
-                      alt={skill.name}
-                      layout="fill"
-                      objectFit="contain"
-                      className="transition-transform duration-300"
-                    />
+              <AnimatedSection key={index} animation={index % 2 === 0 ? "fadeLeft" : "fadeRight"}>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  whileHover={{ scale: 1.02 }}
+                  className={`relative p-4 rounded-2xl border transition-all duration-300 ${
+                    isDarkMode
+                      ? "bg-black/20 border-white/10 hover:border-white/20"
+                      : "bg-slate-300/80 border-gray-200 hover:border-gray-300"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="relative w-7 h-7">
+                      <Image
+                        src={skill.icon}
+                        alt={skill.name}
+                        layout="fill"
+                        objectFit="contain"
+                        className="transition-transform duration-300"
+                      />
+                    </div>
+                    <span
+                      className={`text-sm font-bold ${
+                        isDarkMode ? "text-gray-300" : "text-gray-700"
+                      }`}
+                    >
+                      {skill.name}
+                    </span>
                   </div>
-                  <span
-                    className={`text-sm font-bold ${
-                      isDarkMode ? "text-gray-300" : "text-gray-700"
-                    }`}
-                  >
-                    {skill.name}
-                  </span>
-                </div>
-              </motion.div>
+                </motion.div>
+              </AnimatedSection>
             ))}
           </div>
-        </motion.div>
+        </AnimatedSection>
       </div>
 
-      <motion.div
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="mt-16"
-      >
+      <AnimatedSection className="mt-16" animation="fadeDown">
         <div className="container mx-auto px-4 py-12">
           <div
             className={`w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
@@ -739,7 +724,7 @@ export default function Component() {
             </div>
           </div>
         </div>
-      </motion.div>
+      </AnimatedSection>
 
       <div className=" pointer-events-none">
         <div
