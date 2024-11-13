@@ -1,3 +1,4 @@
+// SIM, ESSE É O CODIGO DE PORTFOLIO MAIS PORCO QUE VOCE VERA EM TODO O GITHUB, NÃO VOU COMPONENTIZAR E ORGANIZAR, SÓ SE ME PAGAR. SE FUNCIONA É MERITO.
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -38,8 +39,6 @@ import nyx from "@/assets/nyx.png";
 import mep from "@/assets/photo.jpg";
 import { Particles } from "@/components/particles";
 import React from "react";
-
-type NavItem = "HOME" | "ABOUT" | "PROJECTS" | "CONTACT";
 
 const MemoizedParticles = React.memo(Particles);
 
@@ -106,7 +105,6 @@ const skills = [
 
 export default function Component() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
-  const [activeLink, setActiveLink] = useState<NavItem>("HOME");
   const [textIndex, setTextIndex] = useState<number>(0);
   const [showBulb, setShowBulb] = useState(true);
   const [showThemeIcon, setShowThemeIcon] = useState(false);
@@ -176,7 +174,9 @@ export default function Component() {
               ? "bg-gradient-radial from-purple-900/20 via-transparent to-transparent"
               : "bg-gradient-radial from-purple-100/50 via-transparent to-transparent"
           }`}
-        ></div>
+        >
+          <MemoizedParticles />
+        </div>
       </div>
 
       <motion.header
@@ -199,35 +199,6 @@ export default function Component() {
             >
               FaccinDEV
             </motion.span>
-            <div className="hidden md:flex space-x-8">
-              {(["HOME", "ABOUT", "PROJECTS", "CONTACT"] as const).map(
-                (item, index) => (
-                  <motion.div
-                    key={item}
-                    initial={{ y: -20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.1 * index }}
-                  >
-                    <Link
-                      href="#"
-                      className={`relative group py-2 ${
-                        isDarkMode ? "text-white" : "text-gray-800"
-                      }`}
-                      onMouseEnter={() => setActiveLink(item)}
-                    >
-                      <span className="relative z-10">{item}</span>
-                      <span
-                        className={`absolute bottom-0 left-0 w-full h-0.5 bg-purple-500 transform origin-left transition-transform duration-300 ${
-                          activeLink === item
-                            ? "scale-x-100"
-                            : "scale-x-0 group-hover:scale-x-100"
-                        }`}
-                      />
-                    </Link>
-                  </motion.div>
-                )
-              )}
-            </div>
             <AnimatePresence>
               {showThemeIcon && (
                 <motion.div
@@ -379,7 +350,7 @@ export default function Component() {
                 <div className="w-full md:w-1/2">
                   <div
                     className={`group rounded-xl overflow-hidden ${
-                      isDarkMode ? "bg-zinc-800/50" : "bg-white"
+                      isDarkMode ? "bg-zinc-800/50" : "bg-slate-300/70"
                     } backdrop-blur-sm border ${
                       isDarkMode ? "border-white/10" : "border-gray-200"
                     }`}
@@ -480,10 +451,10 @@ export default function Component() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             whileHover={{ scale: 1.02 }}
-                            className={`relative p-2 rounded-xl backdrop-blur-md border transition-all duration-300 ${
+                            className={`relative p-2 rounded-xl border transition-all duration-300 ${
                               isDarkMode
                                 ? "bg-black/20 border-white/10 hover:border-white/20"
-                                : "bg-white/90 border-gray-200 hover:border-gray-300"
+                                : "bg-slate-300/70 border-gray-200 hover:border-gray-300"
                             }`}
                           >
                             <div className="flex items-center gap-2">
@@ -529,13 +500,13 @@ export default function Component() {
             <div
               className={`w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
                 isDarkMode
-                  ? "bg-zinc-800 border-white/10"
-                  : "bg-slate-300 border-gray-200"
+                  ? "bg-zinc-800/80 border-white/10"
+                  : "bg-slate-300/80 border-gray-200"
               }`}
             >
               <div className="flex flex-col md:flex-row items-stretch gap-12 p-8">
                 <div className="w-full md:w-1/2 flex items-center justify-center">
-                  <div className="relative w-full h-0 pb-[100%] rounded-full overflow-hidden border-4 border-purple-500">
+                  <div className="relative w-3/4 h-0 pb-[100%] rounded-full overflow-hidden border-4 border-purple-500">
                     <Image
                       src={mep}
                       alt="Profile"
@@ -623,10 +594,10 @@ export default function Component() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 whileHover={{ scale: 1.02 }}
-                className={`relative p-4 rounded-2xl backdrop-blur-md border transition-all duration-300 ${
+                className={`relative p-4 rounded-2xl border transition-all duration-300 ${
                   isDarkMode
                     ? "bg-black/20 border-white/10 hover:border-white/20"
-                    : "bg-white/90 border-gray-200 hover:border-gray-300"
+                    : "bg-slate-300/80 border-gray-200 hover:border-gray-300"
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -663,8 +634,8 @@ export default function Component() {
           <div
             className={`w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
               isDarkMode
-                ? "bg-zinc-800 border-white/10"
-                : "bg-slate-300 border-gray-200"
+                ? "bg-zinc-800/80 border-white/10"
+                : "bg-slate-300/80 border-gray-200"
             }`}
           >
             <div className="flex flex-col md:flex-row items-stretch gap-12 p-8">
