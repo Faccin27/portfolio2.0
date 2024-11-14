@@ -1,7 +1,16 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Linkedin, Github, Instagram, Mail, Moon, Sun } from 'lucide-react';
+import {
+  Linkedin,
+  Github,
+  Instagram,
+  Mail,
+  Moon,
+  Sun,
+  Globe,
+  Code,
+} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import contactsvg from "@/assets/svgs/email.svg";
@@ -41,7 +50,6 @@ import React from "react";
 import AnimatedSection from "@/components/animatedsection";
 
 const MemoizedParticles = React.memo(Particles);
-
 const projects = [
   {
     title: "Nyx RAT",
@@ -57,6 +65,7 @@ const projects = [
       "Fastify",
       "Motion",
     ],
+    icon: Code,
   },
   {
     title: "Full stack music app",
@@ -65,6 +74,7 @@ const projects = [
       "A complete music streaming application with user authentication, playlist management, and real-time playback features.",
     skills: ["API", "SPA", "Development", "restFull"],
     technologies: ["Vue", "PostgreeSQL", "TypeScript", "Electron"],
+    icon: Globe,
   },
   {
     title: "Notice day",
@@ -73,6 +83,7 @@ const projects = [
       "A complete music streaming application with user authentication, playlist management, and real-time playback features.",
     skills: ["API", "MVC"],
     technologies: ["Handlebars", "Express.js", "MySQL", "Node.js"],
+    icon: Code,
   },
 ];
 
@@ -335,7 +346,10 @@ export default function Component() {
           </h2>
           <div className="space-y-16">
             {projects.map((project, index) => (
-              <AnimatedSection key={index} animation={index % 2 === 0 ? "fadeRight" : "fadeLeft"}>
+              <AnimatedSection
+                key={index}
+                animation={index % 2 === 0 ? "fadeRight" : "fadeLeft"}
+              >
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -382,24 +396,14 @@ export default function Component() {
                               isDarkMode ? "bg-purple-500/20" : "bg-purple-100"
                             }`}
                           >
-                            <svg
-                              width="20"
-                              height="20"
-                              viewBox="0 0 20 20"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
+                            <project.icon
+                              size={20}
                               className={
-                                isDarkMode ? "text-purple-400" : "text-purple-600"
+                                isDarkMode
+                                  ? "text-purple-400"
+                                  : "text-purple-600"
                               }
-                            >
-                              <path
-                                d="M5 15L15 5M15 5H8M15 5V12"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
+                            />
                           </motion.div>
                         </div>
                         <div className="flex flex-wrap gap-2 mb-4">
@@ -470,7 +474,9 @@ export default function Component() {
                                 </div>
                                 <span
                                   className={`text-xs font-bold ${
-                                    isDarkMode ? "text-gray-300" : "text-gray-700"
+                                    isDarkMode
+                                      ? "text-gray-300"
+                                      : "text-gray-700"
                                   }`}
                                 >
                                   {tech}
@@ -578,7 +584,10 @@ export default function Component() {
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-8 gap-4 relative z-10">
             {skills.map((skill, index) => (
-              <AnimatedSection key={index} animation={index % 2 === 0 ? "fadeLeft" : "fadeRight"}>
+              <AnimatedSection
+                key={index}
+                animation={index % 2 === 0 ? "fadeLeft" : "fadeRight"}
+              >
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
