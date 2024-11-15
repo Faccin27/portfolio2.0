@@ -66,6 +66,7 @@ const projects = [
       "Motion",
     ],
     icon: Code,
+    link: "https://github.com/Faccin27/Nyx---Stealthy-Remote-Access-Tool-RAT",
   },
   {
     title: "Full stack music app",
@@ -75,6 +76,7 @@ const projects = [
     skills: ["API", "SPA", "Development", "restFull"],
     technologies: ["Vue", "PostgreeSQL", "TypeScript", "Electron"],
     icon: Globe,
+    link: "https://github.com/Faccin27",
   },
   {
     title: "Notice day",
@@ -84,9 +86,9 @@ const projects = [
     skills: ["API", "MVC"],
     technologies: ["Handlebars", "Express.js", "MySQL", "Node.js"],
     icon: Code,
+    link: "https://github.com/Faccin27/Portal_Noticias",
   },
-];
-
+]
 const skills = [
   { name: "HTML5", icon: html },
   { name: "CSS3", icon: css },
@@ -206,9 +208,12 @@ export default function Component() {
               transition={{ delay: 0.2 }}
               className={`font-bold text-xl md:text-2xl tracking-wider ${
                 isDarkMode ? "text-purple-500" : "text-purple-700"
-              }`}
+              } relative`}
             >
-              FaccinDEV
+              <span className="relative z-10">FaccinDEV</span>
+              <span className={`absolute inset-0 blur-md ${
+                isDarkMode ? "bg-purple-500/30" : "bg-purple-300/30"
+              }`}></span>
             </motion.span>
             <AnimatePresence>
               {showThemeIcon && (
@@ -390,21 +395,22 @@ export default function Component() {
                           >
                             {project.title}
                           </h3>
-                          <motion.div
-                            whileHover={{ scale: 1.1 }}
-                            className={`p-2 rounded-full ${
-                              isDarkMode ? "bg-purple-500/20" : "bg-purple-100"
-                            }`}
-                          >
-                            <project.icon
-                              size={20}
-                              className={
-                                isDarkMode
-                                  ? "text-purple-400"
-                                  : "text-purple-600"
-                              }
-                            />
-                          </motion.div>
+                          <Link href={project.link} target="_blank" rel="noopener noreferrer">
+                        <motion.div
+                          whileHover={{ scale: 1.1 }}
+                          className={`p-2 rounded-full ${
+                            isDarkMode ? "bg-purple-500/20" : "bg-purple-100"
+                          }`}
+                        >
+                          <project.icon
+                            size={20}
+                            className={
+                              isDarkMode ? "text-purple-400" : "text-purple-600"
+                            }
+                          />
+                        </motion.div>
+                      </Link>
+
                         </div>
                         <div className="flex flex-wrap gap-2 mb-4">
                           {project.skills.map((skill, skillIndex) => (
