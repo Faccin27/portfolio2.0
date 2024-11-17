@@ -10,6 +10,7 @@ import {
   Sun,
   Globe,
   Code,
+  Phone
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -176,6 +177,13 @@ export default function Component() {
     window.scrollTo(0, 0);
   }, []);
 
+  const socialLinks = [
+    { Icon: Linkedin, href: "https://www.linkedin.com/in/guilherme-faccin-5b71a5172/" },
+    { Icon: Github, href: "https://github.com/Faccin27" },
+    { Icon: Mail, href: "mailto:gfaccin27@gmail.com" },
+    { Icon: Phone, href: "https://wa.me/49999215720" } 
+  ]
+
   return (
     <div
       className={`min-h-screen ${isDarkMode ? "bg-zinc-900" : "bg-gray-100"}`}
@@ -324,14 +332,16 @@ export default function Component() {
                 nisi ut aliquip ex ea commodo consequat.
               </p>
               <div className="flex space-x-6">
-                {[Linkedin, Github, Instagram, Mail].map((Icon, index) => (
+                {socialLinks.map(({ Icon, href }, index) => (
                   <motion.div
                     key={index}
                     whileHover={{ scale: 1.2, rotate: 5 }}
                     whileTap={{ scale: 0.9 }}
                   >
                     <Link
-                      href="#"
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className={`${
                         isDarkMode ? "text-white" : "text-gray-800"
                       } hover:text-purple-500 transition-colors duration-300`}
