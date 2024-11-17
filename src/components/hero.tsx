@@ -180,18 +180,6 @@ export default function Component() {
     <div
       className={`min-h-screen ${isDarkMode ? "bg-zinc-900" : "bg-gray-100"}`}
     >
-      <div className="fixed inset-0 pointer-events-none">
-        <div
-          className={`absolute inset-0 opacity-75 transition-opacity duration-500 ${
-            isDarkMode
-              ? "bg-gradient-radial from-purple-900/20 via-transparent to-transparent"
-              : "bg-gradient-radial from-purple-100/50 via-transparent to-transparent"
-          }`}
-        >
-          <MemoizedParticles />
-        </div>
-      </div>
-
       <motion.header
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -244,7 +232,7 @@ export default function Component() {
               onClick={toggleTheme}
             >
               <div className="relative">
-                <div className="absolute bottom-0 left-[43%] transform -translate-x-1/2 -translate-y-5 bg-white rounded-full filter blur-md h-8 w-8"></div>{" "}
+                <div className="absolute bottom-0 left-[43%] transform -translate-x-1/2 -translate-y-5 bg-white rounded-full filter blur-md h-8 w-8"></div>
                 <div className="relative z-10">
                   <Image
                     src={bulb}
@@ -255,6 +243,22 @@ export default function Component() {
                       isDarkMode ? "filter-none" : "brightness-75"
                     }`}
                   />
+                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full mb-2">
+                    <svg viewBox="0 0 100 25" className="w-full">
+                      <defs>
+                        <path
+                          id="curve"
+                          d="M 0 0 Q 50 50 100 0"
+                          fill="transparent"
+                        />
+                      </defs>
+                      <text fill="white" fontSize="10">
+                        <textPath href="#curve" startOffset="40%" textAnchor="middle">
+                          Light mode
+                        </textPath>
+                      </text>
+                    </svg>
+                  </div>
                 </div>
               </div>
             </motion.div>
