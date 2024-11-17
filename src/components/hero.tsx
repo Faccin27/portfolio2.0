@@ -188,6 +188,17 @@ export default function Component() {
     <div
       className={`min-h-screen ${isDarkMode ? "bg-zinc-900" : "bg-gray-100"}`}
     >
+      <div className="fixed inset-0 pointer-events-none">
+        <div
+          className={`absolute inset-0 opacity-75 transition-opacity duration-500 ${
+            isDarkMode
+              ? "bg-gradient-radial from-purple-900/20 via-transparent to-transparent"
+              : "bg-gradient-radial from-purple-100/50 via-transparent to-transparent"
+          }`}
+        >
+          <MemoizedParticles />
+        </div>
+      </div>
       <motion.header
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
