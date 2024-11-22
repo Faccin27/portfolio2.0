@@ -56,7 +56,7 @@ const projects = [
     title: "Nyx RAT",
     image: nyx,
     description:
-      "A complete music streaming application with user authentication, playlist management, and real-time playback features.",
+      "A remote access trojan with stealing and additional features, fully controlled through your browser, and it also supports Discord webhooks.",
     skills: ["Development", "API"],
     technologies: [
       "Python",
@@ -83,7 +83,7 @@ const projects = [
     title: "Notice day",
     image: noticeday,
     description:
-      "A complete music streaming application with user authentication, playlist management, and real-time playback features.",
+      "A news website with options to like, comment, post news, job offers, events, and other items.",
     skills: ["API", "MVC"],
     technologies: ["Handlebars", "Express.js", "MySQL", "Node.js"],
     icon: Code,
