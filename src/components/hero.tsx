@@ -346,10 +346,12 @@ export default function Component() {
                   isDarkMode ? "text-gray-300" : "text-gray-600"
                 }`}
               >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                Sou um desenvolvedor com experiência em tecnologias como
+                JavaScript, React e Node.js. Busco criar soluções claras,
+                robustas, escalaveis e profissionais, sempre com foco em
+                performance e experiência do usuário. Tenho como objetivo
+                entregar aplicações de alta qualidade que atendam às
+                necessidades reais dos projetos.
               </p>
               <div className="flex space-x-6">
                 {socialLinks.map(({ Icon, href }, index) => (
@@ -580,18 +582,18 @@ export default function Component() {
                         { label: "Freelance", value: "Avaliable" },
                       ].map((item, index) => (
                         <div
-                          key={index}
-                          className="flex items-center space-x-2"
+                        key={index}
+                        className="flex flex-col sm:flex-row sm:items-center sm:space-x-2"
+                      >
+                        <p
+                          className={`text-base sm:text-lg ${
+                            isDarkMode ? "text-gray-400" : "text-gray-600"
+                          }`}
                         >
-                          <p
-                            className={`text-lg ${
-                              isDarkMode ? "text-gray-400" : "text-gray-600"
-                            }`}
-                          >
                             {item.label}:
                           </p>
                           <p
-                            className={`text-xl font-medium ${
+                            className={`text-lg sm:text-xl font-medium ${
                               isDarkMode ? "text-white" : "text-gray-900"
                             }`}
                           >
@@ -604,20 +606,22 @@ export default function Component() {
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
+                    className="mt-6 md:mt-8"
                   >
                     <a
                       href="https://github.com/Faccin27"
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="inline-block w-full sm:w-auto"
                     >
                       <button
-                        className={`px-6 py-2 rounded-xl cursor-pointer ${
+                        className={`w-full sm:w-auto px-6 py-2 rounded-xl cursor-pointer ${
                           isDarkMode
                             ? "bg-purple-500 hover:bg-purple-600"
                             : "bg-purple-600 hover:bg-purple-700"
                         } text-white transition-colors duration-300`}
                       >
-                        View All Projects
+                        Ver Todos os Projetos
                       </button>
                     </a>
                   </motion.div>
