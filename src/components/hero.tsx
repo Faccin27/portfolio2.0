@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import {
   Linkedin,
   Github,
-  Instagram,
   Mail,
   Moon,
   Sun,

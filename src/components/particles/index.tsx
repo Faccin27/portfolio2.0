@@ -8,31 +8,29 @@ export interface ParticlesProps {
 }
 
 export const Particles = ({ isLoaded }: ParticlesProps) => {
-  let config = json;
+  const config = { ...json }; // Mantém `config` imutável e evita alterar diretamente o arquivo importado
 
-  if (typeof window !== "undefined") {
-    // detect window screen width function
-    if (window.innerWidth < 600) {
-      config.particles.number.value = 30;
-    }
+  if (typeof window !== "undefined" && window.innerWidth < 600) {
+    config.particles.number.value = 30;
   }
 
   const particlesInit = async (main: Engine) => {
     await loadFull(main);
   };
 
-  const particlesLoaded = async (_: Container | undefined) => {
-    isLoaded && isLoaded();
-  };
+const particlesLoaded = async (_container?: Container): Promise<void> => {
+  if (isLoaded) {
+    isLoaded();
+  }
+};
+
 
   return (
-    <>
-      <TsParticles
-        id={"tsparticles"}
-        init={particlesInit}
-        loaded={particlesLoaded}
-        options={config as any}
-      />
-    </>
+    <TsParticles
+      id="tsparticles"
+      init={particlesInit}
+      loaded={particlesLoaded}
+      options={config as any}
+    />
   );
 };
