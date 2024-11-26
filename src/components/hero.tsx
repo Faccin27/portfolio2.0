@@ -188,7 +188,7 @@ export default function Component() {
 
   return (
     <div
-      className={`min-h-screen ${isDarkMode ? "bg-zinc-900" : "bg-gray-100"}`}
+      className={`min-h-screen overflow-x-hidden ${isDarkMode ? "bg-zinc-900" : "bg-gray-100"}`}
     >
       <div className="fixed inset-0 pointer-events-none">
         <div
