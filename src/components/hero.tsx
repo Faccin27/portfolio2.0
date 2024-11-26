@@ -89,6 +89,7 @@ const projects = [
     link: "https://github.com/Faccin27/Portal_Noticias",
   },
 ];
+
 const skills = [
   { name: "HTML5", icon: html },
   { name: "CSS3", icon: css },
@@ -188,7 +189,9 @@ export default function Component() {
 
   return (
     <div
-      className={`min-h-screen overflow-x-hidden ${isDarkMode ? "bg-zinc-900" : "bg-gray-100"}`}
+      className={`min-h-screen overflow-x-hidden ${
+        isDarkMode ? "bg-zinc-900" : "bg-gray-100"
+      }`}
     >
       <div className="fixed inset-0 pointer-events-none">
         <div
@@ -197,9 +200,8 @@ export default function Component() {
               ? "bg-gradient-radial from-purple-900/20 via-transparent to-transparent"
               : "bg-gradient-radial from-purple-100/50 via-transparent to-transparent"
           }`}
-        >
-          <MemoizedParticles />
-        </div>
+        ></div>
+        <MemoizedParticles />
       </div>
       <motion.header
         initial={{ y: -50, opacity: 0 }}
@@ -345,12 +347,11 @@ export default function Component() {
                   isDarkMode ? "text-gray-300" : "text-gray-600"
                 }`}
               >
-                Sou um desenvolvedor com experiência em tecnologias como
-                JavaScript, React e Node.js. Busco criar soluções claras,
-                robustas, escalaveis e profissionais, sempre com foco em
-                performance e experiência do usuário. Tenho como objetivo
-                entregar aplicações de alta qualidade que atendam às
-                necessidades reais dos projetos.
+                I am a developer with experience in JavaScript, React, and
+                Node.js. I work to create simple, strong, and scalable
+                solutions, always focusing on performance and user experience.
+                My goal is to deliver high-quality applications that meet
+                project needs.
               </p>
               <div className="flex space-x-6">
                 {socialLinks.map(({ Icon, href }, index) => (
@@ -545,15 +546,15 @@ export default function Component() {
         <AnimatedSection className="mt-16" animation="fadeRight">
           <div className="container mx-auto px-4 py-12">
             <div
-              className={`w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
+              className={`w-full sm:w-11/12 md:w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
                 isDarkMode
                   ? "bg-zinc-800/80 border-white/10"
                   : "bg-slate-300/80 border-gray-200"
               }`}
             >
-              <div className="flex flex-col md:flex-row items-stretch gap-12 p-8">
+              <div className="flex flex-col md:flex-row items-center md:items-stretch gap-12 p-6 md:p-8">
                 <div className="w-full md:w-1/2 flex items-center justify-center">
-                  <div className="relative w-3/4 h-0 pb-[100%] rounded-full overflow-hidden border-4 border-purple-500 shadow-[0_0_30px_15px_rgba(147,51,234,0.3)]">
+                <div className="relative w-3/4 h-0 pb-[100%] rounded-full overflow-hidden border-4 border-purple-500 shadow-[0_0_30px_15px_rgba(147,51,234,0.3)]">
                     <Image
                       src={mep}
                       alt="Profile"
@@ -562,37 +563,37 @@ export default function Component() {
                     />
                   </div>
                 </div>
-                <div className="w-full md:w-1/2 flex flex-col justify-between space-y-6 py-8">
-                  <div className="space-y-8">
+                <div className="w-full md:w-1/2 flex flex-col justify-between space-y-6 py-4 md:py-8">
+                  <div className="space-y-6">
                     <h2
-                      className={`text-4xl font-bold ${
+                      className={`text-3xl sm:text-4xl md:text-2xl font-bold whitespace-nowrap ${
                         isDarkMode ? "text-white" : "text-gray-900"
                       }`}
                     >
                       More about me
                     </h2>
-                    <div className="space-y-6">
+                    <div className="space-y-4 md:space-y-6">
                       {[
                         { label: "Name", value: "Guilherme Faccin" },
                         { label: "Experience", value: "3 Years" },
                         { label: "Specialty", value: "Fullstack Developer" },
                         { label: "Email", value: "gfaccin27@gmail.com" },
                         { label: "Phone", value: "(49) 999215720" },
-                        { label: "Freelance", value: "Avaliable" },
+                        { label: "Freelance", value: "Available" },
                       ].map((item, index) => (
                         <div
-                        key={index}
-                        className="flex flex-col sm:flex-row sm:items-center sm:space-x-2"
-                      >
-                        <p
-                          className={`text-base sm:text-lg ${
-                            isDarkMode ? "text-gray-400" : "text-gray-600"
-                          }`}
+                          key={index}
+                          className="flex flex-col sm:flex-row sm:items-center sm:space-x-2"
                         >
+                          <p
+                            className={`text-sm sm:text-base md:text-lg ${
+                              isDarkMode ? "text-gray-400" : "text-gray-600"
+                            }`}
+                          >
                             {item.label}:
                           </p>
                           <p
-                            className={`text-lg sm:text-xl font-medium ${
+                            className={`text-base sm:text-lg md:text-xl font-medium ${
                               isDarkMode ? "text-white" : "text-gray-900"
                             }`}
                           >
@@ -605,7 +606,7 @@ export default function Component() {
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="mt-6 md:mt-8"
+                    className="mt-4 md:mt-6"
                   >
                     <a
                       href="https://github.com/Faccin27"
