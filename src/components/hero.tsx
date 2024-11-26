@@ -248,51 +248,53 @@ export default function Component() {
           </div>
         </nav>
         <AnimatePresence>
-          {showBulb && (
-            <motion.div
-              initial={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.5 }}
-              className="absolute top-full left-1/3 transform -translate-x-1/2 cursor-pointer z-50"
-              style={{ marginTop: "-8px" }}
-              onClick={toggleTheme}
-            >
-              <div className="relative">
-                <div className="absolute bottom-0 left-[43%] transform -translate-x-1/2 -translate-y-5 bg-white rounded-full filter blur-md h-8 w-8"></div>
-                <div className="relative z-10">
-                  <Image
-                    src={bulb}
-                    alt="Light Bulb"
-                    width={100}
-                    height={120}
-                    className={`transition-all duration-500 ${
-                      isDarkMode ? "filter-none" : "brightness-75"
-                    }`}
-                  />
-                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full mb-2">
-                    <svg viewBox="0 0 100 25" className="w-full">
-                      <defs>
-                        <path
-                          id="curve"
-                          d="M 0 0 Q 50 50 100 0"
-                          fill="transparent"
-                        />
-                      </defs>
-                      <text fill="white" fontSize="10">
-                        <textPath
-                          href="#curve"
-                          startOffset="40%"
-                          textAnchor="middle"
-                        >
-                          Light mode
-                        </textPath>
-                      </text>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+  {showBulb && (
+    <motion.div
+      initial={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.5 }}
+      className="absolute top-full left-1/3 max-sm:left-3/4 transform -translate-x-1/2 cursor-pointer z-50"
+      style={{ marginTop: "-8px" }}
+      onClick={toggleTheme}
+    >
+      <div className="relative">
+        <div className="absolute bottom-0 left-[43%] transform -translate-x-1/2 -translate-y-5 bg-white rounded-full filter blur-md h-8 w-8"></div>
+        <div className="relative z-10">
+          <Image
+            src={bulb}
+            alt="Light Bulb"
+            width={100}
+            height={120}
+            className={`transition-all duration-500 ${
+              isDarkMode ? "filter-none" : "brightness-75"
+            }`}
+          />
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full mb-2">
+            <svg viewBox="0 0 100 25" className="w-full">
+              <defs>
+                <path
+                  id="curve"
+                  d="M 0 0 Q 50 50 100 0"
+                  fill="transparent"
+                />
+              </defs>
+              <text fill="white" fontSize="10">
+                <textPath
+                  href="#curve"
+                  startOffset="40%"
+                  textAnchor="middle"
+                >
+                  Light mode
+                </textPath>
+              </text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
+
       </motion.header>
 
       <div className="container mx-auto px-4 mt-20 pt-16">
