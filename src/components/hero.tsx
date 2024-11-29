@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useAudio } from "@/hooks/useAudio";
 import {
   Linkedin,
   Github,
@@ -48,6 +49,7 @@ import mep from "@/assets/photo.jpg";
 import { Particles } from "@/components/particles";
 import React from "react";
 import AnimatedSection from "@/components/animatedsection";
+// import hoversound from '../assets/sounds/hover.wav'
 
 const MemoizedParticles = React.memo(Particles);
 const projects = [
@@ -119,6 +121,8 @@ const skills = [
 
 export default function Component() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+  const [hoverSound, toggleHoverSound] = useAudio('/hover.wav');
+  const [clickSound, toggleClickSound] = useAudio('/click.wav');
   const [textIndex, setTextIndex] = useState<number>(0);
   const [showBulb, setShowBulb] = useState(true);
   const [showThemeIcon, setShowThemeIcon] = useState(false);
@@ -133,6 +137,15 @@ export default function Component() {
   ];
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+
+  const playSound = (isHover: boolean) => {
+    if (isHover) {
+      toggleHoverSound();
+    } else {
+      toggleClickSound();
+    }
+  };
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -181,12 +194,28 @@ export default function Component() {
     {
       Icon: Linkedin,
       href: "https://www.linkedin.com/in/guilherme-faccin-5b71a5172/",
+      onMouseEnter: () => playSound(true),
+      onClick: () => playSound(false),
     },
-    { Icon: Github, href: "https://github.com/Faccin27" },
-    { Icon: Mail, href: "mailto:gfaccin27@gmail.com" },
-    { Icon: Phone, href: "https://wa.me/49999215720" },
+    {
+      Icon: Github,
+      href: "https://github.com/Faccin27",
+      onMouseEnter: () => playSound(true),
+      onClick: () => playSound(false),
+    },
+    {
+      Icon: Mail,
+      href: "mailto:gfaccin27@gmail.com",
+      onMouseEnter: () => playSound(true),
+      onClick: () => playSound(false),
+    },
+    {
+      Icon: Phone,
+      href: "https://wa.me/49999215720",
+      onMouseEnter: () => playSound(true),
+      onClick: () => playSound(false),
+    },
   ];
-
   return (
     <div
       className={`min-h-screen overflow-x-hidden ${
@@ -353,24 +382,26 @@ export default function Component() {
                 My goal is to deliver high-quality applications that meet
                 project needs.
               </p>
-              <div className="flex space-x-6">
-                {socialLinks.map(({ Icon, href }, index) => (
-                  <motion.div
-                    key={index}
-                    whileHover={{ scale: 1.2, rotate: 5 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <Link
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`${
-                        isDarkMode ? "text-white" : "text-gray-800"
-                      } hover:text-purple-500 transition-colors duration-300`}
-                    >
-                      <Icon size={24} />
-                    </Link>
-                  </motion.div>
+              <div className="flex space-x-4">
+        {socialLinks.map(({ Icon, href, onMouseEnter, onClick }, index) => (
+          <motion.div
+            key={index}
+            whileHover={{ scale: 1.2, rotate: 5 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <Link
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${
+                isDarkMode ? "text-white" : "text-gray-800"
+              } hover:text-purple-500 transition-colors duration-300`}
+              onMouseEnter={onMouseEnter}
+              onClick={onClick}
+            >
+              <Icon size={24} />
+            </Link>
+          </motion.div>
                 ))}
               </div>
             </motion.div>
