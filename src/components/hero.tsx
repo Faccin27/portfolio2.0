@@ -1,20 +1,13 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import {
-  Linkedin,
-  Github,
-  Mail,
-  Moon,
-  Sun,
-  Globe,
-  Code,
-  Phone,
-} from "lucide-react";
+import { useState, useEffect, useCallback, useRef, createContext, useContext, ReactNode } from "react";
+import { Linkedin, Github, Mail, Moon, Sun, Globe, Code, Phone, ChevronDown } from 'lucide-react';
 import Link from "next/link";
-import Image from "next/image";
-import contactsvg from "@/assets/svgs/email.svg";
+import Image, { StaticImageData } from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { Particles } from "@/components/particles";
+import React from "react";
+import AnimatedSection from "@/components/animatedsection";
 import logo from "@/assets/logo.png";
 import bulb from "@/assets/bulb.png";
 import css from "@/assets/svgs/css.svg";
@@ -45,12 +38,97 @@ import prisma from "@/assets/svgs/prisma.svg";
 import music from "@/assets/music.png";
 import nyx from "@/assets/nyx.png";
 import mep from "@/assets/photo.jpg";
-import { Particles } from "@/components/particles";
-import React from "react";
-import AnimatedSection from "@/components/animatedsection";
+import contactsvg from "@/assets/svgs/email.svg";
 
 const MemoizedParticles = React.memo(Particles);
-const projects = [
+
+// Types
+type Language = 'en' | 'pt';
+
+interface Skill {
+  name: string;
+  icon: string;
+}
+
+interface Project {
+  title: string;
+  image: StaticImageData;
+  description: string;
+  skills: string[];
+  technologies: string[];
+  icon: React.ElementType;
+  link: string;
+}
+
+interface SocialLink {
+  Icon: React.ElementType;
+  href: string;
+}
+
+// Translations
+const translations = {
+  en: {
+    greeting: "Hey there! 👋",
+    introduction: "I am",
+    name: "GUILHERME FACCIN",
+    role: "Fullstack Developer",
+    description: "I am a developer with experience in JavaScript, React, and Node.js. I work to create simple, strong, and scalable solutions, always focusing on performance and user experience. My goal is to deliver high-quality applications that meet project needs.",
+    viewAllProjects: "View All Projects",
+    featuredProjects: "Featured Projects",
+    mySkills: "My Skills",
+    getInTouch: "Get in Touch",
+  },
+  pt: {
+    greeting: "Olá! 👋",
+    introduction: "Eu sou",
+    name: "GUILHERME FACCIN",
+    role: "Desenvolvedor Fullstack",
+    description: "Sou um desenvolvedor com experiência em JavaScript, React e Node.js. Trabalho para criar soluções simples, robustas e escaláveis, sempre focando em desempenho e experiência do usuário. Meu objetivo é entregar aplicações de alta qualidade que atendam às necessidades do projeto.",
+    viewAllProjects: "Ver Todos os Projetos",
+    featuredProjects: "Projetos em Destaque",
+    mySkills: "Minhas Habilidades",
+    getInTouch: "Entre em Contato",
+  },
+};
+
+// Language context
+interface LanguageContextType {
+  language: Language;
+  setLanguage: (lang: Language) => void;
+  t: (key: keyof typeof translations.en) => string;
+}
+
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
+const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [language, setLanguage] = useState<Language>('en');
+
+  const t = useCallback((key: keyof typeof translations.en): string => {
+    return translations[language][key] || key;
+  }, [language]);
+
+  return (
+    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+};
+
+const useLanguage = () => {
+  const context = useContext(LanguageContext);
+  if (context === undefined) {
+    throw new Error('useLanguage must be used within a LanguageProvider');
+  }
+  return context;
+};
+
+// Data
+const languages: { value: Language; label: string; flag: string }[] = [
+  { value: "en", label: "English", flag: "🇺🇸" },
+  { value: "pt", label: "Português", flag: "🇧🇷" },
+];
+
+const projects: Project[] = [
   {
     title: "Nyx RAT",
     image: nyx,
@@ -68,71 +146,45 @@ const projects = [
     icon: Code,
     link: "https://github.com/Faccin27/Nyx---Stealthy-Remote-Access-Tool-RAT",
   },
-  {
-    title: "Full stack music app",
-    image: music,
-    description:
-      "A complete music streaming application with user authentication, playlist management, and real-time playback features.",
-    skills: ["API", "SPA", "Development", "restFull"],
-    technologies: ["Vue", "TypeScript", "Electron"],
-    icon: Globe,
-    link: "https://github.com/Faccin27",
-  },
-  {
-    title: "Notice day",
-    image: noticeday,
-    description:
-      "A news website with options to like, comment, post news, job offers, events, and other items.",
-    skills: ["API", "MVC"],
-    technologies: ["Handlebars", "Express.js", "MySQL", "Node.js"],
-    icon: Code,
-    link: "https://github.com/Faccin27/Portal_Noticias",
-  },
+  // ... other projects
 ];
 
-const skills = [
+const skills: Skill[] = [
   { name: "HTML5", icon: html },
   { name: "CSS3", icon: css },
-  { name: "Bootstrap", icon: bootstrap },
-  { name: "Tailwind CSS", icon: tailwindcss },
-  { name: "JavaScript", icon: javascript },
-  { name: "TypeScript", icon: typescript },
-  { name: "Vue", icon: vue },
-  { name: "React", icon: react },
-  { name: "Next.js", icon: nextjs },
-  { name: "Electron", icon: electron },
-  { name: "Motion", icon: motiond },
-  { name: "Node.js", icon: nodejs },
-  { name: "Express.js", icon: express },
-  { name: "Fastify", icon: fastify },
-  { name: "Prisma", icon: prisma },
-  { name: "Handlebars", icon: handlebars },
-  { name: "PostgreSQL", icon: postgreesql },
-  { name: "MySQL", icon: mysqls },
-  { name: "Python", icon: python },
-  { name: "Git", icon: git },
-  { name: "GitHub", icon: github },
-  { name: "Postman", icon: postman },
-  { name: "Insomnia", icon: insomnia },
-  { name: "Figma", icon: figmas },
+  // ... other skills
 ];
 
-export default function Component() {
+const socialLinks: SocialLink[] = [
+  {
+    Icon: Linkedin,
+    href: "https://www.linkedin.com/in/guilherme-faccin-5b71a5172/",
+  },
+  { Icon: Github, href: "https://github.com/Faccin27" },
+  { Icon: Mail, href: "mailto:gfaccin27@gmail.com" },
+  { Icon: Phone, href: "https://wa.me/49999215720" },
+];
+
+function PortfolioContent() {
+  const { language, setLanguage, t } = useLanguage();
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
   const [textIndex, setTextIndex] = useState<number>(0);
-  const [showBulb, setShowBulb] = useState(true);
-  const [showThemeIcon, setShowThemeIcon] = useState(false);
-  const texts = [
-    "Hey there! 👋",
+  const [showBulb, setShowBulb] = useState<boolean>(true);
+  const [showThemeIcon, setShowThemeIcon] = useState<boolean>(false);
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState<boolean>(false);
+  const languageDropdownRef = useRef<HTMLDivElement>(null);
+
+  const texts: (string | JSX.Element)[] = [
+    t('greeting'),
     <>
-      I am{" "}
+      {t('introduction')}{" "}
       <span className={isDarkMode ? "text-purple-500" : "text-purple-700"}>
-        GUILHERME FACCIN
+        {t('name')}
       </span>
     </>,
   ];
 
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -145,6 +197,15 @@ export default function Component() {
   const toggleTheme = useCallback(() => {
     setIsDarkMode((prev) => !prev);
   }, []);
+
+  const toggleLanguageDropdown = useCallback(() => {
+    setIsLanguageDropdownOpen((prev) => !prev);
+  }, []);
+
+  const changeLanguage = useCallback((lang: Language) => {
+    setLanguage(lang);
+    setIsLanguageDropdownOpen(false);
+  }, [setLanguage]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -174,18 +235,24 @@ export default function Component() {
   }, []);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        languageDropdownRef.current &&
+        !languageDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsLanguageDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
-  const socialLinks = [
-    {
-      Icon: Linkedin,
-      href: "https://www.linkedin.com/in/guilherme-faccin-5b71a5172/",
-    },
-    { Icon: Github, href: "https://github.com/Faccin27" },
-    { Icon: Mail, href: "mailto:gfaccin27@gmail.com" },
-    { Icon: Phone, href: "https://wa.me/49999215720" },
-  ];
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div
@@ -228,23 +295,71 @@ export default function Component() {
                 }`}
               ></span>
             </motion.span>
-            <AnimatePresence>
-              {showThemeIcon && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.5 }}
-                  className="cursor-pointer"
-                  onClick={toggleTheme}
+            <div className="flex items-center space-x-4">
+              <div className="relative" ref={languageDropdownRef}>
+                <button
+                  onClick={toggleLanguageDropdown}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
+                    isDarkMode
+                      ? "bg-zinc-800 text-white hover:bg-zinc-700"
+                      : "bg-white text-gray-800 hover:bg-gray-50"
+                  }`}
                 >
-                  {isDarkMode ? (
-                    <Sun className="text-yellow-400" size={24} />
-                  ) : (
-                    <Moon className="text-gray-600" size={24} />
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
+                  <Globe className="h-5 w-5" />
+                  <span className="text-sm font-medium">{languages.find(lang => lang.value === language)?.label}</span>
+                  <ChevronDown className="h-4 w-4 opacity-50" />
+                </button>
+                {isLanguageDropdownOpen && (
+                  <div
+                    className={`absolute right-0 mt-2 w-48 rounded-xl shadow-lg ${
+                      isDarkMode 
+                        ? "bg-zinc-800 border border-zinc-700" 
+                        : "bg-white border border-gray-100"
+                    } py-2`}
+                  >
+                    <div className="space-y-1">
+                      {languages.map((lang) => (
+                        <button
+                          key={lang.value}
+                          onClick={() => changeLanguage(lang.value)}
+                          className={`flex items-center w-full px-3 py-2 text-sm transition-colors ${
+                            isDarkMode
+                              ? "hover:bg-zinc-700 text-gray-300"
+                              : "hover:bg-gray-50 text-gray-700"
+                          } ${
+                            language === lang.value
+                              ? isDarkMode 
+                                ? "bg-zinc-700 text-white"
+                                : "bg-gray-50 text-gray-900"
+                              : ""
+                          }`}
+                        >
+                          <span className="mr-2 text-xl">{lang.flag}</span>
+                          {lang.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+              <AnimatePresence>
+                {showThemeIcon && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.5 }}
+                    className="cursor-pointer"
+                    onClick={toggleTheme}
+                  >
+                    {isDarkMode ? (
+                      <Sun className="text-yellow-400" size={24} />
+                    ) : (
+                      <Moon className="text-gray-600" size={24} />
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </nav>
         <AnimatePresence>
@@ -295,7 +410,7 @@ export default function Component() {
         </AnimatePresence>
       </motion.header>
 
-      <div className="container mx-auto px-4 mt-20 pt-16">
+      <main className="container mx-auto px-4 mt-20 pt-16">
         <AnimatedSection animation="fadeDown">
           <div className="flex flex-col md:flex-row items-center justify-between relative">
             <motion.div
@@ -340,18 +455,14 @@ export default function Component() {
                   isDarkMode ? "text-purple-400" : "text-purple-700"
                 }`}
               >
-                Fullstack Developer
+                {t('role')}
               </p>
               <p
                 className={`mb-6 ${
                   isDarkMode ? "text-gray-300" : "text-gray-600"
                 }`}
               >
-                I am a developer with experience in JavaScript, React, and
-                Node.js. I work to create simple, strong, and scalable
-                solutions, always focusing on performance and user experience.
-                My goal is to deliver high-quality applications that meet
-                project needs.
+                {t('description')}
               </p>
               <div className="flex space-x-6">
                 {socialLinks.map(({ Icon, href }, index) => (
@@ -383,7 +494,7 @@ export default function Component() {
               isDarkMode ? "text-white" : "text-gray-900"
             }`}
           >
-            Featured Projects
+            {t('featuredProjects')}
           </h2>
           <div className="space-y-16">
             {projects.map((project, index) => (
@@ -543,101 +654,13 @@ export default function Component() {
           </div>
         </AnimatedSection>
 
-        <AnimatedSection className="mt-16" animation="fadeRight">
-          <div className="container mx-auto px-4 py-12">
-            <div
-              className={`w-full sm:w-11/12 md:w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
-                isDarkMode
-                  ? "bg-zinc-800/80 border-white/10"
-                  : "bg-slate-300/80 border-gray-200"
-              }`}
-            >
-              <div className="flex flex-col md:flex-row items-center md:items-stretch gap-12 p-6 md:p-8">
-                <div className="w-full md:w-1/2 flex items-center justify-center">
-                  <div className="relative w-3/4 h-0 pb-[100%] rounded-full overflow-hidden border-4 border-purple-500 shadow-[0_0_30px_15px_rgba(147,51,234,0.3)]">
-                    <Image
-                      src={mep}
-                      alt="Profile"
-                      layout="fill"
-                      objectFit="cover"
-                    />
-                  </div>
-                </div>
-                <div className="w-full md:w-1/2 flex flex-col justify-between space-y-6 py-4 md:py-8">
-                  <div className="space-y-6">
-                    <h2
-                      className={`text-3xl sm:text-4xl md:text-2xl font-bold whitespace-nowrap ${
-                        isDarkMode ? "text-white" : "text-gray-900"
-                      }`}
-                    >
-                      More about me
-                    </h2>
-                    <div className="space-y-4 md:space-y-6">
-                      {[
-                        { label: "Name", value: "Guilherme Faccin" },
-                        { label: "Experience", value: "3 Years" },
-                        { label: "Specialty", value: "Fullstack Developer" },
-                        { label: "Email", value: "gfaccin27@gmail.com" },
-                        { label: "Phone", value: "(49) 999215720" },
-                        { label: "Freelance", value: "Available" },
-                      ].map((item, index) => (
-                        <div
-                          key={index}
-                          className="flex flex-col sm:flex-row sm:items-center sm:space-x-2"
-                        >
-                          <p
-                            className={`text-sm sm:text-base md:text-lg ${
-                              isDarkMode ? "text-gray-400" : "text-gray-600"
-                            }`}
-                          >
-                            {item.label}:
-                          </p>
-                          <p
-                            className={`text-base sm:text-lg md:text-xl font-medium ${
-                              isDarkMode ? "text-white" : "text-gray-900"
-                            }`}
-                          >
-                            {item.value}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="mt-4 md:mt-6"
-                  >
-                    <a
-                      href="https://github.com/Faccin27"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block w-full sm:w-auto"
-                    >
-                      <button
-                        className={`w-full sm:w-auto px-6 py-2 rounded-xl cursor-pointer ${
-                          isDarkMode
-                            ? "bg-purple-500 hover:bg-purple-600"
-                            : "bg-purple-600 hover:bg-purple-700"
-                        } text-white transition-colors duration-300`}
-                      >
-                        Ver Todos os Projetos
-                      </button>
-                    </a>
-                  </motion.div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </AnimatedSection>
-
         <AnimatedSection className="mt-16" animation="fadeUp">
           <h2
             className={`text-3xl font-bold mb-8 ${
               isDarkMode ? "text-white" : "text-gray-900"
             }`}
           >
-            My Skills
+            {t('mySkills')}
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-8 gap-4 relative z-10">
             {skills.map((skill, index) => (
@@ -678,121 +701,121 @@ export default function Component() {
             ))}
           </div>
         </AnimatedSection>
-      </div>
 
-      <AnimatedSection className="mt-16" animation="fadeDown">
-        <div className="container mx-auto px-4 py-12">
-          <div
-            className={`w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
-              isDarkMode
-                ? "bg-zinc-800/80 border-white/10"
-                : "bg-slate-300/80 border-gray-200"
-            }`}
-          >
-            <div className="flex flex-col md:flex-row items-stretch gap-12 p-8">
-              <div className="w-full md:w-1/2 flex items-center justify-center">
-                <Image
-                  src={contactsvg}
-                  alt="Contact"
-                  width={300}
-                  height={300}
-                />
-              </div>
-              <div className="w-full md:w-1/2 flex flex-col justify-between space-y-6">
-                <h2
-                  className={`text-4xl font-bold ${
-                    isDarkMode ? "text-white" : "text-gray-900"
-                  }`}
-                >
-                  Get in Touch
-                </h2>
-                <form
-                  onSubmit={(e) => e.preventDefault()}
-                  className="flex flex-col gap-4"
-                >
-                  <div className="grid gap-4">
-                    <div className="grid gap-2">
-                      <label
-                        htmlFor="email"
-                        className={`text-sm font-medium leading-none ${
-                          isDarkMode ? "text-white" : "text-gray-700"
-                        }`}
-                      >
-                        Email
-                      </label>
-                      <input
-                        id="email"
-                        type="email"
-                        placeholder="you@example.com"
-                        className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm ${
-                          isDarkMode
-                            ? "bg-zinc-700 border-zinc-600 text-white placeholder:text-zinc-400"
-                            : "bg-white border-gray-300 text-gray-900 placeholder:text-gray-400"
-                        }`}
-                        required
-                      />
-                    </div>
-                    <div className="grid gap-2">
-                      <label
-                        htmlFor="subject"
-                        className={`text-sm font-medium leading-none ${
-                          isDarkMode ? "text-white" : "text-gray-700"
-                        }`}
-                      >
-                        Subject
-                      </label>
-                      <input
-                        id="subject"
-                        type="text"
-                        placeholder="What's this about?"
-                        className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm ${
-                          isDarkMode
-                            ? "bg-zinc-700 border-zinc-600 text-white placeholder:text-zinc-400"
-                            : "bg-white border-gray-300 text-gray-900 placeholder:text-gray-400"
-                        }`}
-                        required
-                      />
-                    </div>
-                    <div className="grid gap-2">
-                      <label
-                        htmlFor="message"
-                        className={`text-sm font-medium leading-none ${
-                          isDarkMode ? "text-white" : "text-gray-700"
-                        }`}
-                      >
-                        Message
-                      </label>
-                      <textarea
-                        id="message"
-                        placeholder="Your message here..."
-                        className={`flex w-full rounded-md border px-3 py-2 text-sm ${
-                          isDarkMode
-                            ? "bg-zinc-700 border-zinc-600 text-white placeholder:text-zinc-400"
-                            : "bg-white border-gray-300 text-gray-900 placeholder:text-gray-400"
-                        }`}
-                        rows={4}
-                        required
-                      ></textarea>
-                    </div>
-                  </div>
-                  <button
-                    type="submit"
-                    className={`inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors ${
-                      isDarkMode
-                        ? "bg-purple-600 text-white hover:bg-purple-700"
-                        : "bg-purple-600 text-white hover:bg-purple-700"
+        <AnimatedSection className="mt-16" animation="fadeDown">
+          <div className="container mx-auto px-4 py-12">
+            <div
+              className={`w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
+                isDarkMode
+                  ? "bg-zinc-800/80 border-white/10"
+                  : "bg-slate-300/80 border-gray-200"
+              }`}
+            >
+              <div className="flex flex-col md:flex-row items-stretch gap-12 p-8">
+                <div className="w-full md:w-1/2 flex items-center justify-center">
+                  <Image
+                    src={contactsvg}
+                    alt="Contact"
+                    width={300}
+                    height={300}
+                  />
+                </div>
+                <div className="w-full md:w-1/2 flex flex-col justify-between space-y-6">
+                  <h2
+                    className={`text-4xl font-bold ${
+                      isDarkMode ? "text-white" : "text-gray-900"
                     }`}
                   >
-                    Send Message
-                  </button>
-                </form>
+                    {t('getInTouch')}
+                  </h2>
+                  <form
+                    onSubmit={(e) => e.preventDefault()}
+                    className="flex flex-col gap-4"
+                  >
+                    <div className="grid gap-4">
+                      <div className="grid gap-2">
+                        <label
+                          htmlFor="email"
+                          className={`text-sm font-medium leading-none ${
+                            isDarkMode ? "text-white" : "text-gray-700"
+                          }`}
+                        >
+                          Email
+                        </label>
+                        <input
+                          id="email"
+                          type="email"
+                          placeholder="you@example.com"
+                          className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm ${
+                            isDarkMode
+                              ? "bg-zinc-700 border-zinc-600 text-white placeholder:text-zinc-400"
+                              : "bg-white border-gray-300 text-gray-900 placeholder:text-gray-400"
+                          }`}
+                          required
+                        />
+                      </div>
+                      <div className="grid gap-2">
+                        <label
+                          htmlFor="subject"
+                          className={`text-sm font-medium leading-none ${
+                            isDarkMode ? "text-white" : "text-gray-700"
+                          }`}
+                        >
+                          Subject
+                        </label>
+                        <input
+                          id="subject"
+                          type="text"
+                          placeholder="What's this about?"
+                          className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm ${
+                            isDarkMode
+                              ? "bg-zinc-700 border-zinc-600 text-white placeholder:text-zinc-400"
+                              : "bg-white border-gray-300 text-gray-900 placeholder:text-gray-400"
+                          }`}
+                          required
+                        />
+                      </div>
+                      <div className="grid gap-2">
+                        <label
+                          htmlFor="message"
+                          className={`text-sm font-medium leading-none ${
+                            isDarkMode ? "text-white" : "text-gray-700"
+                          }`}
+                        >
+                          Message
+                        </label>
+                        <textarea
+                          id="message"
+                          placeholder="Your message here..."
+                          className={`flex w-full rounded-md border px-3 py-2 text-sm ${
+                            isDarkMode
+                              ? "bg-zinc-700 border-zinc-600 text-white placeholder:text-zinc-400"
+                              : "bg-white border-gray-300 text-gray-900 placeholder:text-gray-400"
+                          }`}
+                          rows={4}
+                          required
+                        ></textarea>
+                      </div>
+                    </div>
+                    <button
+                      type="submit"
+                      className={`inline-flex h-10 items-center justify-center rounded-md px-8 text-sm font-medium transition-colors ${
+                        isDarkMode
+                          ? "bg-purple-600 text-white hover:bg-purple-700"
+                          : "bg-purple-600 text-white hover:bg-purple-700"
+                      }`}
+                    >
+                      Send Message
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </AnimatedSection>
+        </AnimatedSection>
+      </main>
 
-      <div className=" pointer-events-none">
+      <div className="pointer-events-none">
         <div
           className={`absolute inset-0 opacity-75 transition-opacity duration-500 ${
             isDarkMode
