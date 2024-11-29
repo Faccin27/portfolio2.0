@@ -121,8 +121,8 @@ const skills = [
 
 export default function Component() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
-  const [hoverSound, toggleHoverSound] = useAudio('/hover.wav');
-  const [clickSound, toggleClickSound] = useAudio('/click.wav');
+  const [hoverSound, toggleHoverSound] = useAudio("/hover.wav");
+  const [clickSound, toggleClickSound] = useAudio("/click.wav");
   const [textIndex, setTextIndex] = useState<number>(0);
   const [showBulb, setShowBulb] = useState(true);
   const [showThemeIcon, setShowThemeIcon] = useState(false);
@@ -137,7 +137,6 @@ export default function Component() {
   ];
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
 
   const playSound = (isHover: boolean) => {
     if (isHover) {
@@ -383,26 +382,28 @@ export default function Component() {
                 project needs.
               </p>
               <div className="flex space-x-4">
-        {socialLinks.map(({ Icon, href, onMouseEnter, onClick }, index) => (
-          <motion.div
-            key={index}
-            whileHover={{ scale: 1.2, rotate: 5 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <Link
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${
-                isDarkMode ? "text-white" : "text-gray-800"
-              } hover:text-purple-500 transition-colors duration-300`}
-              onMouseEnter={onMouseEnter}
-              onClick={onClick}
-            >
-              <Icon size={24} />
-            </Link>
-          </motion.div>
-                ))}
+                {socialLinks.map(
+                  ({ Icon, href, onMouseEnter, onClick }, index) => (
+                    <motion.div
+                      key={index}
+                      whileHover={{ scale: 1.2, rotate: 5 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <Link
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`${
+                          isDarkMode ? "text-white" : "text-gray-800"
+                        } hover:text-purple-500 transition-colors duration-300`}
+                        onMouseEnter={onMouseEnter}
+                        onClick={onClick}
+                      >
+                        <Icon size={24} />
+                      </Link>
+                    </motion.div>
+                  )
+                )}
               </div>
             </motion.div>
           </div>
