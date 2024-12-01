@@ -45,7 +45,7 @@ import insomnia from "@/assets/svgs/insomnia.svg";
 import prisma from "@/assets/svgs/prisma.svg";
 import music from "@/assets/music.png";
 import nyx from "@/assets/nyx.png";
-import mep from "@/assets/photo.jpg";
+import mep from "@/assets/me.png";
 import { Particles } from "@/components/particles";
 import React from "react";
 import AnimatedSection from "@/components/animatedsection";
