@@ -497,8 +497,7 @@ export default function Component() {
                       }`}
                     >
                       <div
-                        className="relative aspect-video overflow-hidden cursor-zoom-in"
-                        onMouseMove={handleMouseMove}
+                        className="relative aspect-video overflow-hidden"
                         onClick={isMuted ? undefined : playClickSound}
                       >
                         <Image
@@ -506,10 +505,6 @@ export default function Component() {
                           alt={project.title}
                           layout="fill"
                           objectFit="cover"
-                          className="transition-transform duration-300 ease-out group-hover:scale-125"
-                          style={{
-                            transformOrigin: `${mousePosition.x}% ${mousePosition.y}%`,
-                          }}
                         />
                       </div>
                       <div className="p-6">
