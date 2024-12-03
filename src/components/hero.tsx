@@ -126,6 +126,7 @@ export default function Component() {
   const [textIndex, setTextIndex] = useState<number>(0);
   const [showBulb, setShowBulb] = useState(true);
   const [showThemeIcon, setShowThemeIcon] = useState(false);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
   const texts = [
     "Hey there! 👋",
     <>
@@ -145,6 +146,11 @@ export default function Component() {
       y: ((e.clientY - rect.top) / rect.height) * 100,
     });
   }, []);
+
+  const toggleMute = useCallback(() => {
+    setIsMuted((prev) => !prev);
+    playClickSound();
+  }, [playClickSound]);
 
   const toggleTheme = useCallback(() => {
     setIsDarkMode((prev) => !prev);
@@ -186,39 +192,38 @@ export default function Component() {
     {
       Icon: Linkedin,
       href: "https://www.linkedin.com/in/guilherme-faccin-5b71a5172/",
-      onMouseEnter: playHoverSound,
-      onClick: playClickSound,
+      onMouseEnter: isMuted ? undefined : playHoverSound,
+      onClick: isMuted ? undefined : playClickSound,
     },
     {
       Icon: Github,
       href: "https://github.com/Faccin27",
-      onMouseEnter: playHoverSound,
-      onClick: playClickSound,
+      onMouseEnter: isMuted ? undefined : playHoverSound,
+      onClick: isMuted ? undefined : playClickSound,
     },
     {
       Icon: Mail,
       href: "mailto:gfaccin27@gmail.com",
-      onMouseEnter: playHoverSound,
-      onClick: playClickSound,
+      onMouseEnter: isMuted ? undefined : playHoverSound,
+      onClick: isMuted ? undefined : playClickSound,
     },
     {
       Icon: Phone,
       href: "https://wa.me/49999215720",
-      onMouseEnter: playHoverSound,
-      onClick: playClickSound,
+      onMouseEnter: isMuted ? undefined : playHoverSound,
+      onClick: isMuted ? undefined : playClickSound,
     },
   ];
 
   useEffect(() => {
     const handleGlobalKeyDown = (event: KeyboardEvent) => {
-
       const target = event.target as HTMLElement;
       const isInputElement =
         target.tagName === "INPUT" ||
         target.tagName === "TEXTAREA" ||
         target.isContentEditable;
 
-      if (!isInputElement) {
+      if (!isInputElement && !isMuted) {
         playKeySound();
       }
     };
@@ -228,14 +233,14 @@ export default function Component() {
     return () => {
       document.removeEventListener("keydown", handleGlobalKeyDown);
     };
-  }, [playKeySound]);
+  }, [playKeySound, isMuted]);
 
   return (
     <div
       className={`min-h-screen overflow-x-hidden ${
         isDarkMode ? "bg-zinc-900" : "bg-gray-100"
       }`}
-      onClick={playClickSound}
+      onClick={isMuted ? undefined : playClickSound}
       onKeyDown={playKeySound}
     >
       <div className="fixed inset-0 pointer-events-none">
@@ -273,31 +278,57 @@ export default function Component() {
                 }`}
               ></span>
             </motion.span>
-            <AnimatePresence>
-              {showThemeIcon && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.5 }}
-                  className="cursor-pointer"
-                  onClick={toggleTheme}
-                >
-                  {isDarkMode ? (
-                    <Sun
-                      className="text-yellow-400"
-                      size={24}
-                      onMouseEnter={playHoverSound}
-                    />
-                  ) : (
-                    <Moon
-                      className="text-gray-600"
-                      size={24}
-                      onMouseEnter={playHoverSound}
-                    />
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <div className="flex items-center space-x-2">
+              {" "}
+              {/* Updated header section */}
+              <AnimatePresence>
+                {showThemeIcon && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.5 }}
+                    className="cursor-pointer"
+                    onClick={toggleTheme}
+                  >
+                    {isDarkMode ? (
+                      <Sun
+                        className="text-yellow-400"
+                        size={24}
+                        onMouseEnter={isMuted ? undefined : playHoverSound}
+                      />
+                    ) : (
+                      <Moon
+                        className="text-gray-600"
+                        size={24}
+                        onMouseEnter={isMuted ? undefined : playHoverSound}
+                      />
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="cursor-pointer"
+                onClick={toggleMute}
+              >
+                {isMuted ? (
+                  <VolumeX
+                    className={isDarkMode ? "text-gray-400" : "text-gray-600"}
+                    size={24}
+                    onMouseEnter={isMuted ? undefined : playHoverSound}
+                  />
+                ) : (
+                  <Volume2
+                    className={
+                      isDarkMode ? "text-purple-400" : "text-purple-600"
+                    }
+                    size={24}
+                    onMouseEnter={isMuted ? undefined : playHoverSound}
+                  />
+                )}
+              </motion.div>
+            </div>
           </div>
         </nav>
         <AnimatePresence>
@@ -308,7 +339,7 @@ export default function Component() {
               className="absolute top-full left-1/3 max-sm:left-3/4 transform -translate-x-1/2 cursor-pointer z-50"
               style={{ marginTop: "-8px" }}
               onClick={toggleTheme}
-              onMouseEnter={playHoverSound}
+              onMouseEnter={isMuted ? undefined : playHoverSound}
             >
               <div className="relative">
                 <div className="absolute bottom-0 left-[43%] transform -translate-x-1/2 -translate-y-5 bg-white rounded-full filter blur-md h-8 w-8"></div>
@@ -468,7 +499,7 @@ export default function Component() {
                       <div
                         className="relative aspect-video overflow-hidden cursor-zoom-in"
                         onMouseMove={handleMouseMove}
-                        onClick={playClickSound}
+                        onClick={isMuted ? undefined : playClickSound}
                       >
                         <Image
                           src={project.image}
@@ -487,7 +518,7 @@ export default function Component() {
                             className={`text-xl font-bold ${
                               isDarkMode ? "text-white" : "text-gray-900"
                             }`}
-                            onMouseEnter={playHoverSound}
+                            onMouseEnter={isMuted ? undefined : playHoverSound}
                           >
                             {project.title}
                           </h3>
@@ -495,8 +526,8 @@ export default function Component() {
                             href={project.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            onMouseEnter={playHoverSound}
-                            onClick={playClickSound}
+                            onMouseEnter={isMuted ? undefined : playHoverSound}
+                            onClick={isMuted ? undefined : playClickSound}
                           >
                             <motion.div
                               whileHover={{ scale: 1.1 }}
@@ -563,8 +594,10 @@ export default function Component() {
                               initial={{ opacity: 0, y: 20 }}
                               animate={{ opacity: 1, y: 0 }}
                               whileHover={{ scale: 1.02 }}
-                              onMouseEnter={playHoverSound}
-                              onClick={playClickSound}
+                              onMouseEnter={
+                                isMuted ? undefined : playHoverSound
+                              }
+                              onClick={isMuted ? undefined : playClickSound}
                               className={`relative p-2 rounded-xl border transition-all duration-300 ${
                                 isDarkMode
                                   ? "bg-black/20 border-white/10 hover:border-white/20"
@@ -679,8 +712,8 @@ export default function Component() {
                       className="inline-block w-full sm:w-auto"
                     >
                       <button
-                        onMouseEnter={playHoverSound}
-                        onClick={playClickSound}
+                        onMouseEnter={isMuted ? undefined : playHoverSound}
+                        onClick={isMuted ? undefined : playClickSound}
                         className={`w-full sm:w-auto px-6 py-2 rounded-xl cursor-pointer ${
                           isDarkMode
                             ? "bg-purple-500 hover:bg-purple-600"
@@ -720,8 +753,8 @@ export default function Component() {
                       ? "bg-black/20 border-white/10 hover:border-white/20"
                       : "bg-slate-300/80 border-gray-200 hover:border-gray-300"
                   }`}
-                  onMouseEnter={playHoverSound}
-                  onClick={playClickSound}
+                  onMouseEnter={isMuted ? undefined : playHoverSound}
+                  onClick={isMuted ? undefined : playClickSound}
                 >
                   <div className="flex items-center gap-3">
                     <div className="relative w-7 h-7">
@@ -756,7 +789,7 @@ export default function Component() {
                 ? "bg-zinc-800/80 border-white/10"
                 : "bg-slate-300/80 border-gray-200"
             }`}
-            onMouseEnter={playHoverSound}
+            onMouseEnter={isMuted ? undefined : playHoverSound}
           >
             <div className="flex flex-col md:flex-row items-stretch gap-12 p-8">
               <div className="w-full md:w-1/2 flex items-center justify-center">
@@ -765,7 +798,7 @@ export default function Component() {
                   alt="Contact"
                   width={300}
                   height={300}
-                  onMouseEnter={playHoverSound}
+                  onMouseEnter={isMuted ? undefined : playHoverSound}
                 />
               </div>
               <div className="w-full md:w-1/2 flex flex-col justify-between space-y-6">
