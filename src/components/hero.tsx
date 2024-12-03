@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, FormEvent } from "react";
 import { useSoundEffect } from "@/hooks/useSoundEffect";
 import {
   Linkedin,
@@ -51,7 +51,7 @@ import mep from "@/assets/me.png";
 import { Particles } from "@/components/particles";
 import React from "react";
 import AnimatedSection from "@/components/animatedsection";
-// import hoversound from '../assets/sounds/hover.wav'
+import emailjs from "emailjs-com";
 
 const MemoizedParticles = React.memo(Particles);
 const projects = [
@@ -126,6 +126,10 @@ export default function Component() {
   const [textIndex, setTextIndex] = useState<number>(0);
   const [showBulb, setShowBulb] = useState(true);
   const [showThemeIcon, setShowThemeIcon] = useState(false);
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState("");
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const texts = [
     "Hey there! 👋",
@@ -235,6 +239,39 @@ export default function Component() {
     };
   }, [playKeySound, isMuted]);
 
+  const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
+  const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
+  const userId = process.env.NEXT_PUBLIC_EMAILJS_USER_ID!;
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const templateParams = {
+      email,
+      subject,
+      message,
+    };
+
+    emailjs
+      .send(
+        serviceId,
+        templateId,
+        templateParams,
+        userId
+      )
+      .then(
+        (response) => {
+          console.log("SUCCESS!", response);
+          setStatus("Message sent successfully!");
+          setEmail("");
+          setSubject("");
+          setMessage("");
+        },
+        (err) => {
+          console.error("FAILED...", err);
+          setStatus("Failed to send the message.");
+        }
+      );
+  };
   return (
     <div
       className={`min-h-screen overflow-x-hidden ${
@@ -804,10 +841,7 @@ export default function Component() {
                 >
                   Get in Touch
                 </h2>
-                <form
-                  onSubmit={(e) => e.preventDefault()}
-                  className="flex flex-col gap-4"
-                >
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                   <div className="grid gap-4">
                     <div className="grid gap-2">
                       <label
@@ -821,6 +855,8 @@ export default function Component() {
                       <input
                         id="email"
                         type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         placeholder="you@example.com"
                         className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm ${
                           isDarkMode
@@ -842,6 +878,8 @@ export default function Component() {
                       <input
                         id="subject"
                         type="text"
+                        value={subject}
+                        onChange={(e) => setSubject(e.target.value)}
                         placeholder="What's this about?"
                         className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm ${
                           isDarkMode
@@ -862,6 +900,8 @@ export default function Component() {
                       </label>
                       <textarea
                         id="message"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
                         placeholder="Your message here..."
                         className={`flex w-full rounded-md border px-3 py-2 text-sm ${
                           isDarkMode
@@ -884,6 +924,11 @@ export default function Component() {
                     Send Message
                   </button>
                 </form>
+                {status && (
+                  <div className="mt-4 text-white">
+                    <p>{status}</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
