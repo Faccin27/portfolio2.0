@@ -120,7 +120,7 @@ const skills = [
 ];
 export default function Component() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
-  const { playHoverSound, playClickSound } = useSoundEffect();
+  const { playHoverSound, playClickSound, playKeySound } = useSoundEffect();
   const [textIndex, setTextIndex] = useState<number>(0);
   const [showBulb, setShowBulb] = useState(true);
   const [showThemeIcon, setShowThemeIcon] = useState(false);
@@ -207,11 +207,37 @@ export default function Component() {
     },
   ];
 
+  useEffect(() => {
+    const handleGlobalKeyDown = (event: KeyboardEvent) => {
+      // Optional: You can add conditions to filter which keys trigger the sound
+      // For example, to exclude input fields:
+      const target = event.target as HTMLElement;
+      const isInputElement = 
+        target.tagName === 'INPUT' || 
+        target.tagName === 'TEXTAREA' || 
+        target.isContentEditable;
+      
+      if (!isInputElement) {
+        playKeySound();
+      }
+    };
+
+    // Add event listener to the document
+    document.addEventListener('keydown', handleGlobalKeyDown);
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('keydown', handleGlobalKeyDown);
+    };
+  }, [playKeySound]);
+
   return (
     <div
       className={`min-h-screen overflow-x-hidden ${
         isDarkMode ? "bg-zinc-900" : "bg-gray-100"
       }`}
+      onClick={playClickSound}
+      onKeyDown={playKeySound}
     >
       <div className="fixed inset-0 pointer-events-none">
         <div
