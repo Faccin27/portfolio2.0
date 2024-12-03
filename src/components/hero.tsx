@@ -11,6 +11,8 @@ import {
   Globe,
   Code,
   Phone,
+  VolumeX,
+  Volume2,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -209,25 +211,22 @@ export default function Component() {
 
   useEffect(() => {
     const handleGlobalKeyDown = (event: KeyboardEvent) => {
-      // Optional: You can add conditions to filter which keys trigger the sound
-      // For example, to exclude input fields:
+
       const target = event.target as HTMLElement;
-      const isInputElement = 
-        target.tagName === 'INPUT' || 
-        target.tagName === 'TEXTAREA' || 
+      const isInputElement =
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
         target.isContentEditable;
-      
+
       if (!isInputElement) {
         playKeySound();
       }
     };
 
-    // Add event listener to the document
-    document.addEventListener('keydown', handleGlobalKeyDown);
+    document.addEventListener("keydown", handleGlobalKeyDown);
 
-    // Cleanup the event listener
     return () => {
-      document.removeEventListener('keydown', handleGlobalKeyDown);
+      document.removeEventListener("keydown", handleGlobalKeyDown);
     };
   }, [playKeySound]);
 
