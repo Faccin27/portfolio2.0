@@ -53,7 +53,7 @@ export function SuccessModal({
           <div className="mt-6 flex w-full space-x-2">
             <button
               onClick={onClose}
-              className={`flex-1 px-4 py-2 rounded-md ${
+              className={`flex-1 px-4 py-3 rounded-md ${
                 isDarkMode
                   ? "bg-gray-600 hover:bg-gray-700"
                   : "bg-gray-200 hover:bg-gray-300"
@@ -61,22 +61,7 @@ export function SuccessModal({
             >
               Close
             </button>
-            <Link
-              href="https://wa.me/49999215720"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1"
-            >
-              <button
-                className={`w-full px-4 py-2 rounded-md ${
-                  isDarkMode
-                    ? "bg-green-600 hover:bg-green-700"
-                    : "bg-green-500 hover:bg-green-600"
-                } text-white`}
-              >
-                Contact on WhatsApp
-              </button>
-            </Link>
+
           </div>
         </div>
       </div>

@@ -52,6 +52,7 @@ import { Particles } from "@/components/particles";
 import React from "react";
 import AnimatedSection from "@/components/animatedsection";
 import emailjs from "emailjs-com";
+import { SuccessModal } from "@/components/successModal";
 
 const MemoizedParticles = React.memo(Particles);
 const projects = [
@@ -131,6 +132,8 @@ export default function Component() {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("");
   const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const texts = [
     "Hey there! 👋",
     <>
@@ -251,26 +254,19 @@ export default function Component() {
       message,
     };
 
-    emailjs
-      .send(
-        serviceId,
-        templateId,
-        templateParams,
-        userId
-      )
-      .then(
-        (response) => {
-          console.log("SUCCESS!", response);
-          setStatus("Message sent successfully!");
-          setEmail("");
-          setSubject("");
-          setMessage("");
-        },
-        (err) => {
-          console.error("FAILED...", err);
-          setStatus("Failed to send the message.");
-        }
-      );
+    emailjs.send(serviceId, templateId, templateParams, userId).then(
+      (response) => {
+        console.log("SUCCESS!", response);
+        setEmail("");
+        setSubject("");
+        setMessage("");
+        setIsModalOpen(true);
+      },
+      (err) => {
+        console.error("FAILED...", err);
+        setStatus("Failed to send the message.");
+      }
+    );
   };
   return (
     <div
@@ -924,6 +920,11 @@ export default function Component() {
                     Send Message
                   </button>
                 </form>
+                <SuccessModal
+                  isOpen={isModalOpen}
+                  onClose={() => setIsModalOpen(false)}
+                  isDarkMode={isDarkMode}
+                />
                 {status && (
                   <div className="mt-4 text-white">
                     <p>{status}</p>
