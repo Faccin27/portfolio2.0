@@ -243,7 +243,7 @@ export default function GitHubContributionsCalendar() {
                     className="flex-shrink-0"
                     style={{
                       marginLeft: i === 0 ? `${month.firstDay * 17}px` : "0", // Adjusted for new square size
-                      paddingRight: "8px", // Increased padding
+                      paddingRight: "40px", // Increased padding
                     }}
                   >
                     {month.name}
