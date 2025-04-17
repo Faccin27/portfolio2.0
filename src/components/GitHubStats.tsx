@@ -201,7 +201,13 @@ export default function GitHubStats({
             >
               GitHub Stats
             </h2>
-            <a href="https://github.com/Faccin27" target="_blank" rel="noopener noreferrer">
+            <a
+              onMouseEnter={isMuted ? undefined : playHoverSound}
+              onClick={isMuted ? undefined : playClickSound}
+              href="https://github.com/Faccin27"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Github
                 className={`h-5 w-5 text-xl font-semibold mb-4 text-zinc-500 ${
                   isDarkMode ? "hover:text-purple-400" : "hover:text-purple-600"
