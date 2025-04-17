@@ -221,7 +221,7 @@ export default function GitHubStats({
                 key={index}
                 onMouseEnter={isMuted ? undefined : playHoverSound}
                 onClick={isMuted ? undefined : playClickSound}
-                className={`flex flex-col p-4 rounded-xl cursor-pointer transition-all duration-300 hover:shadow-md ${
+                className={`flex flex-col p-4 rounded-xl transition-all duration-300 hover:shadow-md ${
                   isDarkMode
                     ? "bg-zinc-700/80 border border-white/10 hover:bg-zinc-600/80"
                     : "bg-white/80 border border-gray-200 hover:bg-gray-50/80"
@@ -229,7 +229,7 @@ export default function GitHubStats({
               >
                 <div className="flex items-center gap-2 mb-2">
                   <stat.icon
-                    className={`h-5 w-5 ${
+                    className={`h-5 w-5  ${
                       isDarkMode ? "text-purple-400" : "text-purple-600"
                     }`}
                   />

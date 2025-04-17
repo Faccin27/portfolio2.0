@@ -261,7 +261,7 @@ export default function GitHubContributionsCalendar({
                 <div className="flex">
                   <TooltipProvider>
                     {weeks.map((week, weekIndex) => (
-                      <div key={weekIndex} className="flex flex-col gap-[2px] mr-[2px]">
+                      <div key={weekIndex} className="flex flex-col gap-[2px] mr-[2px] ">
                         {week.map((day, dayIndex) => (
                           <Tooltip key={`${weekIndex}-${dayIndex}`}>
                             <TooltipTrigger asChild>

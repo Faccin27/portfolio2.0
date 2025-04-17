@@ -56,7 +56,7 @@ export default function Home() {
 
   return (
     <div
-      className={`min-h-screen overflow-x-hidden ${
+      className={`min-h-screen overflow-x-hidden cursor-crosshair ${
         isDarkMode ? "bg-zinc-900" : "bg-gray-100"
       }`}
       onClick={isMuted ? undefined : playClickSound}
