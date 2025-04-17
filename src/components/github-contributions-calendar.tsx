@@ -242,7 +242,6 @@ export default function GitHubContributionsCalendar() {
                     key={`${month.name}-${i}`}
                     className="flex-shrink-0"
                     style={{
-                      marginLeft: i === 0 ? `${month.firstDay * 17}px` : "0", // Adjusted for new square size
                       paddingRight: "40px", // Increased padding
                     }}
                   >

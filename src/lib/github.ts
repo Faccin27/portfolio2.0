@@ -12,10 +12,9 @@ import {
   import moment from "moment";
   
   const headers = new Headers({
-    Authorization: `token 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`,
+    Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
   });
-
-  console.log(' MEU TOKEN: ', process.env.GITHUB_TOKEN);
+  
   
   // its for /api/stats/github
   export async function fetchGithub(): Promise<IGitHubProfileResponse> {
