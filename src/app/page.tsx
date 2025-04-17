@@ -109,11 +109,23 @@ export default function Home() {
           playHoverSound={playHoverSound}
           playClickSound={playClickSound}
         />
-        <h1 className="text-3xl text-white mt-12 font-bold mb-6">GitHub Profile</h1>
+        <h1 className={`text-3xl ${isDarkMode ? "text-white" : "text-gray-900" } mt-12 font-bold mb-6`}>
+          GitHub Profile
+        </h1>
 
-        <GitHubStats />
-        <GitHubContributionsCalendar />
-      </div>  
+        <GitHubStats
+          isDarkMode={isDarkMode}
+          isMuted={isMuted}
+          playHoverSound={playHoverSound}
+          playClickSound={playClickSound}
+        />
+        <GitHubContributionsCalendar
+          isDarkMode={isDarkMode}
+          isMuted={isMuted}
+          playHoverSound={playHoverSound}
+          playClickSound={playClickSound}
+        />
+      </div>
 
       <ContactSection
         isDarkMode={isDarkMode}

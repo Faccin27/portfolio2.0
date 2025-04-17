@@ -6,7 +6,14 @@ import type { IGitHubProfileResponse } from "@/lib/interface"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Users, Star, GitFork, GitPullRequestDraft } from "lucide-react"
 
-export default function GitHubStats() {
+interface GitHubStatsProps {
+  isDarkMode: boolean
+  isMuted: boolean
+  playHoverSound: () => void
+  playClickSound: () => void
+}
+
+export default function GitHubStats({ isDarkMode, isMuted, playHoverSound, playClickSound }: GitHubStatsProps) {
   const [profileData, setProfileData] = useState<IGitHubProfileResponse | null>(null)
   const [starsAndForks, setStarsAndForks] = useState<{ githubStars: number; forks: number } | null>(null)
   const [loading, setLoading] = useState(true)
@@ -32,13 +39,23 @@ export default function GitHubStats() {
 
   if (loading) {
     return (
-      <div className="py-4 font-sans">
-        <h2 className="text-base font-semibold mb-2 text-[#24292f] dark:text-[#c9d1d9]">GitHub Stats</h2>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <Skeleton className="h-16" />
-          <Skeleton className="h-16" />
-          <Skeleton className="h-16" />
-          <Skeleton className="h-16" />
+      <div className="py-4 font-sans container mx-auto px-4">
+        <div
+          className={`w-full sm:w-11/12 md:w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
+            isDarkMode ? "bg-zinc-800/80 border-white/10" : "bg-slate-300/80 border-gray-200"
+          }`}
+        >
+          <div className="p-6 md:p-8">
+            <h2 className={`text-xl font-semibold mb-4 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              GitHub Stats
+            </h2>
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+              <Skeleton className="h-16" />
+              <Skeleton className="h-16" />
+              <Skeleton className="h-16" />
+              <Skeleton className="h-16" />
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -46,18 +63,38 @@ export default function GitHubStats() {
 
   if (error) {
     return (
-      <div className="py-4 font-sans">
-        <h2 className="text-base font-semibold mb-2 text-[#24292f] dark:text-[#c9d1d9]">GitHub Stats</h2>
-        <div className="text-sm text-[#57606a] dark:text-[#8b949e]">{error}</div>
+      <div className="py-4 font-sans container mx-auto px-4">
+        <div
+          className={`w-full sm:w-11/12 md:w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
+            isDarkMode ? "bg-zinc-800/80 border-white/10" : "bg-slate-300/80 border-gray-200"
+          }`}
+        >
+          <div className="p-6 md:p-8">
+            <h2 className={`text-xl font-semibold mb-4 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              GitHub Stats
+            </h2>
+            <div className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>{error}</div>
+          </div>
+        </div>
       </div>
     )
   }
 
   if (!profileData || !starsAndForks) {
     return (
-      <div className="py-4 font-sans">
-        <h2 className="text-base font-semibold mb-2 text-[#24292f] dark:text-[#c9d1d9]">GitHub Stats</h2>
-        <div className="text-sm text-[#57606a] dark:text-[#8b949e]">No GitHub data available</div>
+      <div className="py-4 font-sans container mx-auto px-4">
+        <div
+          className={`w-full sm:w-11/12 md:w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
+            isDarkMode ? "bg-zinc-800/80 border-white/10" : "bg-slate-300/80 border-gray-200"
+          }`}
+        >
+          <div className="p-6 md:p-8">
+            <h2 className={`text-xl font-semibold mb-4 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              GitHub Stats
+            </h2>
+            <div className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>No GitHub data available</div>
+          </div>
+        </div>
       </div>
     )
   }
@@ -70,7 +107,7 @@ export default function GitHubStats() {
     },
     {
       label: "Repos (private included)",
-      value: Math.ceil(profileData.public_repos + (profileData.public_repos / 0.8)).toLocaleString(),
+      value: Math.ceil(profileData.public_repos + profileData.public_repos / 0.8).toLocaleString(),
       icon: GitPullRequestDraft,
     },
     {
@@ -86,24 +123,38 @@ export default function GitHubStats() {
   ]
 
   return (
-    <div className="py-4 font-sans justify-center w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 bg-zinc-800/80 border-white/10 px-12 mb-4">
-      <h2 className="text-base font-semibold mb-2 text-[#24292f] dark:text-[#c9d1d9]">GitHub Stats</h2>
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        {stats.map((stat, index) => (
-          <div
-            key={index}
-            className="flex flex-col p-3 border border-[#d0d7de] dark:border-[#30363d] rounded-md bg-white dark:bg-[#0d1117]"
-          >
-            <div className="flex items-center gap-2 mb-1">
-              <stat.icon className="h-4 w-4 text-[#57606a] dark:text-[#8b949e]" />
-              <span className="text-xs text-[#57606a] dark:text-[#8b949e]">{stat.label}</span>
-            </div>
-            <div className="text-xl font-semibold text-[#24292f] dark:text-[#c9d1d9]">{stat.value}</div>
+    <div className="py-4 font-sans container mx-auto px-4">
+      <div
+        className={`w-full sm:w-11/12 md:w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
+          isDarkMode ? "bg-zinc-800/80 border-white/10" : "bg-slate-300/80 border-gray-200"
+        }`}
+      >
+        <div className="p-6 md:p-8">
+          <h2 className={`text-xl font-semibold mb-4 ${isDarkMode ? "text-white" : "text-gray-900"}`}>GitHub Stats</h2>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {stats.map((stat, index) => (
+              <div
+                key={index}
+                onMouseEnter={isMuted ? undefined : playHoverSound}
+                onClick={isMuted ? undefined : playClickSound}
+                className={`flex flex-col p-4 rounded-xl cursor-pointer transition-all duration-300 hover:shadow-md ${
+                  isDarkMode
+                    ? "bg-zinc-700/80 border border-white/10 hover:bg-zinc-600/80"
+                    : "bg-white/80 border border-gray-200 hover:bg-gray-50/80"
+                }`}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <stat.icon className={`h-5 w-5 ${isDarkMode ? "text-purple-400" : "text-purple-600"}`} />
+                  <span className={`text-xs ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>{stat.label}</span>
+                </div>
+                <div className={`text-xl font-semibold ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+                  {stat.value}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-        
+        </div>
       </div>
     </div>
-    
   )
 }
