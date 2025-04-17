@@ -1,10 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { fetchGithub, getGithubStarsAndForks } from "@/lib/github"
-import type { IGitHubProfileResponse } from "@/lib/interface"
+import { fetchGithub, getGithubStarsAndForks, getGithubContribution, calculateLongestStreak } from "@/lib/github"
+import type { IGitHubProfileResponse, IContributionDay } from "@/lib/interface"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Users, Star, GitFork, GitPullRequestDraft } from "lucide-react"
+import { Users, Star, GitPullRequestDraft, Flame } from "lucide-react"
 
 interface GitHubStatsProps {
   isDarkMode: boolean
@@ -16,6 +16,8 @@ interface GitHubStatsProps {
 export default function GitHubStats({ isDarkMode, isMuted, playHoverSound, playClickSound }: GitHubStatsProps) {
   const [profileData, setProfileData] = useState<IGitHubProfileResponse | null>(null)
   const [starsAndForks, setStarsAndForks] = useState<{ githubStars: number; forks: number } | null>(null)
+  const [contributionData, setContributionData] = useState<{ contributions: IContributionDay[] } | null>(null)
+  const [longestStreak, setLongestStreak] = useState<number>(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -23,9 +25,19 @@ export default function GitHubStats({ isDarkMode, isMuted, playHoverSound, playC
     async function fetchGitHubData() {
       try {
         setLoading(true)
-        const [profile, repoStats] = await Promise.all([fetchGithub(), getGithubStarsAndForks()])
+        const [profile, repoStats, contributions] = await Promise.all([
+          fetchGithub(),
+          getGithubStarsAndForks(),
+          getGithubContribution(),
+        ])
         setProfileData(profile)
         setStarsAndForks(repoStats)
+        setContributionData(contributions)
+
+        if (contributions && contributions.contributions) {
+          const streak = calculateLongestStreak(contributions.contributions)
+          setLongestStreak(streak)
+        }
       } catch (err) {
         console.error("Error fetching GitHub data:", err)
         setError("Failed to load GitHub stats")
@@ -116,9 +128,9 @@ export default function GitHubStats({ isDarkMode, isMuted, playHoverSound, playC
       icon: Star,
     },
     {
-      label: "Forks",
-      value: starsAndForks.forks.toLocaleString(),
-      icon: GitFork,
+      label: "Longest Streak",
+      value: longestStreak.toLocaleString(),
+      icon: Flame,
     },
   ]
 
@@ -147,7 +159,7 @@ export default function GitHubStats({ isDarkMode, isMuted, playHoverSound, playC
                   <stat.icon className={`h-5 w-5 ${isDarkMode ? "text-purple-400" : "text-purple-600"}`} />
                   <span className={`text-xs ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>{stat.label}</span>
                 </div>
-                <div className={`text-xl font-semibold ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+                <div className={`text-xl font-semibold px-[2px] ${isDarkMode ? "text-white" : "text-gray-900"}`}>
                   {stat.value}
                 </div>
               </div>
