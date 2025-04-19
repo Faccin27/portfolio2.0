@@ -1,13 +1,13 @@
 "use client"
 
-import { useState, useEffect, type FormEvent } from "react"
+import { useState, type FormEvent } from "react"
 import Image from "next/image"
 import AnimatedSection from "@/components/animatedsection"
 import { SuccessModal } from "@/components/successModal"
 import { QRCodeModal } from "@/components/qr-code-modal"
-import emailjs from "emailjs-com"
 import { motion } from "framer-motion"
 import { Dot, QrCode } from "lucide-react"
+import { url } from "inspector"
 
 interface ContactSectionProps {
   isDarkMode: boolean
@@ -24,32 +24,72 @@ export default function ContactSection({ isDarkMode, isMuted, playHoverSound }: 
   const [isQRModalOpen, setIsQRModalOpen] = useState(false)
   const [visitorCount, setVisitorCount] = useState(0)
 
-  const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!
-  const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!
-  const userId = process.env.NEXT_PUBLIC_EMAILJS_USER_ID!
+  const discordWebhookUrl = process.env.NEXT_PUBLIC_DISCORD_WEBHOOK_URL
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const sendToDiscordWebhook = async (formData: { email: string; subject: string; message: string }) => {
+    if (!discordWebhookUrl) {
+      console.error("Discord webhook URL is not set")
+      setStatus("Configuration error. Please try again later.")
+      return false
+    }
+
+    try {
+      const response = await fetch(discordWebhookUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          embeds: [
+            {
+              title: "📩 Novo Contato Recebido!",
+              color: 8388736, 
+              fields: [
+                { name: "📧 E-mail", value: formData.email, inline: true },
+                { name: "📝 Assunto", value: formData.subject, inline: true },
+                { name: "💬 Mensagem", value: formData.message, inline: false },
+              ],
+              image: {
+                url: "https://media.discordapp.net/attachments/1363219914642424109/1363221222376214790/logo.png?ex=68053e32&is=6803ecb2&hm=4201c6c7acf6a65bd0bc133d40f7bb2de28ce8b71a413591b56925e06bd11ac2&=&format=webp&quality=lossless&width=770&height=462",
+              },
+              footer: {
+                text: "Faccindev.pro",
+                url: 'https://faccindev.pro',
+                icon_url: "https://media.discordapp.net/attachments/1363219914642424109/1363221222376214790/logo.png?ex=68053e32&is=6803ecb2&hm=4201c6c7acf6a65bd0bc133d40f7bb2de28ce8b71a413591b56925e06bd11ac2&=&format=webp&quality=lossless&width=770&height=462",
+              },
+              timestamp: new Date().toISOString(),
+            },
+          ],
+        }),
+      })
+
+      return response.ok
+    } catch (error) {
+      console.error("Failed to send to Discord webhook:", error)
+      return false
+    }
+  }
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const templateParams = {
+    const formData = {
       email,
       subject,
       message,
     }
 
-    emailjs.send(serviceId, templateId, templateParams, userId).then(
-      (response) => {
-        console.log("SUCCESS!", response)
-        setEmail("")
-        setSubject("")
-        setMessage("")
-        setIsModalOpen(true)
-      },
-      (err) => {
-        console.error("FAILED...", err)
-        setStatus("Failed to send the message.")
-      },
-    )
+    const success = await sendToDiscordWebhook(formData)
+
+    if (success) {
+      setEmail("")
+      setSubject("")
+      setMessage("")
+      setIsModalOpen(true)
+      setStatus("")
+    } else {
+      setStatus("Failed to send the message. Please try again later.")
+    }
   }
 
   return (
@@ -152,7 +192,7 @@ export default function ContactSection({ isDarkMode, isMuted, playHoverSound }: 
               </form>
               <SuccessModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} isDarkMode={isDarkMode} />
               {status && (
-                <div className="mt-4 text-white">
+                <div className={`mt-4 ${isDarkMode ? "text-red-300" : "text-red-600"}`}>
                   <p>{status}</p>
                 </div>
               )}
