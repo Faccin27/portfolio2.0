@@ -21,6 +21,7 @@ import {
   Terminal,
 } from "lucide-react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import AnimatedSection from "@/components/animatedsection";
 import {
   vscDarkPlus,
   vs,
@@ -329,8 +330,11 @@ export default function VSCodeEditor({
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: blinkingCursorStyle }} />
+      <AnimatedSection animation="fadeUp">
+
+
       <div
-        className={`w-full rounded-lg overflow-hidden border shadow-lg ${
+        className={`w-full rounded-lg overflow-hidden border shadow-lg  ${
           isDarkMode
             ? "bg-[#1e1e1e] border-gray-800"
             : "bg-[#f3f3f3] border-gray-300"
@@ -807,7 +811,9 @@ export default function VSCodeEditor({
             </div>
           </div>
         </div>
+        
       </div>
+        </AnimatedSection>
     </>
   );
 }

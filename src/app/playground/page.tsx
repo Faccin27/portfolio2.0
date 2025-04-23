@@ -7,6 +7,7 @@ import { Particles } from "@/components/particles";
 import Header from "@/components/layout/header";
 import AnimatedSection from "@/components/animatedsection";
 import VSCodeEditor from "@/components/vscode/vscode-editor";
+import DevQuiz from "@/components/dev-quiz"; // <-- Importado aqui
 
 const MemoizedParticles = React.memo(Particles);
 
@@ -69,13 +70,43 @@ export default function Playground() {
         </AnimatedSection>
 
         <AnimatedSection animation="fadeRight">
-          <VSCodeEditor 
-            isDarkMode={isDarkMode} 
-            isMuted={isMuted} 
-            playHoverSound={playHoverSound} 
-            playClickSound={playClickSound} 
+          <VSCodeEditor
+            isDarkMode={isDarkMode}
+            isMuted={isMuted}
+            playHoverSound={playHoverSound}
+            playClickSound={playClickSound}
           />
         </AnimatedSection>
+        <AnimatedSection className="mt-20 mb-8" animation="fadeUp">
+          <h1
+            className={`text-3xl font-bold text-center ${
+              isDarkMode ? "text-white" : "text-gray-900"
+            }`}
+          >
+            Dev Quiz
+          </h1>
+          <p
+            className={`text-center mt-2 ${
+              isDarkMode ? "text-gray-300" : "text-gray-700"
+            }`}
+          >
+            Descubra se sua paixão esta no design ou na estrutura
+          </p>
+        </AnimatedSection>
+        <div
+          className={`w-full rounded-lg overflow-hidden border shadow-lg z-10 h-full mb-12  ${
+            isDarkMode
+              ? "bg-[#1e1e1e] border-gray-800"
+              : "bg-[#f3f3f3] border-gray-300"
+          }`}
+          style={{ height: "70vh" }}
+        >
+          <DevQuiz
+            isDarkMode={isDarkMode}
+            playHoverSound={playHoverSound}
+            playClickSound={playClickSound}
+          />
+        </div>
       </div>
     </div>
   );
