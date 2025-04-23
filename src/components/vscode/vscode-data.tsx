@@ -15,6 +15,64 @@ export const fileContents: Record<string, FileContent> = {
     type: "code",
     language: "json",
   },
+  "Curriculo.md": {
+    content: `# Guilherme Faccin
+**Desenvolvedor Fullstack**
+
+## Sobre mim
+Desenvolvedor web criativo, com foco em interatividade e experiência do usuário. Experiência sólida no desenvolvimento full stack. \nBusco aplicar minhas habilidades em projetos que valorizem tecnologia moderna e inovação.
+
+## Experiência Profissional
+
+### Desenvolvedor Fullstack — Agência Lovatel (Joacaba, SC-BRA)  
+**Fevereiro 2025 — Presente**
+- Colaborando com uma equipe de desenvolvedores na criação de aplicações web modernas e responsivas.
+- Desenvolvendo aplicações web full stack com estrutura semântica.
+- Aplicando metodologias ágeis como SCRUM na gestão de projetos.
+
+**Projetos Recentes**  
+- **4bdigital (Fullstack Web App)** — Gestão de equipe, automatizações financeiras e empresariais, presença online moderna.  
+- **Blazim (Fullstack Web App)** — Fortalecimento estratégico da marca, sistema de compras para representantes.  
+- **Outros** — Plataforma de prestadores de serviços, app de música com Spotify/YT Music, scripts RPA, exploit RAT, landing pages, e-commerce.
+
+### Desenvolvedor Fullstack — Forja (Belo Horizonte, MG-BRA)  
+**Dezembro 2024 — Fevereiro 2025**  
+- Desenvolvimento full stack e sites estáticos para pequenas/médias empresas.  
+- Consultoria em SEO e mídias sociais.
+
+### Desenvolvedor Fullstack Freelancer — Internacional  
+**Janeiro 2024 — Presente**  
+- Criação de soluções web completas para clientes internacionais.
+- Desenvolvimento de aplicações fullstack, sistemas personalizados e integração com APIs.
+- Consultoria em estratégias digitais e UX.
+
+### Voluntariado
+**Desenvolvedor Fullstack — Fixteam (BRA)**  
+**Março 2025 — Presente**  
+- Desenvolvimento de sites acessíveis para pequenos negócios com grande potencial de crescimento.
+
+## Contato
+📞 +55 49 9 9921-5720  
+✉️ gfaccin27@gmail.com  
+🌐 [faccindev.pro](https://faccindev.pro)  
+💻 [github.com/Faccin27](https://github.com/Faccin27)  
+🔗 [linkedin.com/in/guilherme-faccin](https://linkedin.com/in/guilherme-faccin)
+
+## Skills
+HTML, CSS, JavaScript, TypeScript, Python, Lua  
+Tailwind, Bootstrap, MUI, PHP, Laravel  
+React, Next.js, Vue, Node.js, Electron  
+Docker, Figma, MySQL, MongoDB, PostgreSQL  
+OOP, Acessibilidade Web
+
+## Educação
+**SENAI - SC, BRA**  
+2023 - 2024  
+Técnico em Informática para Internet`,
+    type: "text",
+    language: "markdown",
+  },
+
   "README.md": {
     content:
       "# VS Code Playground\n\nThis is a playground that mimics the VS Code interface.\n\n## Features\n\n- File switching\n- Folder toggling\n- Code execution\n- Image preview\n\n## How to use\n\n1. Click on files in the sidebar to open them\n2. Edit code in the editor\n3. Click 'Run Code' to execute JavaScript \n\n## Extra\n\nIf you've read this far and are enjoying my project, congratulations, \nyou've won a 20% discount coupon on your next project with me. \n\n\n\nYour discount coupon is in another file.",
@@ -128,6 +186,13 @@ export const initialFolders: Folder[] = [
         type: "text",
         content: fileContents["package.json"].content,
         language: "json",
+      },
+      {
+        name: "Curriculo.md",
+        icon: <FileText className="h-4 w-4" />,
+        type: "text",
+        content: fileContents["Curriculo.md"].content,
+        language: "markdown",
       },
     ],
   },
