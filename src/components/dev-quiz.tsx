@@ -1280,7 +1280,7 @@ export default function DevQuiz({
                     >
                       {result.challenges.map((challenge, index) => (
                         <li key={index} className="flex items-start">
-                          <Circle className="h-4 w-4 text-orange-500 mr-2 mt-0.5" />
+                          <Circle className="min-h-4 min-w-4 max-h-4 max-w-4 self-center text-orange-500 mr-2 mt-0.5" />
                           {challenge}
                         </li>
                       ))}
