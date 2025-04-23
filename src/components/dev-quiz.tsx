@@ -330,7 +330,7 @@ export default function DevQuiz({
       type: "frontend",
       title: "Desenvolvedor Front-end",
       description:
-        "Você tem uma forte inclinação para o desenvolvimento front-end! Sua paixão está em criar interfaces bonitas e experiências de usuário incríveis. Sua mentalidade criativa e orientada ao usuário são qualidades valiosas neste campo.",
+        " tem uma forte inclinação para o desenvolvimento front-end! Sua paixão está em criar interfaces bonitas e experiências de usuário incríveis. Sua mentalidade criativa e orientada ao usuário são qualidades valiosas neste campo.",
       icon: <Monitor className="h-12 w-12" />,
       skills: [
         "HTML/CSS/JavaScript",
@@ -373,7 +373,7 @@ export default function DevQuiz({
       type: "backend",
       title: "Desenvolvedor Back-end",
       description:
-        "Você tem uma forte inclinação para o desenvolvimento back-end! Sua paixão está em construir sistemas robustos e lidar com a lógica por trás das aplicações. Seu pensamento analítico e foco em eficiência são ativos valiosos neste campo.",
+        " tem uma forte inclinação para o desenvolvimento back-end! Sua paixão está em construir sistemas robustos e lidar com a lógica por trás das aplicações. Seu pensamento analítico e foco em eficiência são ativos valiosos neste campo.",
       icon: <Server className="h-12 w-12" />,
       skills: [
         "Node.js/Python/Java/Go/C#",
@@ -422,7 +422,7 @@ export default function DevQuiz({
       type: "fullstack",
       title: "Desenvolvedor Full-stack",
       description:
-        "Você tem um equilíbrio entre front-end e back-end! Sua versatilidade permite que você trabalhe em todas as camadas de uma aplicação, o que é extremamente valioso para equipes de desenvolvimento modernas.",
+        " tem um equilíbrio entre front-end e back-end! Sua versatilidade permite que você trabalhe em todas as camadas de uma aplicação, o que é extremamente valioso para equipes de desenvolvimento modernas.",
       icon: <Zap className="h-12 w-12" />,
       skills: [
         "JavaScript/TypeScript",
@@ -584,25 +584,6 @@ export default function DevQuiz({
     }
   };
 
-  const generateShareLink = () => {
-    if (!result || !userName.trim()) return;
-
-    const shareData = {
-      name: userName.trim(),
-      resultType: result.type,
-      answerBreakdown: answerBreakdown,
-      categoryBreakdown: categoryBreakdown,
-      completionTime: getQuizDuration(),
-      date: new Date().toISOString(),
-    };
-
-    const encodedData = encodeURIComponent(JSON.stringify(shareData));
-
-    // Gerar o link
-    const link = `${window.location.origin}/playground?share=${encodedData}#dev-quiz`;
-    setShareLink(link);
-  };
-
   const copyToClipboard = () => {
     navigator.clipboard
       .writeText(shareLink)
@@ -727,7 +708,23 @@ export default function DevQuiz({
                 <button
                   onClick={() => {
                     playClickSound();
-                    generateShareLink();
+                    if (userName.trim()) {
+                      if (!result) return;
+                      const shareData = {
+                        name: userName.trim(),
+                        resultType: result.type,
+                        answerBreakdown: answerBreakdown,
+                        categoryBreakdown: categoryBreakdown,
+                        completionTime: getQuizDuration(),
+                        date: new Date().toISOString(),
+                      };
+
+                      const encodedData = encodeURIComponent(
+                        JSON.stringify(shareData)
+                      );
+                      const link = `${window.location.origin}/playground?share=${encodedData}#dev-quiz`;
+                      setShareLink(link);
+                    }
                   }}
                   disabled={!userName.trim()}
                   className={`px-4 py-2 rounded-md ${
@@ -817,6 +814,7 @@ export default function DevQuiz({
       const seconds = durationSeconds % 60;
       return `${minutes}m ${seconds}s`;
     }
+
     return "N/A";
   };
 
@@ -1163,13 +1161,13 @@ export default function DevQuiz({
           >
             {isSharedResult && sharedByName ? (
               <>
-                <strong>{sharedByName.toUpperCase()}</strong> tem um equilíbrio
-                entre front-end e back-end! A versatilidade dessa pessoa permite
-                trabalhar em todas as camadas de uma aplicação — algo
-                extremamente valioso para equipes de desenvolvimento modernas.
+                <strong>{sharedByName.toUpperCase()}</strong>{" "}
+                {result.description}
               </>
             ) : (
-              result.description
+              <>
+                <strong>Você</strong> {result.description}
+              </>
             )}
           </motion.p>
 
