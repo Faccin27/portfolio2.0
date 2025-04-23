@@ -76,8 +76,8 @@ type CategoryBreakdown = {
 };
 
 interface DevIconProps {
-    type: string;
-  }
+  type: string;
+}
 
 export default function DevQuiz({
   isDarkMode,
@@ -111,7 +111,12 @@ export default function DevQuiz({
   const [quizStartTime, setQuizStartTime] = useState<number | null>(null);
   const [quizEndTime, setQuizEndTime] = useState<number | null>(null);
   const [showIntro, setShowIntro] = useState(true);
-
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [shareLink, setShareLink] = useState("");
+  const [copySuccess, setCopySuccess] = useState(false);
+  const [isSharedResult, setIsSharedResult] = useState(false);
+  const [sharedByName, setSharedByName] = useState("");
 
   const questions: Question[] = [
     {
@@ -218,20 +223,22 @@ export default function DevQuiz({
         {
           text: "Experimentando visualmente e recebendo feedback imediato",
           value: "frontend",
-          icon:           <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-          <circle cx="12" cy="12" r="3" />
-        </svg>,
+          icon: (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          ),
         },
         {
           text: "Analisando logicamente e planejando uma solução estruturada",
@@ -456,7 +463,6 @@ export default function DevQuiz({
     },
   };
 
-  
   // Componente SVG para representar um desenvolvedor
   const DevIcon = ({ type }: DevIconProps) => {
     return (
@@ -573,13 +579,232 @@ export default function DevQuiz({
 
   const shareResult = () => {
     if (result) {
-      const shareText = `Fiz o Quiz de Desenvolvimento e descobri que sou um ${result.title}! #DevQuiz`;
-
-
-
-      alert("Compartilhamento: " + shareText);
-      alert("Implementar a função")
+      playClickSound();
+      setShareModalOpen(true);
     }
+  };
+
+  const generateShareLink = () => {
+    if (!result || !userName.trim()) return;
+
+    const shareData = {
+      name: userName.trim(),
+      resultType: result.type,
+      answerBreakdown: answerBreakdown,
+      categoryBreakdown: categoryBreakdown,
+      completionTime: getQuizDuration(),
+      date: new Date().toISOString(),
+    };
+
+    const encodedData = encodeURIComponent(JSON.stringify(shareData));
+
+    // Gerar o link
+    const link = `${window.location.origin}/playground?share=${encodedData}#dev-quiz`;
+    setShareLink(link);
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard
+      .writeText(shareLink)
+      .then(() => {
+        setCopySuccess(true);
+        setTimeout(() => setCopySuccess(false), 2000);
+      })
+      .catch((err) => console.error("Erro ao copiar: ", err));
+  };
+
+  const processShareParams = () => {
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      const shareParam = urlParams.get("share");
+
+      if (shareParam) {
+        try {
+          const sharedData = JSON.parse(decodeURIComponent(shareParam));
+
+          if (sharedData.resultType && results[sharedData.resultType]) {
+            setResult(results[sharedData.resultType]);
+            setAnswerBreakdown(
+              sharedData.answerBreakdown || { frontend: 0, backend: 0 }
+            );
+            setCategoryBreakdown(sharedData.categoryBreakdown || {});
+            setShowResult(true);
+            setQuizCompleted(true);
+            setShowIntro(false);
+            setQuizStarted(true);
+
+            const simulatedAnswersCount =
+              (sharedData.answerBreakdown?.frontend || 0) +
+              (sharedData.answerBreakdown?.backend || 0);
+
+            const simulatedAnswers: { [key: number]: "frontend" | "backend" } =
+              {};
+            let currentIndex = 0;
+            for (let i = 0; i < sharedData.answerBreakdown.frontend; i++) {
+              simulatedAnswers[currentIndex++] = "frontend";
+            }
+            for (let i = 0; i < sharedData.answerBreakdown.backend; i++) {
+              simulatedAnswers[currentIndex++] = "backend";
+            }
+            setAnswers(simulatedAnswers);
+
+            setQuizStartTime(0);
+            setQuizEndTime(1000);
+
+            if (sharedData.name) {
+              setSharedByName(sharedData.name);
+              setIsSharedResult(true);
+            }
+          }
+        } catch (error) {
+          console.error("Erro ao processar dados compartilhados:", error);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    processShareParams();
+  }, []);
+
+  const ShareModal = () => {
+    if (!shareModalOpen) return null;
+
+    return (
+      <div
+        className={`fixed inset-0 z-50 flex items-center justify-center p-4 ${
+          isDarkMode ? "bg-black bg-opacity-70" : "bg-gray-600 bg-opacity-50"
+        }`}
+      >
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          className={`w-full max-w-md rounded-lg p-6 ${
+            isDarkMode ? "bg-gray-800" : "bg-white"
+          } shadow-xl`}
+        >
+          <h3 className="text-xl font-bold mb-4">Compartilhar Resultado</h3>
+
+          {!shareLink ? (
+            <>
+              <p
+                className={`mb-4 ${
+                  isDarkMode ? "text-gray-300" : "text-gray-600"
+                }`}
+              >
+                Digite seu nome para gerar um link de compartilhamento:
+              </p>
+
+              <input
+                type="text"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                placeholder="Seu nome"
+                className={`w-full p-3 mb-4 rounded-md border ${
+                  isDarkMode
+                    ? "bg-gray-700 border-gray-600 text-white"
+                    : "bg-white border-gray-300"
+                }`}
+              />
+
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => {
+                    playClickSound();
+                    setShareModalOpen(false);
+                  }}
+                  className={`px-4 py-2 rounded-md ${
+                    isDarkMode
+                      ? "bg-gray-700 hover:bg-gray-600"
+                      : "bg-gray-200 hover:bg-gray-300"
+                  }`}
+                  onMouseEnter={playHoverSound}
+                >
+                  Cancelar
+                </button>
+
+                <button
+                  onClick={() => {
+                    playClickSound();
+                    generateShareLink();
+                  }}
+                  disabled={!userName.trim()}
+                  className={`px-4 py-2 rounded-md ${
+                    userName.trim()
+                      ? isDarkMode
+                        ? "bg-blue-600 hover:bg-blue-700"
+                        : "bg-blue-500 hover:bg-blue-600"
+                      : isDarkMode
+                      ? "bg-gray-700 cursor-not-allowed"
+                      : "bg-gray-300 cursor-not-allowed"
+                  } text-white`}
+                  onMouseEnter={userName.trim() ? playHoverSound : undefined}
+                >
+                  Gerar Link
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p
+                className={`mb-4 ${
+                  isDarkMode ? "text-gray-300" : "text-gray-600"
+                }`}
+              >
+                Link de compartilhamento gerado com sucesso. Copie e compartilhe
+                com seus amigos:
+              </p>
+
+              <div className="flex mb-4">
+                <input
+                  type="text"
+                  value={shareLink}
+                  readOnly
+                  className={`flex-grow p-3 rounded-l-md border-y border-l ${
+                    isDarkMode
+                      ? "bg-gray-700 border-gray-600 text-white"
+                      : "bg-gray-50 border-gray-300"
+                  }`}
+                />
+                <button
+                  onClick={copyToClipboard}
+                  className={`px-4 rounded-r-md border-y border-r ${
+                    isDarkMode
+                      ? "bg-gray-600 border-gray-600 hover:bg-gray-500"
+                      : "bg-gray-200 border-gray-300 hover:bg-gray-300"
+                  }`}
+                  onMouseEnter={playHoverSound}
+                >
+                  {copySuccess ? (
+                    <Check className="h-5 w-5 text-green-500" />
+                  ) : (
+                    "Copiar"
+                  )}
+                </button>
+              </div>
+
+              <div className="flex justify-end">
+                <button
+                  onClick={() => {
+                    playClickSound();
+                    setShareModalOpen(false);
+                  }}
+                  className={`px-4 py-2 rounded-md ${
+                    isDarkMode
+                      ? "bg-blue-600 hover:bg-blue-700"
+                      : "bg-blue-500 hover:bg-blue-600"
+                  } text-white`}
+                  onMouseEnter={playHoverSound}
+                >
+                  Fechar
+                </button>
+              </div>
+            </>
+          )}
+        </motion.div>
+      </div>
+    );
   };
 
   const progressPercentage = ((currentQuestion + 1) / questions.length) * 100;
@@ -604,7 +829,7 @@ export default function DevQuiz({
         transition={{ duration: 0.5 }}
         className="w-full max-w-2xl mx-auto text-center"
       >
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-6 mt-12">
           <div className="relative">
             <div className="absolute inset-0 flex items-center justify-center">
               <motion.div
@@ -899,11 +1124,12 @@ export default function DevQuiz({
         className="w-full max-w-3xl"
       >
         <div className="text-center">
+          {isSharedResult}
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-            className={`mx-auto w-24 h-24 rounded-full flex items-center justify-center mb-6 mt-56 ${
+            className={`mx-auto w-24 h-24 rounded-full flex items-center justify-center mb-6  ${
               result.type === "frontend"
                 ? "bg-gradient-to-br from-pink-500 to-orange-400"
                 : result.type === "backend"
@@ -920,7 +1146,13 @@ export default function DevQuiz({
             transition={{ delay: 0.5 }}
             className="text-2xl font-bold mb-2"
           >
-            {result.title}
+            {isSharedResult && sharedByName ? (
+              <>
+                <strong>{sharedByName.toUpperCase()}</strong> é {result.title}
+              </>
+            ) : (
+              result.title
+            )}
           </motion.h3>
 
           <motion.p
@@ -929,7 +1161,16 @@ export default function DevQuiz({
             transition={{ delay: 0.7 }}
             className={`mb-6 ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}
           >
-            {result.description}
+            {isSharedResult && sharedByName ? (
+              <>
+                <strong>{sharedByName.toUpperCase()}</strong> tem um equilíbrio
+                entre front-end e back-end! A versatilidade dessa pessoa permite
+                trabalhar em todas as camadas de uma aplicação — algo
+                extremamente valioso para equipes de desenvolvimento modernas.
+              </>
+            ) : (
+              result.description
+            )}
           </motion.p>
 
           {/* Abas de detalhamento do resultado */}
@@ -1149,7 +1390,7 @@ export default function DevQuiz({
                   <h4 className="font-medium mb-3 text-left">
                     Distribuição de Respostas:
                   </h4>
-                  <div className="relative h-8 rounded-full overflow-hidden mb-2 bg-gray-200 dark:bg-gray-700">
+                  <div className="relative h-8 rounded-full overflow-hidden mb-2 bg-gray-200 dark:bg-gradient-to-r from-blue-500 to-cyan-400">
                     <div
                       className="h-full bg-gradient-to-r from-pink-500 to-orange-400"
                       style={{
@@ -1258,61 +1499,87 @@ export default function DevQuiz({
           </motion.div>
 
           {/* Ações finais */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2 }}
-            className="flex flex-wrap justify-center gap-3"
-          >
-            <button
-              onClick={resetQuiz}
-              className={`px-4 py-2 rounded-md flex items-center ${
-                isDarkMode
-                  ? "bg-gray-700 hover:bg-gray-600"
-                  : "bg-gray-200 hover:bg-gray-300"
-              }`}
-              onMouseEnter={playHoverSound}
+          {isSharedResult ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2 }}
+              className="flex flex-col items-center gap-3"
             >
-              <RefreshCw className="mr-2 h-4 w-4" />
-              Refazer o quiz
-            </button>
+              <p
+                className={`text-sm mb-2 ${
+                  isDarkMode ? "text-gray-400" : "text-gray-600"
+                }`}
+              >
+                <span className="font-semibold">{sharedByName}</span>{" "}
+                compartilhou este resultado com você.
+              </p>
+              <button
+                onClick={() => (window.location.href = "/playground#dev-quiz")}
+                className={`px-4 py-2 rounded-md mb-6 text-white ${
+                  isDarkMode
+                    ? "bg-blue-600 hover:bg-blue-700"
+                    : "bg-blue-500 hover:bg-blue-600"
+                }`}
+                onMouseEnter={playHoverSound}
+              >
+                Faça o seu quiz
+              </button>
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2 }}
+              className="flex flex-wrap justify-center gap-3"
+            >
+              <button
+                onClick={resetQuiz}
+                className={`px-4 py-2 rounded-md flex items-center ${
+                  isDarkMode
+                    ? "bg-gray-700 hover:bg-gray-600"
+                    : "bg-gray-200 hover:bg-gray-300"
+                }`}
+                onMouseEnter={playHoverSound}
+              >
+                <RefreshCw className="mr-2 h-4 w-4" />
+                Refazer o quiz
+              </button>
 
-            <button
-              onClick={shareResult}
-              className={`px-4 py-2 rounded-md flex items-center ${
-                isDarkMode
-                  ? "bg-indigo-600 hover:bg-indigo-700"
-                  : "bg-indigo-500 hover:bg-indigo-600"
-              } text-white`}
-              onMouseEnter={playHoverSound}
-            >
-              <Share2 className="mr-2 h-4 w-4" />
-              Compartilhar resultado
-            </button>
+              <button
+                onClick={shareResult}
+                className={`px-4 py-2 rounded-md flex items-center ${
+                  isDarkMode
+                    ? "bg-indigo-600 hover:bg-indigo-700"
+                    : "bg-indigo-500 hover:bg-indigo-600"
+                } text-white`}
+                onMouseEnter={playHoverSound}
+              >
+                <Share2 className="mr-2 h-4 w-4" />
+                Compartilhar resultado
+              </button>
 
-            <button
-              onClick={() => {
-                playClickSound();
-                // Aqui você implementaria a funcionalidade para baixar o resultado
-                alert("Baixando certificado...");
-              }}
-              className={`px-4 py-2 rounded-md flex items-center ${
-                isDarkMode
-                  ? "bg-green-600 hover:bg-green-700"
-                  : "bg-green-500 hover:bg-green-600"
-              } text-white`}
-              onMouseEnter={playHoverSound}
-            >
-              <Download className="mr-2 h-4 w-4" />
-              Baixar certificado
-            </button>
-          </motion.div>
+              <button
+                onClick={() => {
+                  playClickSound();
+                  alert("Baixando certificado...");
+                }}
+                className={`px-4 py-2 rounded-md flex items-center ${
+                  isDarkMode
+                    ? "bg-green-600 hover:bg-green-700"
+                    : "bg-green-500 hover:bg-green-600"
+                } text-white`}
+                onMouseEnter={playHoverSound}
+              >
+                <Download className="mr-2 h-4 w-4" />
+                Baixar certificado
+              </button>
+            </motion.div>
+          )}
         </div>
       </motion.div>
     );
   };
-
-
 
   return (
     <div
@@ -1340,7 +1607,7 @@ export default function DevQuiz({
       </div>
 
       {/* Content */}
-      <div className="flex-grow flex items-center justify-center p-6 overflow-y-auto" >
+      <div className="flex-grow flex items-center justify-center p-6  overflow-y-auto">
         {showIntro
           ? renderIntro()
           : !showResult
@@ -1376,6 +1643,7 @@ export default function DevQuiz({
           </div>
         </div>
       )}
+      <ShareModal />
     </div>
   );
 }

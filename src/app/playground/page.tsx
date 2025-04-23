@@ -54,6 +54,7 @@ export default function Playground() {
       <div className="container mx-auto px-4 mt-20 pt-8">
         <AnimatedSection className="mt-4 mb-8" animation="fadeUp">
           <h1
+            id="vscode"
             className={`text-3xl font-bold text-center ${
               isDarkMode ? "text-white" : "text-gray-900"
             }`}
@@ -96,12 +97,12 @@ export default function Playground() {
         <AnimatedSection animation="fadeLeft">
 
         <div
+          id="dev-quiz"
           className={`w-full rounded-lg overflow-hidden border shadow-lg z-10 h-full mb-12  ${
             isDarkMode
               ? "bg-[#1e1e1e] border-gray-800"
               : "bg-[#f3f3f3] border-gray-300"
           }`}
-          style={{ height: "70vh" }}
         >
           <DevQuiz
             isDarkMode={isDarkMode}
