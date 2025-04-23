@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Moon, Sun, VolumeX, Volume2 } from "lucide-react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
+import { usePathname } from "next/navigation"
 
 interface HeaderProps {
   isDarkMode: boolean
@@ -16,11 +17,18 @@ interface HeaderProps {
 export default function Header({ isDarkMode, toggleTheme, isMuted, toggleMute, playHoverSound }: HeaderProps) {
   const [showBulb, setShowBulb] = useState(true)
   const [showThemeIcon, setShowThemeIcon] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
-      if (scrollPercentage >= 10) {
+
+      // Define as páginas onde a lâmpada NÃO deve aparecer
+      const pagesWithoutBulb = ['/playground']
+
+      const shouldHideBulb = pagesWithoutBulb.includes(pathname)
+
+      if (scrollPercentage >= 10 || shouldHideBulb) {
         setShowBulb(false)
         setShowThemeIcon(true)
       } else {
@@ -30,8 +38,10 @@ export default function Header({ isDarkMode, toggleTheme, isMuted, toggleMute, p
     }
 
     window.addEventListener("scroll", handleScroll)
+    handleScroll()
+
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  }, [pathname])
 
   return (
     <motion.header
