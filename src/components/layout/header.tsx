@@ -62,7 +62,7 @@ export default function Header({ isDarkMode, toggleTheme, isMuted, toggleMute, p
               isDarkMode ? "text-purple-500" : "text-purple-700"
             } relative`}
           >
-            <span className="relative z-10">FaccinDEV</span>
+            <a href="/"><span className="relative z-10">FaccinDEV</span></a>
             <span className={`absolute inset-0 blur-md ${isDarkMode ? "bg-purple-500/30" : "bg-purple-300/30"}`}></span>
           </motion.span>
           <div className="flex items-center space-x-2">

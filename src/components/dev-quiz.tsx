@@ -1636,7 +1636,7 @@ export default function DevQuiz({
                   </span>
                 </div>
               )}
-              <span>© 2025 DevQuiz</span>
+              <span>© 2025 FaccinDev Quiz</span>
             </div>
           </div>
         </div>
