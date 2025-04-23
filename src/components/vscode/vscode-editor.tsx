@@ -41,6 +41,7 @@ export default function VSCodeEditor({
   playHoverSound,
   playClickSound,
 }: VSCodeEditorProps) {
+  const [isEditorFocused, setIsEditorFocused] = useState(false);
   const [activeTab, setActiveTab] = useState<string>("index.js");
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
   const [editorContent, setEditorContent] = useState<string>(
@@ -574,7 +575,7 @@ export default function VSCodeEditor({
                       src={
                         activeFile.path ||
                         "/placeholder.svg?height=200&width=200" ||
-                        "/placeholder.svg" 
+                        "/placeholder.svg"
                         // Nao esquecer de remover o placeholder
                       }
                       alt={activeTab}
@@ -622,7 +623,7 @@ export default function VSCodeEditor({
                       }}
                       onKeyDown={(e) => {
                         if (!isMuted) {
-                          playClickSound(); 
+                          playClickSound();
                         }
                         if (e.key === "Tab") {
                           e.preventDefault();
@@ -649,6 +650,8 @@ export default function VSCodeEditor({
                       onSelect={updateCursorPosition}
                       onInput={updateCursorPosition}
                       onScroll={syncScroll}
+                      onFocus={() => setIsEditorFocused(true)}
+                      onBlur={() => setIsEditorFocused(false)}
                       className={`absolute inset-0 w-full h-full p-2 font-mono text-sm resize-none outline-none opacity-0 z-10 overflow-auto`}
                       spellCheck={false}
                     />
@@ -689,12 +692,9 @@ export default function VSCodeEditor({
                     <div
                       className="absolute w-[2px] h-[14px] bg-white animate-blink pointer-events-none"
                       style={{
-                        top: `${caretPosition.top - scrollPosition.top + 3}px`, // Adjusted to center vertically
+                        top: `${caretPosition.top - scrollPosition.top + 3}px`,
                         left: `${caretPosition.left}px`,
-                        display:
-                          document.activeElement === editorRef.current
-                            ? "block"
-                            : "none",
+                        display: isEditorFocused ? "block" : "none",
                       }}
                     />
 
