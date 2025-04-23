@@ -93,6 +93,8 @@ export default function Playground() {
             Descubra se sua paixão esta no design ou na estrutura
           </p>
         </AnimatedSection>
+        <AnimatedSection animation="fadeLeft">
+
         <div
           className={`w-full rounded-lg overflow-hidden border shadow-lg z-10 h-full mb-12  ${
             isDarkMode
@@ -107,6 +109,8 @@ export default function Playground() {
             playClickSound={playClickSound}
           />
         </div>
+        </AnimatedSection>
+
       </div>
     </div>
   );
