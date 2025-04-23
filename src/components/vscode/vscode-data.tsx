@@ -1,5 +1,5 @@
-import { FileCode, FileText, ImageIcon } from "lucide-react"
-import type { FileContent, Folder } from "@/types/vscode-types"
+import { FileCode, FileText, ImageIcon } from "lucide-react";
+import type { FileContent, Folder } from "@/types/vscode-types";
 
 // File contents
 export const fileContents: Record<string, FileContent> = {
@@ -11,13 +11,13 @@ export const fileContents: Record<string, FileContent> = {
   },
   "package.json": {
     content:
-      '{\n  "name": "vscode-playground",\n  "version": "1.0.0",\n  "description": "VS Code playground",\n  "main": "index.js",\n  "scripts": {\n    "start": "node index.js"\n  },\n  "dependencies": {}\n}',
+      '{\n  "name": "vscode-playground",\n  "version": "1.0.0",\n  "description": "VS Code playground created by FaccinDev",\n  "main": "index.js",\n  "scripts": {\n    "start": "node index.js"\n  },\n  "dependencies": {\n     "coupon": "tralalelo-tralala"\n   }\n}',
     type: "code",
     language: "json",
   },
   "README.md": {
     content:
-      "# VS Code Playground\n\nThis is a playground that mimics the VS Code interface.\n\n## Features\n\n- File switching\n- Folder toggling\n- Code execution\n- Image preview\n\n## How to use\n\n1. Click on files in the sidebar to open them\n2. Edit code in the editor\n3. Click 'Run Code' to execute JavaScript",
+      "# VS Code Playground\n\nThis is a playground that mimics the VS Code interface.\n\n## Features\n\n- File switching\n- Folder toggling\n- Code execution\n- Image preview\n\n## How to use\n\n1. Click on files in the sidebar to open them\n2. Edit code in the editor\n3. Click 'Run Code' to execute JavaScript \n\n## Extra\n\nIf you've read this far and are enjoying my project, congratulations, \nyou've won a 20% discount coupon on your next project with me. \n\n\n\nYour discount coupon is in another file.",
     type: "text",
     language: "markdown",
   },
@@ -36,19 +36,19 @@ export const fileContents: Record<string, FileContent> = {
   "logo.png": {
     content: "",
     type: "image",
-    path: "/placeholder.svg?height=200&width=200",
+    path: "/logo.png",
   },
   "banner.png": {
     content: "",
     type: "image",
-    path: "/placeholder.svg?height=400&width=800",
+    path: "/image.png",
   },
-  "icon.png": {
+  "me.png": {
     content: "",
     type: "image",
-    path: "/placeholder.svg?height=64&width=64",
+    path: "/me.png",
   },
-}
+};
 
 // Estrutra de f0lders e arquivos
 export const initialFolders: Folder[] = [
@@ -103,7 +103,7 @@ export const initialFolders: Folder[] = [
         path: "/placeholder.svg?height=400&width=800",
       },
       {
-        name: "icon.png",
+        name: "me.png",
         icon: <ImageIcon className="h-4 w-4" />,
         type: "image",
         content: "",
@@ -111,4 +111,24 @@ export const initialFolders: Folder[] = [
       },
     ],
   },
-]
+  {
+    name: "Secrets",
+    isOpen: false,
+    files: [
+      {
+        name: "README.md",
+        icon: <FileText className="h-4 w-4" />,
+        type: "text",
+        content: fileContents["README.md"].content,
+        language: "markdown",
+      },
+      {
+        name: "package.json",
+        icon: <FileText className="h-4 w-4" />,
+        type: "text",
+        content: fileContents["package.json"].content,
+        language: "json",
+      },
+    ],
+  },
+];
