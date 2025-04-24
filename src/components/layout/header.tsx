@@ -1,47 +1,57 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Moon, Sun, VolumeX, Volume2 } from "lucide-react"
-import Image from "next/image"
-import { motion, AnimatePresence } from "framer-motion"
-import { usePathname } from "next/navigation"
+import { useState, useEffect } from "react";
+import { Moon, Sun, VolumeX, Volume2 } from "lucide-react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 interface HeaderProps {
-  isDarkMode: boolean
-  toggleTheme: () => void
-  isMuted: boolean
-  toggleMute: () => void
-  playHoverSound: () => void
+  isDarkMode: boolean;
+  toggleTheme: () => void;
+  isMuted: boolean;
+  toggleMute: () => void;
+  playHoverSound: () => void;
 }
 
-export default function Header({ isDarkMode, toggleTheme, isMuted, toggleMute, playHoverSound }: HeaderProps) {
-  const [showBulb, setShowBulb] = useState(true)
-  const [showThemeIcon, setShowThemeIcon] = useState(false)
-  const pathname = usePathname()
+export default function Header({
+  isDarkMode,
+  toggleTheme,
+  isMuted,
+  toggleMute,
+  playHoverSound,
+}: HeaderProps) {
+  const [showBulb, setShowBulb] = useState(true);
+  const [showThemeIcon, setShowThemeIcon] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+      const scrollPercentage =
+        (window.scrollY /
+          (document.documentElement.scrollHeight - window.innerHeight)) *
+        100;
 
       // Define as páginas onde a lâmpada NÃO deve aparecer
-      const pagesWithoutBulb = ['/playground']
+      const pagesWithoutBulb = ["/playground"];
 
-      const shouldHideBulb = pagesWithoutBulb.includes(pathname)
+      const shouldHideBulb = pagesWithoutBulb.includes(pathname);
 
       if (scrollPercentage >= 10 || shouldHideBulb) {
-        setShowBulb(false)
-        setShowThemeIcon(true)
+        setShowBulb(false);
+        setShowThemeIcon(true);
       } else {
-        setShowBulb(true)
-        setShowThemeIcon(false)
+        setShowBulb(true);
+        setShowThemeIcon(false);
       }
-    }
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    handleScroll()
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
 
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [pathname])
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [pathname]);
 
   return (
     <motion.header
@@ -62,8 +72,14 @@ export default function Header({ isDarkMode, toggleTheme, isMuted, toggleMute, p
               isDarkMode ? "text-purple-500" : "text-purple-700"
             } relative`}
           >
-            <a href="/"><span className="relative z-10">FaccinDEV</span></a>
-            <span className={`absolute inset-0 blur-md ${isDarkMode ? "bg-purple-500/30" : "bg-purple-300/30"}`}></span>
+            <Link href={"/"}>
+              <span className="relative z-10">FaccinDEV</span>
+            </Link>
+            <span
+              className={`absolute inset-0 blur-md ${
+                isDarkMode ? "bg-purple-500/30" : "bg-purple-300/30"
+              }`}
+            ></span>
           </motion.span>
           <div className="flex items-center space-x-2">
             <AnimatePresence>
@@ -76,9 +92,17 @@ export default function Header({ isDarkMode, toggleTheme, isMuted, toggleMute, p
                   onClick={toggleTheme}
                 >
                   {isDarkMode ? (
-                    <Sun className="text-yellow-400" size={24} onMouseEnter={isMuted ? undefined : playHoverSound} />
+                    <Sun
+                      className="text-yellow-400"
+                      size={24}
+                      onMouseEnter={isMuted ? undefined : playHoverSound}
+                    />
                   ) : (
-                    <Moon className="text-gray-600" size={24} onMouseEnter={isMuted ? undefined : playHoverSound} />
+                    <Moon
+                      className="text-gray-600"
+                      size={24}
+                      onMouseEnter={isMuted ? undefined : playHoverSound}
+                    />
                   )}
                 </motion.div>
               )}
@@ -124,15 +148,25 @@ export default function Header({ isDarkMode, toggleTheme, isMuted, toggleMute, p
                   alt="Light Bulb"
                   width={100}
                   height={120}
-                  className={`transition-all duration-500 ${isDarkMode ? "filter-none" : "brightness-75"}`}
+                  className={`transition-all duration-500 ${
+                    isDarkMode ? "filter-none" : "brightness-75"
+                  }`}
                 />
                 <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full mb-2">
                   <svg viewBox="0 0 100 25" className="w-full">
                     <defs>
-                      <path id="curve" d="M 0 0 Q 50 50 100 0" fill="transparent" />
+                      <path
+                        id="curve"
+                        d="M 0 0 Q 50 50 100 0"
+                        fill="transparent"
+                      />
                     </defs>
                     <text fill="white" fontSize="10">
-                      <textPath href="#curve" startOffset="40%" textAnchor="middle">
+                      <textPath
+                        href="#curve"
+                        startOffset="40%"
+                        textAnchor="middle"
+                      >
                         Light mode
                       </textPath>
                     </text>
@@ -144,5 +178,5 @@ export default function Header({ isDarkMode, toggleTheme, isMuted, toggleMute, p
         )}
       </AnimatePresence>
     </motion.header>
-  )
+  );
 }
