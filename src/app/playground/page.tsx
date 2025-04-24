@@ -7,7 +7,8 @@ import { Particles } from "@/components/particles";
 import Header from "@/components/layout/header";
 import AnimatedSection from "@/components/animatedsection";
 import VSCodeEditor from "@/components/vscode/vscode-editor";
-import DevQuiz from "@/components/dev-quiz"; // <-- Importado aqui
+import DevQuiz from "@/components/dev-quiz";
+import WorldMap from "@/components/world-map";
 
 const MemoizedParticles = React.memo(Particles);
 
@@ -78,6 +79,7 @@ export default function Playground() {
             playClickSound={playClickSound}
           />
         </AnimatedSection>
+
         <AnimatedSection className="mt-20 mb-8" animation="fadeUp">
           <h1
             className={`text-3xl font-bold text-center ${
@@ -95,23 +97,49 @@ export default function Playground() {
           </p>
         </AnimatedSection>
         <AnimatedSection animation="fadeLeft">
-
-        <div
-          id="dev-quiz"
-          className={`w-full rounded-lg overflow-hidden border shadow-lg z-10 h-full mb-12  ${
-            isDarkMode
-              ? "bg-[#1e1e1e] border-gray-800"
-              : "bg-[#f3f3f3] border-gray-300"
-          }`}
-        >
-          <DevQuiz
+          <div
+            id="dev-quiz"
+            className={`w-full rounded-lg overflow-hidden border shadow-lg z-10 h-full mb-12  ${
+              isDarkMode
+                ? "bg-[#1e1e1e] border-gray-800"
+                : "bg-[#f3f3f3] border-gray-300"
+            }`}
+          >
+            <DevQuiz
+              isDarkMode={isDarkMode}
+              playHoverSound={playHoverSound}
+              playClickSound={playClickSound}
+            />
+          </div>
+        </AnimatedSection>
+      </div>
+      <div className="bg-zinc-900 mb-12 relative z-10 w-full flex flex-col justify-center mx-auto">
+        <AnimatedSection className="mt-20 mb-8" animation="fadeUp">
+          <h1
+            id="world-map"
+            className={`text-3xl font-bold text-center ${
+              isDarkMode ? "text-white" : "text-gray-900"
+            }`}
+          >
+            Mapa Mundial Interativo
+          </h1>
+          <p
+            className={`text-center mt-2 ${
+              isDarkMode ? "text-gray-300" : "text-gray-700"
+            }`}
+          >
+            Visualização de dados geográficos com D3.js
+          </p>
+        </AnimatedSection>
+        <AnimatedSection animation="fadeLeft">
+          <div className="container mx-auto ">
+          <WorldMap
             isDarkMode={isDarkMode}
             playHoverSound={playHoverSound}
             playClickSound={playClickSound}
           />
-        </div>
+          </div>
         </AnimatedSection>
-
       </div>
     </div>
   );
