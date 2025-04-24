@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useEffect, useRef } from "react"
-import * as d3 from "d3"
-import { feature } from "topojson-client"
+import { useEffect, useRef } from "react";
+import * as d3 from "d3";
+import { feature } from "topojson-client";
 
 // Dados simulados de pontos (latitude, longitude)
 const simulatedPoints = [
@@ -21,64 +21,81 @@ const simulatedPoints = [
   { lat: 41.9028, lng: 12.4964 }, // Roma
   { lat: 31.2304, lng: 121.4737 }, // Xangai
   { lat: -34.6037, lng: -58.3816 }, // Buenos Aires
-]
+];
 
 interface WorldMapProps {
-  isDarkMode: boolean
-  playHoverSound: () => void
-  playClickSound: () => void
+  isDarkMode: boolean;
+  playHoverSound: () => void;
+  playClickSound: () => void;
 }
 
-export default function WorldMap({ isDarkMode, playHoverSound, playClickSound }: WorldMapProps) {
-  const svgRef = useRef<SVGSVGElement>(null)
+export default function WorldMap({
+  isDarkMode,
+  playHoverSound,
+  playClickSound,
+}: WorldMapProps) {
+  const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    if (!svgRef.current) return
+    if (!svgRef.current) return;
 
     const fetchData = async () => {
       try {
         // Carregar dados do mapa mundial
-        const response = await fetch("https://unpkg.com/world-atlas@2.0.2/countries-110m.json")
-        const data = await response.json()
+        const response = await fetch(
+          "https://unpkg.com/world-atlas@2.0.2/countries-110m.json"
+        );
+        const data = await response.json();
 
         // Converter TopoJSON para GeoJSON
-        const countries = feature(data, data.objects.countries)
+        const countries = feature(data, data.objects.countries);
 
-        renderMap(countries)
+        renderMap(countries);
       } catch (error) {
-        console.error("Erro ao carregar dados do mapa:", error)
+        console.error("Erro ao carregar dados do mapa:", error);
       }
-    }
+    };
 
-    fetchData()
-  }, [isDarkMode])
+    fetchData();
+  }, [isDarkMode]);
 
   const renderMap = (countries: any) => {
-    const svg = d3.select(svgRef.current)
-    const width = svgRef.current!.clientWidth
-    const height = svgRef.current!.clientHeight
+    const svg = d3.select(svgRef.current);
+    const width = svgRef.current!.clientWidth;
+    const height = svgRef.current!.clientHeight;
 
     // Limpar SVG
-    svg.selectAll("*").remove()
+    svg.selectAll("*").remove();
 
     // Configurar projeção
-    const projection = d3.geoEquirectangular().fitSize([width, height], countries)
+    const projection = d3
+      .geoEquirectangular()
+      .fitSize([width, height], countries);
 
-    const path = d3.geoPath().projection(projection)
+    const path = d3.geoPath().projection(projection);
 
     // Criar grupo para zoom
-    const g = svg.append("g")
+    const g = svg.append("g");
 
-    // Desenhar países
-    g.selectAll("path")
-    .data(countries.features)
-    .enter()
-    .append("path")
-    .attr("d", (d) => path(d as d3.GeoPermissibleObjects)!)
-    .attr("fill", "#000")
-    .attr("stroke", "#333333")
-    .attr("stroke-width", 0.5)
-  
+    if (isDarkMode) {
+      g.selectAll("path")
+        .data(countries.features)
+        .enter()
+        .append("path")
+        .attr("d", (d) => path(d as d3.GeoPermissibleObjects)!)
+        .attr("fill", "#000")
+        .attr("stroke", "#333333")
+        .attr("stroke-width", 0.5);
+    } else {
+      g.selectAll("path")
+        .data(countries.features)
+        .enter()
+        .append("path")
+        .attr("d", (d) => path(d as d3.GeoPermissibleObjects)!)
+        .attr("fill", "#cecece")
+        .attr("stroke", "#333333")
+        .attr("stroke-width", 0.5);
+    }
 
     // Adicionar pontos
     g.selectAll("circle")
@@ -91,18 +108,18 @@ export default function WorldMap({ isDarkMode, playHoverSound, playClickSound }:
       .attr("fill", "#3b82f6") // Pontos azuis
       .attr("opacity", 0.8)
       .append("title")
-      .text((d) => `Lat: ${d.lat}, Lng: ${d.lng}`)
+      .text((d) => `Lat: ${d.lat}, Lng: ${d.lng}`);
 
     // Configurar zoom
     const zoom = d3
       .zoom()
       .scaleExtent([1, 8])
       .on("zoom", (event) => {
-        g.attr("transform", event.transform)
-      })
+        g.attr("transform", event.transform);
+      });
 
-    svg.call(zoom as any)
-  }
+    svg.call(zoom as any);
+  };
 
   return (
     <svg
@@ -112,5 +129,5 @@ export default function WorldMap({ isDarkMode, playHoverSound, playClickSound }:
       preserveAspectRatio="xMidYMid meet"
       onMouseEnter={playHoverSound}
     />
-  )
+  );
 }

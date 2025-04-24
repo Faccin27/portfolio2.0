@@ -114,7 +114,11 @@ export default function Playground() {
           </div>
         </AnimatedSection>
       </div>
-      <div className="bg-zinc-900 mb-12 relative z-10 w-full flex flex-col justify-center mx-auto">
+      <div
+        className={`mb-12 relative z-10 w-full flex flex-col justify-center mx-auto ${
+          isDarkMode ? "bg-zinc-900 text-gray-200" : "bg-gray-100 text-zinc-900"
+        } `}
+      >
         <AnimatedSection className="mt-20 mb-8" animation="fadeUp">
           <h1
             id="world-map"
@@ -129,7 +133,7 @@ export default function Playground() {
               isDarkMode ? "text-gray-300" : "text-gray-700"
             }`}
           >
-            Visualização de dados geográficos com D3.js
+            Visualização de dados geográficos dos meus visistantes com D3.js
           </p>
         </AnimatedSection>
 
