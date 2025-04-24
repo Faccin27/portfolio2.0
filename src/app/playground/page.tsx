@@ -9,6 +9,7 @@ import AnimatedSection from "@/components/animatedsection";
 import VSCodeEditor from "@/components/vscode/vscode-editor";
 import DevQuiz from "@/components/dev-quiz";
 import WorldMap from "@/components/world-map";
+import Terminal from "@/components/terminal";
 
 const MemoizedParticles = React.memo(Particles);
 
@@ -131,16 +132,41 @@ export default function Playground() {
             Visualização de dados geográficos com D3.js
           </p>
         </AnimatedSection>
+
         <AnimatedSection animation="fadeLeft">
           <div className="container mx-auto ">
-          <WorldMap
-            isDarkMode={isDarkMode}
-            playHoverSound={playHoverSound}
-            playClickSound={playClickSound}
-          />
+            <WorldMap
+              isDarkMode={isDarkMode}
+              playHoverSound={playHoverSound}
+              playClickSound={playClickSound}
+            />
           </div>
         </AnimatedSection>
       </div>
+      <AnimatedSection className="mt-20 mb-8" animation="fadeUp">
+        <h1
+          id="terminal"
+          className={`text-3xl font-bold text-center ${
+            isDarkMode ? "text-white" : "text-gray-900"
+          }`}
+        >
+          Interactive Terminal
+        </h1>
+        <p
+          className={`text-center mt-2 ${
+            isDarkMode ? "text-gray-300" : "text-gray-700"
+          }`}
+        >
+          Explore a simulated command-line interface
+        </p>
+      </AnimatedSection>
+      <AnimatedSection animation="fadeRight" className="mb-12">
+        <Terminal
+          isDarkMode={isDarkMode}
+          playHoverSound={playHoverSound}
+          playClickSound={playClickSound}
+        />
+      </AnimatedSection>
     </div>
   );
 }
