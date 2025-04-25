@@ -60,8 +60,8 @@ export default function HeroSection({ isDarkMode, isMuted, playHoverSound, playC
   ]
 
   return (
-    <AnimatedSection animation="fadeDown">
-      <div className="flex flex-col md:flex-row items-center justify-between relative">
+    <AnimatedSection animation="fadeDown" >
+      <div  id="hero" className="flex flex-col md:flex-row items-center justify-between relative">
         <motion.div
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}

@@ -12,6 +12,8 @@ import SkillsSection from "@/components/skills-section";
 import ContactSection from "@/components/contact-section";
 import GitHubContributionsCalendar from "@/components/github-contributions-calendar";
 import GitHubStats from "@/components/GitHubStats";
+import PlaygroundPuzzle from "@/components/playground-puzzle";
+import FloatingNav from "@/components/floating-nav";
 
 const MemoizedParticles = React.memo(Particles);
 
@@ -80,7 +82,7 @@ export default function Home() {
         toggleMute={toggleMute}
         playHoverSound={playHoverSound}
       />
-
+      <FloatingNav />
       <div className="container mx-auto px-4 mt-20 pt-16">
         <HeroSection
           isDarkMode={isDarkMode}
@@ -109,7 +111,18 @@ export default function Home() {
           playHoverSound={playHoverSound}
           playClickSound={playClickSound}
         />
-        <h1 className={`text-3xl ${isDarkMode ? "text-white" : "text-gray-900" } mt-12 font-bold mb-6`}>
+
+        {/* <PlaygroundPuzzle
+          isDarkMode={isDarkMode}
+          playHoverSound={playHoverSound}
+          playClickSound={playClickSound}
+        /> */}
+
+        <h1
+          className={`text-3xl ${
+            isDarkMode ? "text-white" : "text-gray-900"
+          } mt-12 font-bold mb-6`}
+        >
           GitHub Profile
         </h1>
 

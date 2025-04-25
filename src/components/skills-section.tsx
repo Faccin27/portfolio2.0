@@ -41,7 +41,7 @@ export default function SkillsSection({ isDarkMode, isMuted, playHoverSound, pla
 
   return (
     <AnimatedSection className="mt-16" animation="fadeUp">
-      <h2 className={`text-3xl font-bold mb-8 ${isDarkMode ? "text-white" : "text-gray-900"}`}>My Skills</h2>
+      <h2 id="skills" className={`text-3xl font-bold mb-8 ${isDarkMode ? "text-white" : "text-gray-900"}`}>My Skills</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-8 gap-4 relative z-10">
         {skills.map((skill, index) => (
           <AnimatedSection key={index} animation={index % 2 === 0 ? "fadeLeft" : "fadeRight"}>

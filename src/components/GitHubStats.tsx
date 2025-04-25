@@ -184,7 +184,7 @@ export default function GitHubStats({
   ];
 
   return (
-    <div className="py-4 font-sans container mx-auto px-4">
+    <div className="py-4 font-sans container mx-auto px-4" id="github">
       <div
         className={`w-full sm:w-11/12 md:w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
           isDarkMode

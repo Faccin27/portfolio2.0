@@ -14,7 +14,7 @@ interface AboutSectionProps {
 export default function AboutSection({ isDarkMode, isMuted, playHoverSound, playClickSound }: AboutSectionProps) {
   return (
     <AnimatedSection className="mt-16" animation="fadeRight">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12" id="about">
         <div
           className={`w-full sm:w-11/12 md:w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
             isDarkMode ? "bg-zinc-800/80 border-white/10" : "bg-slate-300/80 border-gray-200"

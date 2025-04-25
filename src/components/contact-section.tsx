@@ -94,7 +94,7 @@ export default function ContactSection({ isDarkMode, isMuted, playHoverSound }: 
 
   return (
     <AnimatedSection className="mt-16" animation="fadeDown">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12" id="contact">
         <div
           className={`w-4/5 mx-auto rounded-2xl border transition-all duration-300 relative z-10 ${
             isDarkMode ? "bg-zinc-800/80 border-white/10" : "bg-slate-300/80 border-gray-200"
