@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Moon, Sun, VolumeX, Volume2 } from "lucide-react";
+import { Moon, Sun, VolumeX, Volume2, Puzzle } from "lucide-react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
@@ -63,7 +63,7 @@ export default function Header({
       }`}
     >
       <nav className="container mx-auto">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center ">
           <motion.span
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -81,7 +81,8 @@ export default function Header({
               }`}
             ></span>
           </motion.span>
-          <div className="flex items-center space-x-2">
+
+          <div className="flex items-center space-x-2 gap-1">
             <AnimatePresence>
               {showThemeIcon && (
                 <motion.div
@@ -107,6 +108,12 @@ export default function Header({
                 </motion.div>
               )}
             </AnimatePresence>
+            <Puzzle
+              className="text-orange-400 cursor-pointer"
+              size={24}
+              onClick={() => (window.location.href = "/playground")}
+              onMouseEnter={isMuted ? undefined : playHoverSound}
+            />
             <motion.div
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}

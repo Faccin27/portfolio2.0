@@ -112,34 +112,33 @@ export default function Home() {
           playClickSound={playClickSound}
         />
 
-        {/* <PlaygroundPuzzle
-          isDarkMode={isDarkMode}
-          playHoverSound={playHoverSound}
-          playClickSound={playClickSound}
-        /> */}
 
-        <h1
-          className={`text-3xl ${
-            isDarkMode ? "text-white" : "text-gray-900"
-          } mt-12 font-bold mb-6`}
-        >
-          GitHub Profile
-        </h1>
 
-        <GitHubStats
-          isDarkMode={isDarkMode}
-          isMuted={isMuted}
-          playHoverSound={playHoverSound}
-          playClickSound={playClickSound}
-        />
-        <GitHubContributionsCalendar
-          isDarkMode={isDarkMode}
-          isMuted={isMuted}
-          playHoverSound={playHoverSound}
-          playClickSound={playClickSound}
-        />
+        <div id="github">
+          <h1
+            className={`text-3xl ${
+              isDarkMode ? "text-white" : "text-gray-900"
+            } mt-12 font-bold mb-6`}
+          >
+            GitHub Profile
+          </h1>
+
+          <GitHubStats
+            isDarkMode={isDarkMode}
+            isMuted={isMuted}
+            playHoverSound={playHoverSound}
+            playClickSound={playClickSound}
+          />
+          <GitHubContributionsCalendar
+            isDarkMode={isDarkMode}
+            isMuted={isMuted}
+            playHoverSound={playHoverSound}
+            playClickSound={playClickSound}
+          />
+        </div>
       </div>
 
+      
       <ContactSection
         isDarkMode={isDarkMode}
         isMuted={isMuted}
