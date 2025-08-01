@@ -11,7 +11,7 @@ interface stepSectionProps {
   playClickSound: () => void
 }
 
-export default function stepSection({ isDarkMode, isMuted, playHoverSound, playClickSound }: stepSectionProps) {
+export default function StepSection({ isDarkMode, isMuted, playHoverSound, playClickSound }: stepSectionProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   const handleAccordionHover = () => {
