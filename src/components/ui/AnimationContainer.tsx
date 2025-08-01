@@ -1,27 +1,34 @@
-"use client";
+"use client"
 
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion"
+import type { ReactNode } from "react"
 
 interface AnimationContainerProps {
-    children: React.ReactNode;
-    delay?: number;
-    reverse?: boolean;
-    className?: string;
-};
+  children: ReactNode
+  delay?: number
+  className?: string
+  isDarkMode?: boolean
+}
 
-const AnimationContainer = ({ children, className, reverse, delay }: AnimationContainerProps) => {
-    return (
-        <motion.div
-            className={className}
-            initial={{ opacity: 0, y: reverse ? -20 : 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false }}
-            transition={{ duration: 0.2, delay: delay, ease: 'easeInOut', type: 'spring', stiffness: 260, damping: 20 }}
-        >
-            
-            {children}
-        </motion.div>
-    )
-};
-
-export default AnimationContainer
+export default function AnimationContainer({
+  children,
+  delay = 0,
+  className = "",
+  isDarkMode = true,
+}: AnimationContainerProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{
+        duration: 0.6,
+        delay,
+        ease: "easeOut",
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}

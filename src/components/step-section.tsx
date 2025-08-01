@@ -1,65 +1,75 @@
-import { ArrowRightIcon } from "lucide-react";
-import AnimationContainer from "./ui/AnimationContainer";
-import { LampContainer } from "./ui/lamp";
-import Link from "next/link";
-import { useState } from "react";
+"use client"
+import AnimationContainer from "./ui/AnimationContainer"
+import { LampContainer } from "./ui/lamp"
+import Link from "next/link"
+import { useState } from "react"
 
 interface stepSectionProps {
-  isDarkMode: boolean;
-  isMuted: boolean;
-  playHoverSound: () => void;
-  playClickSound: () => void;
+  isDarkMode: boolean
+  isMuted: boolean
+  playHoverSound: () => void
+  playClickSound: () => void
 }
 
-export default function stepSection({
-  isDarkMode,
-  isMuted,
-  playHoverSound,
-  playClickSound,
-}: stepSectionProps) {
-  const [isHovered, setIsHovered] = useState(false);
+export default function stepSection({ isDarkMode, isMuted, playHoverSound, playClickSound }: stepSectionProps) {
+  const [isHovered, setIsHovered] = useState(false)
 
   const handleAccordionHover = () => {
     if (!isMuted) {
-      playHoverSound();
+      playHoverSound()
     }
-  };
+  }
 
   const handleAccordionClick = () => {
     if (!isMuted) {
-      playClickSound();
+      playClickSound()
     }
-  };
+  }
   return (
-    <AnimationContainer delay={0.1}>
-      <LampContainer>
-        <div className="absolute -top-32 -right-32 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -top-32 -left-32 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-violet-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(147,51,234,0.2)_1px,transparent_1px),linear-gradient(to_bottom,rgba(147,51,234,0.2)_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-30"></div>
-
+    <AnimationContainer delay={0.1} isDarkMode={isDarkMode}>
+      <LampContainer isDarkMode={isDarkMode}>
         <div className="flex flex-col items-center justify-center relative w-full text-center">
-          <h2 className="bg-gradient-to-b from-neutral-200 to-neutral-400 py-4 bg-clip-text text-center text-4xl md:text-7xl !leading-[1.15] font-medium font-heading tracking-tight text-transparent mt-8">
-            Let’s bring your dreams to life
+          <h2
+            className={`py-4 bg-clip-text text-center text-4xl md:text-7xl !leading-[1.15] font-medium font-heading tracking-tight text-transparent mt-8 ${
+              isDarkMode
+                ? "bg-gradient-to-b from-neutral-200 to-neutral-400"
+                : "bg-gradient-to-b from-neutral-800 to-neutral-600"
+            }`}
+          >
+            Let's bring your dreams to life
           </h2>
-          <p className="text-muted-foreground mt-6 max-w-md mx-auto">
-            Every dream starts with an idea... let’s craft yours into a real,
-            impactful, and unforgettable digital experience.{" "}
+          <p className={`mt-6 max-w-md mx-auto ${isDarkMode ? "text-muted-foreground" : "text-neutral-600"}`}>
+            Every dream starts with an idea... let's craft yours into a real, impactful, and unforgettable digital
+            experience.{" "}
           </p>
           <div className="mt-20">
             <Link
               href={"https://wa.me/49999215720"}
               target="_blank"
-              className="group relative inline-flex h-[56px] items-center justify-center rounded-full bg-purple-800/80 py-1 pl-6 pr-14 font-medium text-neutral-50 shadow-[0_0_20px_rgba(168,85,247,0.7)]"
+              className={`group relative inline-flex h-[56px] items-center justify-center rounded-full py-1 pl-6 pr-14 font-medium text-neutral-50 ${
+                isDarkMode
+                  ? "bg-purple-800/80 shadow-[0_0_20px_rgba(168,85,247,0.7)]"
+                  : "bg-purple-600/90 shadow-[0_0_20px_rgba(168,85,247,0.4)]"
+              }`}
               onMouseEnter={handleAccordionHover}
               onClick={handleAccordionClick}
             >
               {/* EFEITO DE FUMAÇA/NEON ATRÁS */}
-              <div className="absolute inset-0 rounded-full bg-purple-500 blur-sm opacity-40 group-hover:opacity-60 transition-opacity duration-300" />
+              <div
+                className={`absolute inset-0 rounded-full blur-sm transition-opacity duration-300 ${
+                  isDarkMode
+                    ? "bg-purple-500 opacity-40 group-hover:opacity-60"
+                    : "bg-purple-400 opacity-30 group-hover:opacity-50"
+                }`}
+              />
 
               <span className="z-10 pr-2">Build your digital dream</span>
 
-              <div className="absolute right-1 inline-flex h-12 w-12 items-center justify-end rounded-full bg-zinc-700 transition-[width] group-hover:w-[calc(100%-8px)]">
+              <div
+                className={`absolute right-1 inline-flex h-12 w-12 items-center justify-end rounded-full transition-[width] group-hover:w-[calc(100%-8px)] ${
+                  isDarkMode ? "bg-zinc-700" : "bg-zinc-800"
+                }`}
+              >
                 <div className="mr-3.5 flex items-center justify-center">
                   <svg
                     width="15"
@@ -83,5 +93,5 @@ export default function stepSection({
         </div>
       </LampContainer>
     </AnimationContainer>
-  );
+  )
 }
