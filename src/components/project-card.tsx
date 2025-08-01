@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import type { LucideIcon } from "lucide-react"
+import { Github, Globe } from "lucide-react"
 import AnimatedSection from "@/components/animatedsection"
 
 interface Skill {
@@ -18,8 +18,8 @@ interface ProjectCardProps {
     description: string
     skills: string[]
     technologies: string[]
-    icon: LucideIcon
-    link: string
+    link_github?: string
+    link_site?: string
   }
   skills: Skill[]
   index: number
@@ -63,20 +63,40 @@ export default function ProjectCard({
                 >
                   {project.title}
                 </h3>
-                <Link
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onMouseEnter={isMuted ? undefined : playHoverSound}
-                  onClick={isMuted ? undefined : playClickSound}
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    className={`p-2 rounded-full ${isDarkMode ? "bg-purple-500/20" : "bg-purple-100"}`}
-                  >
-                    <project.icon size={20} className={isDarkMode ? "text-purple-400" : "text-purple-600"} />
-                  </motion.div>
-                </Link>
+                <div className="flex gap-2">
+                  {project.link_github && (
+                    <Link
+                      href={project.link_github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onMouseEnter={isMuted ? undefined : playHoverSound}
+                      onClick={isMuted ? undefined : playClickSound}
+                    >
+                      <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        className={`p-2 rounded-full ${isDarkMode ? "bg-purple-500/20" : "bg-purple-100"}`}
+                      >
+                        <Github size={20} className={isDarkMode ? "text-purple-400" : "text-purple-600"} />
+                      </motion.div>
+                    </Link>
+                  )}
+                  {project.link_site && (
+                    <Link
+                      href={project.link_site}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onMouseEnter={isMuted ? undefined : playHoverSound}
+                      onClick={isMuted ? undefined : playClickSound}
+                    >
+                      <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        className={`p-2 rounded-full ${isDarkMode ? "bg-purple-500/20" : "bg-purple-100"}`}
+                      >
+                        <Globe size={20} className={isDarkMode ? "text-purple-400" : "text-purple-600"} />
+                      </motion.div>
+                    </Link>
+                  )}
+                </div>
               </div>
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.skills.map((skill, skillIndex) => (

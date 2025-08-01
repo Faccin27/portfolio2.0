@@ -1,6 +1,6 @@
 "use client"
 
-import { Code, Globe } from "lucide-react"
+import { Code } from "lucide-react"
 import AnimatedSection from "@/components/animatedsection"
 import ProjectCard from "@/components/project-card"
 
@@ -18,29 +18,28 @@ export default function ProjectsSection({ isDarkMode, isMuted, playHoverSound, p
       image: "/nyx.png",
       description:
         "A remote access trojan with stealing and additional features, fully controlled through your browser, and it also supports Discord webhooks.",
-      skills: ["Development", "API"],
+      skills: ["Development", "API", "Security"],
       technologies: ["Python", "Next.js", "Node.js", "MySQL", "Fastify", "Motion"],
-      icon: Code,
-      link: "https://github.com/Faccin27/Nyx---Stealthy-Remote-Access-Tool-RAT",
+      link_github: "https://github.com/Faccin27/Nyx---Stealthy-Remote-Access-Tool-RAT",
     },
     {
-      title: "Full stack music app",
+      title: "Full Stack Music App",
       image: "/music.png",
       description:
         "A complete music streaming application with user authentication, playlist management, and real-time playback features.",
       skills: ["API", "SPA", "Development", "restFull"],
-      technologies: ["Vue", "TypeScript", "Electron"],
-      icon: Globe,
-      link: "https://github.com/Faccin27",
+      technologies: ["Vue", "TypeScript", "Electron", "Node.js"],
+      link_github: "https://github.com/Faccin27",
+      link_site: "https://music-app-demo.vercel.app",
     },
     {
-      title: "Notice day",
+      title: "Notice Day",
       image: "/noticeday.png",
       description: "A news website with options to like, comment, post news, job offers, events, and other items.",
-      skills: ["API", "MVC"],
+      skills: ["API", "MVC", "Full Stack"],
       technologies: ["Handlebars", "Express.js", "MySQL", "Node.js"],
-      icon: Code,
-      link: "https://github.com/Faccin27/Portal_Noticias",
+      link_github: "https://github.com/Faccin27/Portal_Noticias",
+      link_site: "https://notice-day.herokuapp.com",
     },
   ]
 
@@ -72,22 +71,53 @@ export default function ProjectsSection({ isDarkMode, isMuted, playHoverSound, p
   ]
 
   return (
-    <AnimatedSection className="mt-16" animation="fadeLeft">
-      <h2 className={`text-3xl font-bold mb-8 ${isDarkMode ? "text-white" : "text-gray-900"}`}>Featured Projects</h2>
-      <div className="space-y-16">
-        {projects.map((project, index) => (
-          <ProjectCard
-            key={index}
-            project={project}
-            skills={skills}
-            index={index}
-            isDarkMode={isDarkMode}
-            isMuted={isMuted}
-            playHoverSound={playHoverSound}
-            playClickSound={playClickSound}
-          />
-        ))}
+    <section id="projects" className="py-20">
+      <div className="container mx-auto px-4">
+        <AnimatedSection animation="fadeUp">
+          <div className="text-center mb-16">
+            <h2 className={`text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              Featured Projects
+            </h2>
+            <p className={`text-lg ${isDarkMode ? "text-gray-300" : "text-gray-600"} max-w-2xl mx-auto`}>
+              Here are some of my recent projects that showcase my skills in full-stack development, API design, and
+              modern web technologies.
+            </p>
+          </div>
+        </AnimatedSection>
+
+        <div className="space-y-16">
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={project.title}
+              project={project}
+              skills={skills}
+              index={index}
+              isDarkMode={isDarkMode}
+              isMuted={isMuted}
+              playHoverSound={playHoverSound}
+              playClickSound={playClickSound}
+            />
+          ))}
+        </div>
+
+        <AnimatedSection animation="fadeUp">
+          <div className="text-center mt-16">
+            <a
+              href="/projects"
+              className={`inline-flex items-center gap-2 px-8 py-3 rounded-lg font-medium transition-all duration-300 ${
+                isDarkMode
+                  ? "bg-purple-500/20 text-purple-300 border border-purple-500/30 hover:bg-purple-500/30"
+                  : "bg-purple-100 text-purple-700 border border-purple-200 hover:bg-purple-200"
+              }`}
+              onMouseEnter={isMuted ? undefined : playHoverSound}
+              onClick={isMuted ? undefined : playClickSound}
+            >
+              View All Projects
+              <Code size={20} />
+            </a>
+          </div>
+        </AnimatedSection>
       </div>
-    </AnimatedSection>
+    </section>
   )
 }
