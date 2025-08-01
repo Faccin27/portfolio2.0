@@ -108,12 +108,12 @@ export default function Header({
                 </motion.div>
               )}
             </AnimatePresence>
-            <Puzzle
+            {/* <Puzzle
               className="text-orange-400 cursor-pointer"
               size={24}
               onClick={() => (window.location.href = "/playground")}
               onMouseEnter={isMuted ? undefined : playHoverSound}
-            />
+            /> */}
             <motion.div
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}

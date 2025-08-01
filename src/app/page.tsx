@@ -14,6 +14,7 @@ import GitHubContributionsCalendar from "@/components/github-contributions-calen
 import GitHubStats from "@/components/GitHubStats";
 import PlaygroundPuzzle from "@/components/playground-puzzle";
 import FloatingNav from "@/components/floating-nav";
+import FaqSection from "@/components/faq-section";
 
 const MemoizedParticles = React.memo(Particles);
 
@@ -112,8 +113,6 @@ export default function Home() {
           playClickSound={playClickSound}
         />
 
-
-
         <div id="github">
           <h1
             className={`text-3xl ${
@@ -138,7 +137,12 @@ export default function Home() {
         </div>
       </div>
 
-      
+      <FaqSection
+        isDarkMode={isDarkMode}
+        isMuted={isMuted}
+        playHoverSound={playHoverSound}
+        playClickSound={playClickSound}
+      />
       <ContactSection
         isDarkMode={isDarkMode}
         isMuted={isMuted}
