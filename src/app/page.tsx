@@ -16,6 +16,7 @@ import PlaygroundPuzzle from "@/components/playground-puzzle";
 import FloatingNav from "@/components/floating-nav";
 import FaqSection from "@/components/faq-section";
 import Selection from "@/components/step-section";
+import Footer from "@/components/footer";
 const MemoizedParticles = React.memo(Particles);
 
 export default function Home() {
@@ -155,6 +156,13 @@ export default function Home() {
         isDarkMode={isDarkMode}
         isMuted={isMuted}
         playHoverSound={playHoverSound}
+      />
+
+      <Footer
+        isDarkMode={isDarkMode}
+        isMuted={isMuted}
+        playHoverSound={playHoverSound}
+        playClickSound={playClickSound}
       />
 
       <div className="pointer-events-none">

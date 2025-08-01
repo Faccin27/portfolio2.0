@@ -199,30 +199,7 @@ export default function ContactSection({ isDarkMode, isMuted, playHoverSound }: 
             </div>
           </div>
         </div>
-        <motion.div className="flex items-center w-4/5 mx-auto rounded-2xl justify-between gap-4 mt-5">
-          <div
-            onMouseEnter={isMuted ? undefined : playHoverSound}
-            className={`relative flex items-center px-4 py-1 text-xs rounded-full border shadow sm:text-sm ${
-              isDarkMode ? "bg-zinc-800/80 border-white/10 text-white" : "bg-slate-300/80 border-gray-200"
-            }`}
-          >
-            <Dot className="-ml-2 text-green-500 w-7 h-7 animate-ping" />
-            <div className="flex items-center gap-1">112 visitors in last 7 days</div>
-          </div>
 
-          <button
-            onClick={() => setIsQRModalOpen(true)}
-            onMouseEnter={isMuted ? undefined : playHoverSound}
-            className={`relative flex items-center justify-center p-2 rounded-full border shadow ${
-              isDarkMode
-                ? "bg-zinc-800/80 border-white/10 text-white hover:bg-zinc-700/80"
-                : "bg-slate-300/80 border-gray-200 hover:bg-slate-400/80"
-            }`}
-            aria-label="Share QR Code"
-          >
-            <QrCode className="w-5 h-5" />
-          </button>
-        </motion.div>
       </div>
 
       <QRCodeModal
