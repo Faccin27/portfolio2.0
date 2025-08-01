@@ -1,18 +1,21 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
+import type React from "react"
+import type { Metadata } from "next"
+import localFont from "next/font/local"
+import "./globals.css"
 import { Analytics } from "@vercel/analytics/react"
+import SmoothScroll from "@/components/smooth-scroll"
+import { Suspense } from "react"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
-});
+})
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
-});
+})
 
 export const metadata: Metadata = {
   title: "FaccinDEV",
@@ -24,7 +27,7 @@ export const metadata: Metadata = {
     siteName: "FaccinDEV",
     images: [
       {
-        url: "/logo.png", 
+        url: "/logo.png",
         width: 1200,
         height: 630,
         alt: "Logo FaccinDEV",
@@ -36,23 +39,24 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "FaccinDEV",
     description: "Portfólio FaccinDEV - Desenvolvedor Full Stack com foco em Next.js e TypeScript.",
-    images: ["/logo.png"], 
+    images: ["/logo.png"],
   },
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Analytics />
-        {children}
+        <Suspense>
+          <SmoothScroll>{children}</SmoothScroll>
+        </Suspense>
       </body>
     </html>
-  );
+  )
 }
+
