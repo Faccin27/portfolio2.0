@@ -90,7 +90,7 @@ export default function FaqSection({
     <section
       className={`flex flex-col items-center justify-center relative w-full py-16 lg:py-24 overflow-hidden ${
         isDarkMode ? "bg-zinc-900" : "bg-gray-50"
-      } mt-36 rounded-[40px]`}
+      } mt-36 rounded-t-[40px] border-t-[1px] border-purple-800/20`}
       id="faq"
     >
       {/* Background Effects */}

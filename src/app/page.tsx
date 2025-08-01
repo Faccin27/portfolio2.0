@@ -15,7 +15,7 @@ import GitHubStats from "@/components/GitHubStats";
 import PlaygroundPuzzle from "@/components/playground-puzzle";
 import FloatingNav from "@/components/floating-nav";
 import FaqSection from "@/components/faq-section";
-
+import Selection from "@/components/step-section";
 const MemoizedParticles = React.memo(Particles);
 
 export default function Home() {
@@ -143,6 +143,14 @@ export default function Home() {
         playHoverSound={playHoverSound}
         playClickSound={playClickSound}
       />
+
+      <Selection
+        isDarkMode={isDarkMode}
+        isMuted={isMuted}
+        playHoverSound={playHoverSound}
+        playClickSound={playClickSound}
+      />
+
       <ContactSection
         isDarkMode={isDarkMode}
         isMuted={isMuted}
