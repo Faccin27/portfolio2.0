@@ -74,14 +74,10 @@ export default function ProjectsSection({ isDarkMode, isMuted, playHoverSound, p
     <section id="projects" className="py-20">
       <div className="container mx-auto px-4">
         <AnimatedSection animation="fadeUp">
-          <div className="text-center mb-16">
-            <h2 className={`text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+          <div className="text-center mb-8">
+            <h2 className={`text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-gray-900"} text-left`}>
               Featured Projects
             </h2>
-            <p className={`text-lg ${isDarkMode ? "text-gray-300" : "text-gray-600"} max-w-2xl mx-auto`}>
-              Here are some of my recent projects that showcase my skills in full-stack development, API design, and
-              modern web technologies.
-            </p>
           </div>
         </AnimatedSection>
 
