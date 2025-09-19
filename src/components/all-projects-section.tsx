@@ -5,6 +5,8 @@ import { motion } from "framer-motion"
 import { Search, Filter, Github, Globe } from "lucide-react"
 import AnimatedSection from "@/components/animatedsection"
 import ProjectCard from "@/components/project-card"
+import { useProjects } from "@/hooks/useProjects"
+import { mapProjectToCard, generateSkills, getProjectCategory } from "@/utils/projectMapper"
 
 interface AllProjectsSectionProps {
   isDarkMode: boolean
@@ -21,49 +23,13 @@ export default function AllProjectsSection({
 }: AllProjectsSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [searchTerm, setSearchTerm] = useState("")
-
-  const allProjects = [
-    {
-      title: "Nyx RAT",
-      image: "/nyx.png",
-      description:
-        "A remote access trojan with stealing and additional features, fully controlled through your browser, and it also supports Discord webhooks.",
-      skills: ["Development", "API", "Security"],
-      technologies: ["Python", "Next.js", "Node.js", "MySQL", "Fastify", "Motion"],
-      link_github: "https://github.com/Faccin27/Nyx---Stealthy-Remote-Access-Tool-RAT",
-      category: "desktop",
-      featured: true,
-    },
-    {
-      title: "Full Stack Music App",
-      image: "/music.png",
-      description:
-        "A complete music streaming application with user authentication, playlist management, and real-time playback features.",
-      skills: ["API", "SPA", "Development", "restFull"],
-      technologies: ["Vue", "TypeScript", "Electron", "Node.js"],
-      link_github: "https://github.com/Faccin27",
-      link_site: "https://music-app-demo.vercel.app",
-      category: "web",
-      featured: true,
-    },
-    {
-      title: "Notice Day",
-      image: "/noticeday.png",
-      description: "A news website with options to like, comment, post news, job offers, events, and other items.",
-      skills: ["API", "MVC", "Full Stack"],
-      technologies: ["Handlebars", "Express.js", "MySQL", "Node.js"],
-      link_github: "https://github.com/Faccin27/Portal_Noticias",
-      link_site: "https://notice-day.herokuapp.com",
-      category: "web",
-      featured: true,
-    }
-  ]
+  const { projects, loading, error } = useProjects()
 
   const skills = [
     { name: "HTML5", icon: "/assets/svgs/html.svg" },
     { name: "CSS3", icon: "/assets/svgs/css.svg" },
     { name: "Bootstrap", icon: "/assets/svgs/bootstrap.svg" },
-    { name: "Tailwind CSS", icon: "/assets/svgs/tailwindcss.svg" },
+    { name: "Tailwind", icon: "/assets/svgs/tailwindcss.svg" },
     { name: "JavaScript", icon: "/assets/svgs/javascript.svg" },
     { name: "TypeScript", icon: "/assets/svgs/typescript.svg" },
     { name: "Vue", icon: "/assets/svgs/vue.svg" },
@@ -90,22 +56,64 @@ export default function AllProjectsSection({
     { id: "all", name: "All Projects", icon: Filter },
     { id: "web", name: "Web Apps", icon: Globe },
     { id: "desktop", name: "Desktop", icon: Github },
-    // { id: "mobile", name: "Mobile", icon: Globe },
     { id: "api", name: "APIs", icon: Github },
-    // { id: "bot", name: "Bots", icon: Github },
   ]
+
+  const allProjects = projects.map((project) => ({
+    ...mapProjectToCard(project),
+    skills: generateSkills(project),
+    category: getProjectCategory(project.technologies),
+    featured: true, // All projects are featured for now
+  }))
 
   const filteredProjects = allProjects.filter((project) => {
     const matchesCategory = selectedCategory === "all" || project.category === selectedCategory
     const matchesSearch =
       project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      project.technologies.some((tech) => tech.toLowerCase().includes(searchTerm.toLowerCase()))
+      project.technologies.some((tech: any) => tech.toLowerCase().includes(searchTerm.toLowerCase()))
     return matchesCategory && matchesSearch
   })
 
   const featuredProjects = filteredProjects.filter((project) => project.featured)
   const otherProjects = filteredProjects.filter((project) => !project.featured)
+
+  if (loading) {
+    return (
+      <div className="space-y-12">
+        <div className="animate-pulse">
+          <div className={`h-12 rounded-lg mb-8 ${isDarkMode ? "bg-zinc-800" : "bg-gray-200"}`}></div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {[1, 2, 3, 4].map((index) => (
+              <div key={index} className={`rounded-xl p-6 ${isDarkMode ? "bg-zinc-800/50" : "bg-gray-200"}`}>
+                <div className={`aspect-video rounded-lg mb-4 ${isDarkMode ? "bg-zinc-700" : "bg-gray-300"}`}></div>
+                <div className={`h-6 rounded mb-2 ${isDarkMode ? "bg-zinc-700" : "bg-gray-300"}`}></div>
+                <div className={`h-4 rounded mb-4 ${isDarkMode ? "bg-zinc-700" : "bg-gray-300"}`}></div>
+                <div className="flex gap-2">
+                  <div className={`h-6 w-16 rounded ${isDarkMode ? "bg-zinc-700" : "bg-gray-300"}`}></div>
+                  <div className={`h-6 w-16 rounded ${isDarkMode ? "bg-zinc-700" : "bg-gray-300"}`}></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-12">
+        <div
+          className={`p-6 rounded-lg text-center ${isDarkMode ? "bg-red-900/20 text-red-300" : "bg-red-100 text-red-700"}`}
+        >
+          <h3 className="text-xl font-bold mb-2">Error Loading Projects</h3>
+          <p>{error}</p>
+          <p className="text-sm mt-2">Please try refreshing the page.</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-12">
@@ -271,7 +279,7 @@ export default function AllProjectsSection({
                     ))}
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {project.technologies.slice(0, 4).map((tech, techIndex) => {
+                    {project.technologies.slice(0, 4).map((tech: any, techIndex: any) => {
                       const skillItem = skills.find((skill) => skill.name.toLowerCase() === tech.toLowerCase())
                       return (
                         <div
@@ -305,7 +313,7 @@ export default function AllProjectsSection({
       )}
 
       {/* No Results */}
-      {filteredProjects.length === 0 && (
+      {filteredProjects.length === 0 && !loading && (
         <AnimatedSection animation="fadeUp">
           <div className="text-center py-12">
             <div className={`text-6xl mb-4 ${isDarkMode ? "text-gray-600" : "text-gray-400"}`}>🔍</div>
