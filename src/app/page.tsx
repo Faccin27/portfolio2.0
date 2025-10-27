@@ -93,12 +93,12 @@ export default function Home() {
           playClickSound={playClickSound}
         />
 
-        <ProjectsSection
+        {/* <ProjectsSection
           isDarkMode={isDarkMode}
           isMuted={isMuted}
           playHoverSound={playHoverSound}
           playClickSound={playClickSound}
-        />
+        /> */}
 
         <AboutSection
           isDarkMode={isDarkMode}
